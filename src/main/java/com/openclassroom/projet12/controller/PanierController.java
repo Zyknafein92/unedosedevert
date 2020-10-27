@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/order/{id}/panier")
+@RequestMapping("/api/order/{id}/panier")
 public class PanierController {
 
     @Autowired

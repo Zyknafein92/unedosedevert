@@ -20,7 +20,6 @@ public class AdresseController {
     @Autowired
     AdresseService adresseService;
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Adresse>> getAdresse(@PathVariable("id") Long id) {
         Optional<Adresse> adresse = adresseService.getAdresse(id);
@@ -32,7 +31,6 @@ public class AdresseController {
     public ResponseEntity<Adresse> addAdresse(@Valid @RequestBody AdresseDTO adresseDTO) {
         Adresse adresseToCreate = adresseService.addAdresse(adresseDTO);
         return new ResponseEntity<>(adresseToCreate,HttpStatus.CREATED);
-
     }
 
     @PutMapping
