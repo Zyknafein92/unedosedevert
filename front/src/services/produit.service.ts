@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import {Produit} from '../model/produit.model';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {FormGroup} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProduitService {
-  private URL = 'http://localhost:8080/api/produit';
+  private URL = 'http://localhost:8080/api/produits';
 
   constructor(private http: HttpClient) { }
 
@@ -19,12 +20,12 @@ export class ProduitService {
     return this.http.get<Produit>(`${this.URL}/${id}`);
   }
 
-  createProduit(produit: Produit): Observable < Produit> {
-    return this.http.post<Produit>(this.URL, produit);
+  createProduit(form: FormGroup): Observable <FormGroup> {
+    return this.http.post<FormGroup>(this.URL, form.value);
   }
 
-  updateProduit(produit: Produit): Observable<Produit> {
-    return this.http.put<Produit>(`${this.URL}`, produit);
+  updateProduit(form: FormGroup): Observable<FormGroup> {
+    return this.http.put<FormGroup>(`${this.URL}`, form.value);
   }
 
   deleteProduit(id: number): Observable<Produit> {

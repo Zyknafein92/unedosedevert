@@ -18,17 +18,24 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/order/{id}/panier")
+@RequestMapping("/api/utilisateur/panier")
 public class PanierController {
 
     @Autowired
     PanierService panierService;
 
+    //todo: récupérer directement par l'utilisateur et pas de recherche par id.
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Panier>> getPanier(@PathVariable("id") Long id) {
         Optional<Panier> panier = panierService.getPanier(id);
         if(!panier.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le panier n'existe pas");
         return new ResponseEntity<>(panier, HttpStatus.OK);
+
+        /** Algro simple
+         * Trouver la personne connecté (client connecté) ??? Il faut implémenter userservice detail (spring sécurité) // userservice.getAuthenticatedUsername() => get client by username
+         * à partir de personne trouvé: client.getPanier()
+         * retouner le panier.
+         * */
     }
 
     @PostMapping

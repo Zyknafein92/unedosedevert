@@ -35,4 +35,8 @@ public enum Categorie {
     Categorie(String description) {
         this.description = description;
     }
+
+    public String getDescription() {
+        return description;
+    }
 }

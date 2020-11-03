@@ -3,6 +3,7 @@ import {Type} from './type.model';
 
 export class Produit {
   id: number;
+  name: string;
   categorie: Categorie;
   type: Type;
   description: string;

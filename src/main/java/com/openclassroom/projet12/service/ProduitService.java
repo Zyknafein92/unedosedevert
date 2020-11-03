@@ -7,6 +7,8 @@ import com.openclassroom.projet12.mapper.ProduitMapper;
 import com.openclassroom.projet12.model.Produit;
 import com.openclassroom.projet12.respository.ProduitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +25,10 @@ public class ProduitService {
     
     public List<Produit> getProduits() {
         return produitRepository.findAll();
+    }
+
+    public Page<Produit> findProduits(Pageable pageable) {
+        return produitRepository.findAll(pageable);
     }
 
     public Optional<Produit> getProduit(Long id) {
@@ -60,4 +66,6 @@ public class ProduitService {
         produitRepository.deleteById(id);
         return id;
     }
+
+
 }

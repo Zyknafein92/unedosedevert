@@ -1,7 +1,9 @@
 package com.openclassroom.projet12.mapper;
 
 
+import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.dto.ProduitDTO;
+import com.openclassroom.projet12.model.Categorie;
 import com.openclassroom.projet12.model.Produit;
 import org.mapstruct.*;
 
