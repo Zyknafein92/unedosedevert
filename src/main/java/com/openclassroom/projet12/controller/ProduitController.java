@@ -2,6 +2,7 @@ package com.openclassroom.projet12.controller;
 
 
 import com.openclassroom.projet12.dto.ProduitDTO;
+import com.openclassroom.projet12.dto.SearchCriteria;
 import com.openclassroom.projet12.model.Categorie;
 import com.openclassroom.projet12.model.Produit;
 import com.openclassroom.projet12.service.ProduitService;
@@ -36,6 +37,12 @@ public class ProduitController {
         return new ResponseEntity<>(produits, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Produit>> search(SearchCriteria searchCriteria) {
+        List<Produit> produits = produitService.findProduitsByCriteria(searchCriteria);
+        return new ResponseEntity<>(produits, HttpStatus.OK);
+    }
+
     // http://localhost:8080/api/produits?size=5&page=30&sort=name
 //    @GetMapping
 //    public Page<Produit> getProduits(Pageable pageable) {
@@ -50,12 +57,12 @@ public class ProduitController {
         return new ResponseEntity<>(produit.get(), HttpStatus.OK);
     }
 
-    @GetMapping("/categories")
-    public ResponseEntity<List<Categorie>> getCategories() {
-       //List<String> categories = Stream.of(Categorie.values()).map(Categorie::getDescription).collect(Collectors.toList());
-       return new ResponseEntity<>(Arrays.asList(Categorie.values()), HttpStatus.OK);
-        //return new ResponseEntity<>(categories, HttpStatus.OK);
-    }
+//    @GetMapping("/categories")
+//    public ResponseEntity<List<Categorie>> getCategories() {
+//       //List<String> categories = Stream.of(Categorie.values()).map(Categorie::getDescription).collect(Collectors.toList());
+//       return new ResponseEntity<>(Arrays.asList(Categorie.values()), HttpStatus.OK);
+//        //return new ResponseEntity<>(categories, HttpStatus.OK);
+//    }
 
     @PostMapping
     public ResponseEntity<Produit> addProduit(@Valid @RequestBody ProduitDTO produitDTO) {

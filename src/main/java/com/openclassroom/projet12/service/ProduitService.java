@@ -2,9 +2,12 @@ package com.openclassroom.projet12.service;
 
 
 import com.openclassroom.projet12.dto.ProduitDTO;
+import com.openclassroom.projet12.dto.SearchCriteria;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.ProduitMapper;
+import com.openclassroom.projet12.model.Categorie;
 import com.openclassroom.projet12.model.Produit;
+import com.openclassroom.projet12.model.Type;
 import com.openclassroom.projet12.respository.ProduitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,9 +30,23 @@ public class ProduitService {
         return produitRepository.findAll();
     }
 
-    public Page<Produit> findProduits(Pageable pageable) {
-        return produitRepository.findAll(pageable);
+    public List<Produit> findProduitsByCriteria(SearchCriteria searchCriteria) {
+        List<Produit> produits = null;
+        Type type = searchCriteria.getType();
+        Categorie categorie = searchCriteria.getCategorie();
+        if(type != null && categorie != null) {
+            produits = produitRepository.findAllByCategorieAndType(searchCriteria.getCategorie(), searchCriteria.getType());
+        } else if(categorie != null) {
+            produits = produitRepository.findAllByCategorie(searchCriteria.getCategorie());
+        } else if(type != null) {
+            produits = produitRepository.findAllByType(searchCriteria.getType());
+        }
+        return produits;
     }
+
+//    public Page<Produit> findProduits(Pageable pageable) {
+//        return produitRepository.findAll(pageable);
+//    }
 
     public Optional<Produit> getProduit(Long id) {
         return produitRepository.findById(id);
@@ -66,6 +83,4 @@ public class ProduitService {
         produitRepository.deleteById(id);
         return id;
     }
-
-
 }

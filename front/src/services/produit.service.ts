@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Produit} from '../model/produit.model';
 import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpParams} from '@angular/common/http';
 import {FormGroup} from '@angular/forms';
+import {SearchCriteria} from '../model/search-criteria';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,18 @@ import {FormGroup} from '@angular/forms';
 export class ProduitService {
   private URL = 'http://localhost:8080/api/produits';
 
+
   constructor(private http: HttpClient) { }
 
   getProduits(): Observable<Array<Produit>> {
     return this.http.get<Array<Produit>>(this.URL);
   }
+
+  // getProduitsBySearch(searchCriteria: SearchCriteria): Observable<Array<Produit>> {
+  //   console.log('searchcriteria:', searchCriteria);
+  //   return this.http.get<Array<Produit>>(`${this.URL}/search`, searchCriteria);
+  // }
+
 
   getProduit(id: number): Observable<Produit> {
     return this.http.get<Produit>(`${this.URL}/${id}`);

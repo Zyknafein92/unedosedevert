@@ -1,0 +1,29 @@
+*{
+  background-color: beige;
+}
+
+.title{
+  text-align: center;
+  font-size: larger;
+
+}
+
+.type-produit-case li {
+  display: inline-block;
+
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top:10px;
+
+  width:150px;
+  height:75px;
+  position: relative;
+  background:darkolivegreen;
+  text-align: center;
+  color:aliceblue;
+  font-size: 20px;
+}
+
+.type-produit-case li:hover{
+  cursor:pointer
+}
