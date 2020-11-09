@@ -68,9 +68,9 @@ public class ProduitService {
                     .type(produitOptional.get().getType())
                     .description(produitOptional.get().getDescription())
                     .origine(produitOptional.get().getOrigine())
-                    .prixHT(produitOptional.get().getPrixHT())
+                    .prix(produitOptional.get().getPrix())
                     .tva(produitOptional.get().getTva())
-                    .isAvaible(produitOptional.get().getIsAvaible())
+                    .stock(produitOptional.get().getStock())
                     .build();
         }
 

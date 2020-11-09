@@ -5,12 +5,15 @@ import {HttpClient, HttpEvent, HttpParams} from '@angular/common/http';
 import {FormGroup} from '@angular/forms';
 import {SearchCriteria} from '../model/search-criteria';
 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProduitService {
   private URL = 'http://localhost:8080/api/produits';
 
+  searchCriteria: SearchCriteria;
 
   constructor(private http: HttpClient) { }
 
@@ -18,10 +21,20 @@ export class ProduitService {
     return this.http.get<Array<Produit>>(this.URL);
   }
 
-  // getProduitsBySearch(searchCriteria: SearchCriteria): Observable<Array<Produit>> {
-  //   console.log('searchcriteria:', searchCriteria);
-  //   return this.http.get<Array<Produit>>(`${this.URL}/search`, searchCriteria);
-  // }
+  getProduitsBySearch(searchCriteria: SearchCriteria): Observable<Array<Produit>> {
+    let customParam = new HttpParams();
+    if (searchCriteria.type != null) {
+     customParam = customParam.set('type', searchCriteria.type);
+    }
+    if (searchCriteria.categorie != null) {
+      customParam = customParam.set('categorie', searchCriteria.categorie);
+    }
+    if (searchCriteria.query != null) {
+      customParam = customParam.set('query', searchCriteria.query);
+    }
+    console.log('Service:', customParam);
+    return this.http.get<Array<Produit>>(`${this.URL}/search`, {params: customParam});
+  }
 
 
   getProduit(id: number): Observable<Produit> {
@@ -29,6 +42,7 @@ export class ProduitService {
   }
 
   createProduit(form: FormGroup): Observable <FormGroup> {
+    console.log('forms to create:', form.value);
     return this.http.post<FormGroup>(this.URL, form.value);
   }
 

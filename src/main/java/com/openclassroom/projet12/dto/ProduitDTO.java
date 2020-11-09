@@ -1,10 +1,9 @@
 package com.openclassroom.projet12.dto;
 import com.openclassroom.projet12.model.Categorie;
+import com.openclassroom.projet12.model.Stock;
 import com.openclassroom.projet12.model.Type;
 import lombok.Builder;
 import lombok.Data;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -29,13 +28,13 @@ public class ProduitDTO {
     private String origine;
 
     @NotNull(message= "Veuillez renseigner un prix HT pour le produit !")
-    private Double prixHT;
+    private Double prix;
 
     @NotNull(message= "Veuillez renseigner la tva pour le produit !")
     private Double tva;
 
     @NotNull(message= "Veuillez renseigner la disponibilitée du produit !")
-    private Boolean isAvaible;
+    private Stock stock;
 
-    private String descriptionStock;
+
 }

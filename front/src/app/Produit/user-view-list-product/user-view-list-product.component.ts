@@ -11,14 +11,16 @@ import {Categorie} from '../../../model/categorie.model';
 export class UserViewListProductComponent implements OnInit {
 
   categorie = Categorie;
-  // categoriekeys = Object.keys(this.categorie);
+
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  voirProduits(categorie: string): void {
-    this.router.navigate(['products/categorie'], {queryParams: {categorie}});
+  voirProduits(categorie: Categorie): void {
+    console.log('categorie: ', categorie);
+    const key = Object.keys(Categorie).find(k => Categorie[k] === categorie) || '';
+    this.router.navigate(['products/categorie'], {queryParams: {categorie: key}});
   }
 }

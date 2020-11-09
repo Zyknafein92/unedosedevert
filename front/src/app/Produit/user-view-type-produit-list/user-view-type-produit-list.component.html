@@ -2,25 +2,22 @@
 <div class="container">
   <div class="well-block">
     <div class="well-title">
-      <div class="container" *ngFor="let produit of produits">
-      <mat-card class="example-card">
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{produit.name}}</mat-card-title>
-          <mat-card-subtitle>{{produit.type}}</mat-card-subtitle>
-        </mat-card-header>
-<!--        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
-        <mat-card-content>
-          <p>
 
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button>LIKE</button>
-          <button mat-button>SHARE</button>
-        </mat-card-actions>
-      </mat-card>
+
+      <section class="produit-carte"  *ngFor="let produit of produits">
+        <div class="card">
+          <div class="card-header">
+            <a href="javascript:void(0)" (click)="voirProduit(this.produit.id)">{{produit.name}}</a>
+          </div>
+          <div class="card-body">
+                <img src="../../../assets/img/testimg.webp" />
+            <p class="card-text"><strong>{{produit.prix}} €</strong></p>
+          </div>
+            <button type="button" class="badge-info" (click)="null">Ajouter au panier</button>
+    </div>
+      </section>
+
+
     </div>
   </div>
-</div>
 </div>

@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -31,6 +32,7 @@ public class Produit {
     @NotNull(message= "Veuillez renseigner un type pour le produit !")
     private Type type;
 
+    @Size(min = 10, max= 500)
     @NotNull(message= "Veuillez renseigner une description pour le produit !")
     private String description;
 
@@ -38,13 +40,13 @@ public class Produit {
     private String origine;
 
     @NotNull(message= "Veuillez renseigner un prix HT pour le produit !")
-    private Double prixHT;
+    private Double prix;
 
     @NotNull(message= "Veuillez renseigner la tva pour le produit !")
     private Double tva;
 
+    @Enumerated(EnumType.STRING)
     @NotNull(message= "Veuillez renseigner la disponibilitée du produit !")
-    private Boolean isAvaible;
+    private Stock stock;
 
-    private String descriptionStock;
 }

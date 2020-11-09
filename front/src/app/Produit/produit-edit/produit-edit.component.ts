@@ -5,6 +5,7 @@ import {Categorie} from '../../../model/categorie.model';
 import {Type} from '../../../model/type.model';
 import {ProduitService} from '../../../services/produit.service';
 import {Produit} from '../../../model/produit.model';
+import {Stock} from '../../../model/stock.model';
 
 @Component({
   selector: 'app-produit-edit',
@@ -18,6 +19,8 @@ export class ProduitEditComponent implements OnInit {
   typekeys = Object.keys(this.type);
   categorie = Categorie;
   categoriekeys = Object.keys(this.categorie);
+  stock = Stock;
+  stockKeys = Object.keys(this.stock);
   produit: Produit;
 
 
@@ -45,11 +48,10 @@ export class ProduitEditComponent implements OnInit {
       type: [null, Validators.required],
       description: ['', Validators.required],
       origine: ['', Validators.required],
-      prixHT: ['', Validators.required],
+      prix: ['', Validators.required],
       tva: ['', Validators.required],
+      stock: ['', Validators.required]
       //  picture: ['', Validators.required],
-      isAvaible: ['', Validators.required],
-      descriptionStock: ['', Validators.required]
     });
   }
 
@@ -76,10 +78,9 @@ export class ProduitEditComponent implements OnInit {
         type: data.type,
         description: data.description,
         origine: data.origine,
-        prixHT: data.prixHT,
+        prix: data.prix,
         tva: data.tva,
-        isAvaible: data.isAvaible,
-        descriptionStock: data.descriptionStock,
+        stock: data.stock
       });
     });
   }

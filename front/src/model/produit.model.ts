@@ -1,5 +1,6 @@
 import {Categorie} from './categorie.model';
 import {Type} from './type.model';
+import {Stock} from './stock.model';
 
 export class Produit {
   id: number;
@@ -8,8 +9,7 @@ export class Produit {
   type: Type;
   description: string;
   origine: string;
-  prixHT: number;
+  prix: number;
   tva: number;
-  isAvaible: boolean;
-  descriptionStock: string;
+  stock: Stock;
 }
