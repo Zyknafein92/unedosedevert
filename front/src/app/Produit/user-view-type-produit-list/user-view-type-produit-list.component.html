@@ -1,23 +1,11 @@
 <br>
-<div class="container">
-  <div class="well-block">
-    <div class="well-title">
-
-
-      <section class="produit-carte"  *ngFor="let produit of produits">
-        <div class="card">
-          <div class="card-header">
-            <a href="javascript:void(0)" (click)="voirProduit(this.produit.id)">{{produit.name}}</a>
-          </div>
-          <div class="card-body">
-                <img src="../../../assets/img/testimg.webp" />
-            <p class="card-text"><strong>{{produit.prix}} €</strong></p>
-          </div>
-            <button type="button" class="badge-info" (click)="null">Ajouter au panier</button>
+<div class="container produit-container">
+  <div class="row col-md-12 ">
+    <div class="produit-carte" *ngFor="let produit of produits">
+      <div class="col-md-3">
+        <app-categorie-view-produit [produit]="produit"></app-categorie-view-produit>
+      </div>
     </div>
-      </section>
-
-
-    </div>
+    <!-- Ajouter un grid pour une liste de produits-->
   </div>
 </div>

@@ -3,10 +3,10 @@
   <button mat-button>Acceuil</button>
   <button mat-button routerLink="products">Nos produits</button>
   <button mat-button>A propos</button>
-  <button mat-button [matMenuTriggerFor]="compte">Mon compte</button>
-  <button mat-button>Se connecter</button>
-  <button mat-button>Me déconnecter</button>
-  <button mat-button [matMenuTriggerFor]="Admin">Admin</button>
+  <button mat-button [matMenuTriggerFor]="compte" *ngIf="this.tokenEmail != null">Mon compte</button>
+  <button mat-button routerLink="login" *ngIf="this.tokenEmail == null">Se connecter</button>
+  <button mat-button *ngIf="this.tokenEmail != null" (click)="logout()">Me déconnecter</button>
+  <button mat-button [matMenuTriggerFor]="Admin" *ngIf="this.authorities== 'ROLE_ADMIN'">Admin</button>
 
   <mat-menu #Admin="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="Commande">Commande</button>

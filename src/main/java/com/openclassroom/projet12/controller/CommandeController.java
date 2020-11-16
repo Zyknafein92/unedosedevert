@@ -3,8 +3,9 @@ package com.openclassroom.projet12.controller;
 
 import com.openclassroom.projet12.dto.CommandeDTO;
 import com.openclassroom.projet12.model.Commande;
+import com.openclassroom.projet12.service.AuthenticationService;
 import com.openclassroom.projet12.service.CommandeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,29 @@ import java.util.Optional;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/order")
+@AllArgsConstructor
 public class CommandeController {
 
-    @Autowired
-    private CommandeService commandeService;
+    private final CommandeService commandeService;
+
+    private final AuthenticationService authenticationService;
 
     @GetMapping
+    // TODO : only admin has right to view this
     public ResponseEntity<List<Commande>> getCommandes() {
         List<Commande> commandes = commandeService.getCommandes();
+        return new ResponseEntity<>(commandes, HttpStatus.OK);
+    }
+
+    /** Get all orders for a user */
+    @GetMapping("/users/{username}")
+    public ResponseEntity<List<Commande>> getOrdersForCurrentUser(@PathVariable("username") String username) {
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        if(currentUsername == null || !username.equals(currentUsername)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        List<Commande> commandes = commandeService.getCommandesForCurrentUser(username);
         return new ResponseEntity<>(commandes, HttpStatus.OK);
     }
 

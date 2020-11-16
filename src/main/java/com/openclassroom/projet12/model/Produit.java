@@ -24,11 +24,11 @@ public class Produit {
     @NotNull(message= "Veuillez renseigner un nom pour le produit !")
     private String name;
 
-    @Enumerated(EnumType.STRING)
+    @OneToOne
     @NotNull(message= "Veuillez renseigner une categorie pour le produit !")
     private Categorie categorie;
 
-    @Enumerated(EnumType.STRING)
+    @OneToOne
     @NotNull(message= "Veuillez renseigner un type pour le produit !")
     private Type type;
 

@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from '@angular/material/menu';
+import {TokenStorageService} from '../../services/security/token-storage.service';
 
 
 @Component({
@@ -10,9 +11,19 @@ import {MatMenuTrigger} from '@angular/material/menu';
 export class MenuComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
-  constructor() { }
+  authorities: string;
+  tokenEmail: string;
+
+  constructor(private token: TokenStorageService) { }
 
   ngOnInit(): void {
+    this.authorities = this.token.getAuthorities();
+    this.tokenEmail = this.token.getEmail();
+  }
+
+  logout(): void {
+    this.token.signOut();
+    window.location.reload();
   }
 
 }

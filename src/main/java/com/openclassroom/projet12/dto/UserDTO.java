@@ -4,6 +4,7 @@ package com.openclassroom.projet12.dto;
 import com.openclassroom.projet12.model.Adresse;
 import com.openclassroom.projet12.model.Commande;
 import com.openclassroom.projet12.model.Panier;
+import com.openclassroom.projet12.model.Role;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -27,6 +29,8 @@ public class UserDTO {
     private Panier panier;
 
     private List<Commande> commandes;
+
+    private Set<Role> roles;
 
     @NotNull(message= "Veuillez renseigner votre nom !")
     private String nom;

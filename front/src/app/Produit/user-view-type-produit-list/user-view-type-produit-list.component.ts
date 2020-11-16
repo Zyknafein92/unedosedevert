@@ -5,6 +5,7 @@ import {Produit} from '../../../model/produit.model';
 import {SearchCriteria} from '../../../model/search-criteria';
 
 
+
 @Component({
   selector: 'app-user-view-type-produit-list',
   templateUrl: './user-view-type-produit-list.component.html',

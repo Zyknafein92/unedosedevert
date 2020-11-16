@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User} from '../model/user.model';
+import {FormGroup} from '@angular/forms';
 
 
 @Injectable({
@@ -21,12 +22,12 @@ export class UserService {
     return this.http.get<User>(`${this.URL}/${id}`);
   }
 
-  createUser(user: User): Observable < User> {
-    return this.http.post<User>(this.URL, user);
+  createUser(form: FormGroup): Observable < User> {
+    return this.http.post<User>(this.URL, form.value);
   }
 
-  updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.URL}`, user);
+  updateUser(form: FormGroup): Observable<User> {
+    return this.http.put<User>(`${this.URL}`, form.value);
   }
 
   deleteUser(id: number): Observable<User> {

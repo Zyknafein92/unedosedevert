@@ -5,10 +5,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-view-product',
-  templateUrl: './user-view-product.component.html',
-  styleUrls: ['./user-view-product.component.css']
+  templateUrl: './product-view.component.html',
+  styleUrls: ['./product-view.component.css']
 })
-export class UserViewProductComponent implements OnInit {
+export class ProductViewComponent implements OnInit {
 
   produit: Produit;
 

@@ -58,4 +58,8 @@ public class CommandeService {
         commandeRepository.deleteById(id);
         return id;
     }
+
+    public List<Commande> getCommandesForCurrentUser(String username) {
+        return null;
+    }
 }
