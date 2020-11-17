@@ -15,17 +15,21 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AdminViewProductComponent } from './Produit/admin-view-product/admin-view-product.component';
-import { MenuComponent } from './menu/menu.component';
+import { MenuComponent } from './Menu/menu.component';
 import {MatMenuModule} from '@angular/material/menu';
 import { ProductViewComponent } from './Produit/view-product/product-view.component';
-import { UserViewListProductComponent } from './Produit/user-view-list-product/user-view-list-product.component';
+import { ViewProductsListComponent } from './Produit/view-products-list/view-products-list.component';
 import { LoginComponent } from './Auth/login/login.component';
 import { CreateUserComponent } from './Auth/create-user/create-user.component';
 import { AccueilComponent } from './Accueil/accueil/accueil.component';
 import {httpInterceptorProviders} from '../services/security/auth-interceptor.service';
 import { CategorieViewProduitComponent } from './Produit/categorie-view-produit/categorie-view-produit.component';
 import {CommonModule} from '@angular/common';
-import {UserViewTypeProduitListComponent} from './Produit/user-view-type-produit-list/user-view-type-produit-list.component';
+import {ViewProductListTypeComponent} from './Produit/view-products-list-type/view-product-list-type.component';
+import { CategorieEditComponent } from './Categorie/categorie-edit/categorie-edit.component';
+import { TypeEditComponent } from './Type/type-edit/type-edit.component';
+import { AdminViewTypesListComponent } from './Type/admin-view-types-list/admin-view-types-list.component';
+import { AdminViewCategorieListComponent } from './Categorie/admin-view-categorie-list/admin-view-categorie-list.component';
 
 
 @NgModule({
@@ -38,12 +42,16 @@ import {UserViewTypeProduitListComponent} from './Produit/user-view-type-produit
     AdminViewProductComponent,
     MenuComponent,
     ProductViewComponent,
-    UserViewListProductComponent,
-    UserViewTypeProduitListComponent,
+    ViewProductsListComponent,
+    ViewProductListTypeComponent,
     LoginComponent,
     CreateUserComponent,
     AccueilComponent,
     CategorieViewProduitComponent,
+    CategorieEditComponent,
+    TypeEditComponent,
+    AdminViewTypesListComponent,
+    AdminViewCategorieListComponent,
   ],
   imports: [
     BrowserModule,

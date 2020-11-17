@@ -8,10 +8,10 @@ import {SearchCriteria} from '../../../model/search-criteria';
 
 @Component({
   selector: 'app-user-view-type-produit-list',
-  templateUrl: './user-view-type-produit-list.component.html',
-  styleUrls: ['./user-view-type-produit-list.component.css']
+  templateUrl: './view-product-list-type.component.html',
+  styleUrls: ['./view-product-list-type.component.css']
 })
-export class UserViewTypeProduitListComponent implements OnInit {
+export class ViewProductListTypeComponent implements OnInit {
 
   produits: Array<Produit>;
   produit: Produit;

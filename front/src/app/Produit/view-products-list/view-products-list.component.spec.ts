@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserViewListProductComponent } from './user-view-list-product.component';
+import { ViewProductsListComponent } from './view-products-list.component';
 
 describe('UserViewListProductComponent', () => {
-  let component: UserViewListProductComponent;
-  let fixture: ComponentFixture<UserViewListProductComponent>;
+  let component: ViewProductsListComponent;
+  let fixture: ComponentFixture<ViewProductsListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserViewListProductComponent ]
+      declarations: [ ViewProductsListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserViewListProductComponent);
+    fixture = TestBed.createComponent(ViewProductsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

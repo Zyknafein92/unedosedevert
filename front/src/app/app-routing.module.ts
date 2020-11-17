@@ -3,18 +3,26 @@ import {NgModule} from '@angular/core';
 import {AdminViewProductComponent} from './Produit/admin-view-product/admin-view-product.component';
 import {ProduitEditComponent} from './Produit/produit-edit/produit-edit.component';
 import {ProductViewComponent} from './Produit/view-product/product-view.component';
-import {UserViewListProductComponent} from './Produit/user-view-list-product/user-view-list-product.component';
-import {UserViewTypeProduitListComponent} from './Produit/user-view-type-produit-list/user-view-type-produit-list.component';
+import {ViewProductsListComponent} from './Produit/view-products-list/view-products-list.component';
+import {ViewProductListTypeComponent} from './Produit/view-products-list-type/view-product-list-type.component';
 import {LoginComponent} from './Auth/login/login.component';
 import {CreateUserComponent} from './Auth/create-user/create-user.component';
 import {AccueilComponent} from './Accueil/accueil/accueil.component';
+import {TypeEditComponent} from './Type/type-edit/type-edit.component';
+import {AdminViewTypesListComponent} from './Type/admin-view-types-list/admin-view-types-list.component';
+import {CategorieEditComponent} from './Categorie/categorie-edit/categorie-edit.component';
+import {AdminViewCategorieListComponent} from './Categorie/admin-view-categorie-list/admin-view-categorie-list.component';
 
 
 const routes: Routes = [
   { path: 'admin/products', component: AdminViewProductComponent},
   { path: 'admin/products/edit', component: ProduitEditComponent},
-  { path: 'products', component: UserViewListProductComponent},
-  { path: 'products/categorie', component: UserViewTypeProduitListComponent},
+  { path: 'admin/products/categories/edit', component: CategorieEditComponent},
+  { path: 'admin/products/categories', component: AdminViewCategorieListComponent},
+  { path: 'admin/products/types', component: AdminViewTypesListComponent},
+  { path: 'admin/products/types/edit', component: TypeEditComponent},
+  { path: 'products', component: ViewProductsListComponent},
+  { path: 'products/categorie', component: ViewProductListTypeComponent},
   { path: 'product', component: ProductViewComponent},
   { path: 'login', component: LoginComponent},
   { path: 'user/add', component: CreateUserComponent},

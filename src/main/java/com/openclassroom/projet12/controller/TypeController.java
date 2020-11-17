@@ -1,6 +1,7 @@
 package com.openclassroom.projet12.controller;
 
 import com.openclassroom.projet12.dto.TypeDTO;
+import com.openclassroom.projet12.model.Categorie;
 import com.openclassroom.projet12.model.Type;
 import com.openclassroom.projet12.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +11,22 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/type")
+@RequestMapping("/api/produits/types")
 public class TypeController {
 
     @Autowired
     TypeService typeService;
+
+    @GetMapping
+    public ResponseEntity<List<Type>> getTypes() {
+        List<Type> type = typeService.getTypes();
+        return new ResponseEntity<>(type, HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Type>> getType(@PathVariable("id") Long id) {

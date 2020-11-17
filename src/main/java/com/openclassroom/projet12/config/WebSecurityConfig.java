@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/localhost:5432/epicerie").permitAll();
         http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers("/api/login", "/api/user").permitAll()
+                .antMatchers("/api/login", "/api/user", "/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()

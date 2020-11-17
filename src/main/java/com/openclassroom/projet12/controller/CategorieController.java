@@ -2,6 +2,7 @@ package com.openclassroom.projet12.controller;
 
 import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.model.Categorie;
+
 import com.openclassroom.projet12.service.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -19,6 +21,12 @@ public class CategorieController {
 
     @Autowired
     CategorieService categorieService;
+
+    @GetMapping
+    public ResponseEntity<List<Categorie>> getCategories() {
+        List<Categorie> categories = categorieService.getCategories();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Categorie>> getCategorie(@PathVariable("id") Long id) {

@@ -1,6 +1,7 @@
-export enum Type {
-  ALIMENTAIRE= 'Alimentaire',
-  COSMETIQUE= 'Cosmetique',
-  HYGIENE= 'Hygiène',
-  ENTRETIENT= 'Produit d\'entretient'
+import {Categorie} from './categorie.model';
+
+export class Type {
+  id: number;
+  name: string;
+  categories: Array<Categorie>;
 }

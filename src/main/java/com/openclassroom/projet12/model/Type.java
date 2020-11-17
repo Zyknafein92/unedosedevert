@@ -22,21 +22,9 @@ public class Type {
     @NotNull(message= "Veuillez définir un nom ! (ex: Alimentaire, Cosmétique...)")
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "t_type")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Categorie> categories;
 }
 
-//public enum Type {
-//    ALIMENTAIRE("Alimentaire"),
-//    COSMETIQUE("Cosmetique"),
-//    HYGIENE("Hygiène"),
-//    ENTRETIENT("Produit d'entretient");
-//
-//    private final String description;
-//
-//    Type(String description) {
-//        this.description = description;
-//    }
-//}
 
 
