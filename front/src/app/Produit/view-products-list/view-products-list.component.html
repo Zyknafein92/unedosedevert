@@ -1,8 +1,0 @@
-<div class="wrapper" *ngIf="types != null">
-  <ul class="typeProduit"*ngFor="let type of types">
-  <li class="typeElement">{{type.name}}</li>
-    <ul class="categorieProduit" *ngFor="let cat of type.categories">
-    <li class="CategorieElement" (click)="voirProduits(cat.id)">{{cat.name}}</li>
-    </ul>
-  </ul>
-</div>

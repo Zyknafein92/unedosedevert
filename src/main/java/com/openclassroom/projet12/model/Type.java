@@ -16,7 +16,7 @@ import java.util.List;
 public class Type {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull(message= "Veuillez définir un nom ! (ex: Alimentaire, Cosmétique...)")

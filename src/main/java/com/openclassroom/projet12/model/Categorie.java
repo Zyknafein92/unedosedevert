@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 public class Categorie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull(message= "Veuillez définir un nom ! (ex: Riz, Légumineuse...)")

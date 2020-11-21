@@ -34,17 +34,6 @@ public class TypeService {
     }
 
     public Type addType(TypeDTO typeDTO) {
-
-        for(Categorie categorieDTO: typeDTO.getCategories()) {
-                Optional<Categorie> categorieToAdd = categorieService.getCategorie(categorieDTO.getId());
-                if (categorieToAdd.isPresent()) {
-                    Categorie categorie = Categorie.builder()
-                            .id(categorieToAdd.get().getId())
-                            .name(categorieToAdd.get().getName())
-                            .build();
-                    typeDTO.getCategories().add(categorie);
-                }
-            }
         return typeRepository.save(typeMapper.typeDTOtoType(typeDTO));
     }
 
