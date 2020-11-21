@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Produit} from '../../../model/produit.model';
 import {Router} from '@angular/router';
 import {ProduitService} from '../../../services/produit.service';
+import {Categorie} from '../../../model/categorie.model';
+import {Type} from '../../../model/type.model';
 
 @Component({
   selector: 'app-admin-view-product',
@@ -12,6 +14,8 @@ export class AdminViewProductComponent implements OnInit {
 
   produit: Produit;
   produits: Array<Produit>;
+  type: Type;
+  categorie: Categorie;
 
   constructor(private router: Router, private produitService: ProduitService) { }
 

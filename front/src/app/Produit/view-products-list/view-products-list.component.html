@@ -1,65 +1,8 @@
-<!--<br>-->
-<!--<div class="container">-->
-<!--  <div class="well-block">-->
-<!--    <div class="well-title">-->
-
-
-<!--      <div class="title">Alimentaire</div>-->
-<!--      <br>-->
-<!--      <ul class="type-produit-case">-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.RIZ)">Riz</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.PATES)">Pâtes</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.CEREALES)">Céréales</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.GRAINES)">Graines</li>-->
-<!--      </ul>-->
-<!--      <ul class="type-produit-case">-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.FARINE)">Farines</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.FRUITS)">Fruits</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.LEGUMINEUSE)">Légumineuses</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.BISCUITS_SALE)">Biscuits salés</li>-->
-<!--      </ul>-->
-<!--      <ul class="type-produit-case">-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.BISCUITS_SUCRES)">Biscuits sucrés</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.AIDES_CULINAIRES)">Aides culinaires</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.FLEUR_DE_SEL)">Fleur de sel</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.CONDIMENTS)">Condiments</li>-->
-<!--      </ul>-->
-<!--      <ul class="type-produit-case">-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.EPICES)">Epices</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.INFUSIONS)">Infusions</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.THE)">Thé</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.CAFE)">Café</li>-->
-<!--      </ul>-->
-<!--      <ul class="type-produit-case">-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.SUCRE)">Sucre</li>-->
-<!--      </ul>-->
-<!--      <br>-->
-<!--      <div class="title">Cosmétique</div>-->
-<!--      <br>-->
-<!--      <ul class="type-produit-case">-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.MASQUE)">Masque</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.BIEN_ETRE)">Bien-être</li>-->
-<!--      </ul>-->
-<!--      <br>-->
-<!--      <div class="title">Hygiène</div>-->
-<!--      <br>-->
-<!--      <ul class="type-produit-case">-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.SAVON)">Savon</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.SHAMPOING)">Shampoing</li>-->
-<!--      </ul>-->
-<!--      <br>-->
-<!--      <div class="title">Entretient</div>-->
-<!--      <br>-->
-<!--      <ul class="type-produit-case">-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.LINGE)">Linge</li>-->
-<!--        <li class="typeProduit" (click)="voirProduits(categorie.VAISELLE)">Vaiselle</li>-->
-<!--      </ul>-->
-<!--    </div>-->
-<!--    <br>-->
-<!--  </div>-->
-<!--</div>-->
-
-<div class="container">
-  <ul class="typeProduit" *ngFor="let type of types"></ul>
-  <li class="typeElement"(click)="voirProduits(categorie.id)"></li>
+<div class="wrapper" *ngIf="types != null">
+  <ul class="typeProduit"*ngFor="let type of types">
+  <li class="typeElement">{{type.name}}</li>
+    <ul class="categorieProduit" *ngFor="let cat of type.categories">
+    <li class="CategorieElement" (click)="voirProduits(cat.id)">{{cat.name}}</li>
+    </ul>
+  </ul>
 </div>

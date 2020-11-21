@@ -41,8 +41,9 @@ export class TypeEditComponent implements OnInit {
     this.forms = this.formBuilder.group({
       id: ['',  Validators.required],
       name: ['', Validators.required],
-      categories: this.formBuilder.array([this.createCategorie()])
+      categories: this.formBuilder.array([])
     });
+
   }
 
   private patchValue(id: number): void {
@@ -66,6 +67,7 @@ export class TypeEditComponent implements OnInit {
       id: ['', Validators.required],
       name: ['', Validators.required],
     });
+
   }
 
   onSubmit(): void {
@@ -83,6 +85,7 @@ export class TypeEditComponent implements OnInit {
   // tslint:disable-next-line:typedef
   onCheckboxChange(e) {
     const categories: FormArray = this.forms.get('categories') as FormArray;
+    console.log('categories: ', categories);
     if (e.target.checked) {
       categories.push(new FormControl(this.categorieList.find(value => value.name === e.target.value)));
     } else {

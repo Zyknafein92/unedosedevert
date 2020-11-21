@@ -30,6 +30,14 @@ import { CategorieEditComponent } from './Categorie/categorie-edit/categorie-edi
 import { TypeEditComponent } from './Type/type-edit/type-edit.component';
 import { AdminViewTypesListComponent } from './Type/admin-view-types-list/admin-view-types-list.component';
 import { AdminViewCategorieListComponent } from './Categorie/admin-view-categorie-list/admin-view-categorie-list.component';
+import { MyProfilComponent } from './User/my-profil/my-profil.component';
+import { MyCommandComponent } from './User/my-command/my-command.component';
+import { ModalConfirmComponent } from './Modal/modal-confirm/modal-confirm.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatRippleModule} from '@angular/material/core';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -52,6 +60,9 @@ import { AdminViewCategorieListComponent } from './Categorie/admin-view-categori
     TypeEditComponent,
     AdminViewTypesListComponent,
     AdminViewCategorieListComponent,
+    MyProfilComponent,
+    MyCommandComponent,
+    ModalConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,12 +71,17 @@ import { AdminViewCategorieListComponent } from './Categorie/admin-view-categori
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRippleModule,
+    MatDialogModule,
     RouterModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    NgbModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

@@ -1,28 +1,41 @@
-*{
-  background-color: white;
+.wrapper{
+  display: inline;
 }
 
-.title{
+.typeElement{
   text-align: center;
-  font-size: larger;
+  list-style-type: none;
+  text-transform: uppercase;
+  color: forestgreen;
+
+  margin-top:30px;
+  margin-bottom: 30px;
+  font-size: 30px;
 }
 
-.type-produit-case li {
-  display: inline-block;
-
-  margin-left: 50px;
-  margin-right: 50px;
-  margin-top:10px;
+.typeProduit ul {
+  margin-left: 20rem;
+  margin-right: 20rem;
+  margin-top:20px;
 
   width:150px;
   height:75px;
+  text-align: left;
+
   position: relative;
-  background:darkolivegreen;
-  text-align: center;
-  color:aliceblue;
-  font-size: 20px;
+  border: 0.5px solid forestgreen;
+  background:white;
+  color:forestgreen;
+  font-size: 16px;
+  list-style-type: none;
+  display: inline-grid;
+
 }
 
-.type-produit-case li:hover{
+.CategorieElement li{
+  width: 100%;
+}
+
+.CategorieProduit li:hover{
   cursor:pointer
 }

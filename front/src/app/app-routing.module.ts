@@ -12,6 +12,8 @@ import {TypeEditComponent} from './Type/type-edit/type-edit.component';
 import {AdminViewTypesListComponent} from './Type/admin-view-types-list/admin-view-types-list.component';
 import {CategorieEditComponent} from './Categorie/categorie-edit/categorie-edit.component';
 import {AdminViewCategorieListComponent} from './Categorie/admin-view-categorie-list/admin-view-categorie-list.component';
+import {MyProfilComponent} from './User/my-profil/my-profil.component';
+import {AdresseEditComponent} from './Adresse/adresse-edit/adresse-edit.component';
 
 
 const routes: Routes = [
@@ -25,6 +27,8 @@ const routes: Routes = [
   { path: 'products/categorie', component: ViewProductListTypeComponent},
   { path: 'product', component: ProductViewComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'user/myprofil', component: MyProfilComponent},
+  { path: 'user/adress/edit', component: AdresseEditComponent},
   { path: 'user/add', component: CreateUserComponent},
   { path: 'accueil', component: AccueilComponent}
 ];

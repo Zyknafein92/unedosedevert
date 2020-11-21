@@ -13,7 +13,6 @@ import {Type} from '../../../model/type.model';
 })
 export class ViewProductsListComponent implements OnInit {
 
-  categorie: Categorie;
   categories: Array<Categorie>;
   types: Array<Type>;
 
@@ -27,7 +26,7 @@ export class ViewProductsListComponent implements OnInit {
 
   voirProduits(id: number): void {
     console.log('categorie: ', id);
-    // const key = Object.keys(Categorie).find(k => Categorie[k] === categorie) || '';
+   // const key = Object.keys(Categorie).find(k => Categorie[k] === categorie) || '';
     this.router.navigate(['products/categorie'], {queryParams: {id}});
   }
 

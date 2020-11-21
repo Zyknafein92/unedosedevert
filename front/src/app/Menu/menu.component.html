@@ -1,6 +1,6 @@
 <mat-toolbar>
   <span>Une Dose de Vert</span>
-  <button mat-button>Acceuil</button>
+  <button mat-button>Accueil</button>
   <button mat-button routerLink="products">Nos produits</button>
   <button mat-button>A propos</button>
   <button mat-button [matMenuTriggerFor]="compte" *ngIf="this.tokenEmail != null">Mon compte</button>
@@ -35,7 +35,7 @@
   </mat-menu>
 
   <mat-menu #compte="matMenu">
-    <button mat-menu-item>Mon profil</button>
+    <button mat-menu-item routerLink="user/myprofil">Mon profil</button>
     <button mat-menu-item>Mes commandes</button>
     <button mat-menu-item>Mon panier</button>
   </mat-menu>

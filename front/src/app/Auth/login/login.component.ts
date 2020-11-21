@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = true;
       }
     );
-    this.router.navigate(['/accueil']);
+    this.router.navigate(['/']);
   }
 
   navigateToRegister(): void {
