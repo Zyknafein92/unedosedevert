@@ -18,9 +18,4 @@ build:
         - echo "Building"
         - mvn compile
 
-test:
-    stage: test
-    script:
-        - echo "Testing"
-        - mvn test
 
