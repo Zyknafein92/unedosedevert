@@ -9,6 +9,8 @@ public interface CategorieMapper {
 
     Categorie categorieDTOtoCategorie(CategorieDTO categorieDTO);
 
+    CategorieDTO categorieToCategorieDTO(Categorie categorie);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     Categorie updateCategorieFromCategorieDTO(CategorieDTO categorieDTO, @MappingTarget Categorie categorie);

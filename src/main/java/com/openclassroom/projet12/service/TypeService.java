@@ -1,5 +1,6 @@
 package com.openclassroom.projet12.service;
 
+import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.dto.TypeDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.TypeMapper;
@@ -8,6 +9,8 @@ import com.openclassroom.projet12.model.Type;
 import com.openclassroom.projet12.respository.CategorieRepository;
 import com.openclassroom.projet12.respository.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +34,11 @@ public class TypeService {
 
     public Optional<Type> getType(Long id) {
         return typeRepository.findById(id);
+    }
+
+    public Page<TypeDTO> getTypePage(Pageable pageable) {
+        return typeRepository.findAll(pageable)
+                .map(typ -> typeMapper.typeToTypeDTO(typ));
     }
 
     public Type addType(TypeDTO typeDTO) {

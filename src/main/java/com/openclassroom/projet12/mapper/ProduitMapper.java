@@ -13,6 +13,8 @@ public interface ProduitMapper {
 
     Produit produitDTOtoProduit(ProduitDTO produitDTO);
 
+    ProduitDTO produitToProduitDTO(Produit produit);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     Produit updateProduitFromProduitDTO(ProduitDTO produitDTO, @MappingTarget Produit produit);

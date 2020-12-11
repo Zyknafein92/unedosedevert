@@ -1,6 +1,7 @@
 package com.openclassroom.projet12.controller;
 
 
+import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.dto.ProduitDTO;
 import com.openclassroom.projet12.dto.SearchCriteria;
 import com.openclassroom.projet12.model.Categorie;
@@ -43,11 +44,10 @@ public class ProduitController {
         return new ResponseEntity<>(produits, HttpStatus.OK);
     }
 
-    // http://localhost:8080/api/produits?size=5&page=30&sort=name
-//    @GetMapping
-//    public Page<Produit> getProduits(Pageable pageable) {
-//        return produitService.findProduits(pageable);
-//    }
+    @GetMapping("/xxx")
+    public Page<ProduitDTO> getProduitPage(Pageable pageable) {
+        return produitService.getProduitPage(pageable);
+    }
 
     //todo : corriger les optionales comme ci-dessous
     @GetMapping("/{id}")

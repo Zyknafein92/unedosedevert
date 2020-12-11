@@ -30,6 +30,11 @@ public class ProduitService {
         return produitRepository.findAll();
     }
 
+    public Page<ProduitDTO> getProduitPage(Pageable pageable) {
+        return produitRepository.findAll(pageable)
+                .map(prod -> produitMapper.produitToProduitDTO(prod));
+    }
+
     public List<Produit> findProduitsByCriteria(SearchCriteria searchCriteria) {
         List<Produit> produits = null;
         Type type = searchCriteria.getType();
@@ -43,10 +48,6 @@ public class ProduitService {
         }
         return produits;
     }
-
-//    public Page<Produit> findProduits(Pageable pageable) {
-//        return produitRepository.findAll(pageable);
-//    }
 
     public Optional<Produit> getProduit(Long id) {
         return produitRepository.findById(id);

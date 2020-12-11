@@ -1,10 +1,13 @@
 package com.openclassroom.projet12.controller;
 
+import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.dto.TypeDTO;
 import com.openclassroom.projet12.model.Categorie;
 import com.openclassroom.projet12.model.Type;
 import com.openclassroom.projet12.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +37,11 @@ public class TypeController {
         if (!type.isPresent())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ce type n'existe pas");
         return new ResponseEntity<>(type, HttpStatus.OK);
+    }
+
+    @GetMapping("/xxx")
+    public Page<TypeDTO> getTypePage(Pageable pageable) {
+        return typeService.getTypePage(pageable);
     }
 
     @PostMapping
