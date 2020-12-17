@@ -39,7 +39,7 @@ public class Produit {
     @NotNull(message= "Veuillez renseigner une origine pour le produit !")
     private String origine;
 
-    @NotNull(message= "Veuillez renseigner un prix HT pour le produit !")
+    @NotNull(message= "Veuillez renseigner un prix pour le produit !")
     private Double prix;
 
     @NotNull(message= "Veuillez renseigner la tva pour le produit !")
@@ -48,5 +48,9 @@ public class Produit {
     @Enumerated(EnumType.STRING)
     @NotNull(message= "Veuillez renseigner la disponibilitée du produit !")
     private Stock stock;
+
+    private String urlPhotoPetite;
+
+    private String urlPhotoGrande;
 
 }

@@ -72,6 +72,8 @@ public class ProduitService {
                     .prix(produitOptional.get().getPrix())
                     .tva(produitOptional.get().getTva())
                     .stock(produitOptional.get().getStock())
+                    .urlPhotoPetite(produitOptional.get().getUrlPhotoPetite())
+                    .urlPhotoGrande(produitOptional.get().getUrlPhotoGrande())
                     .build();
         }
 

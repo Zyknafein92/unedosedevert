@@ -5,7 +5,9 @@ import com.openclassroom.projet12.dto.AdresseDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.AdresseMapper;
 import com.openclassroom.projet12.model.Adresse;
+import com.openclassroom.projet12.model.User;
 import com.openclassroom.projet12.respository.AdresseRepository;
+import com.openclassroom.projet12.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +19,25 @@ public class AdresseService {
 
     @Autowired
     AdresseRepository adresseRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     AdresseMapper adresseMapper;
-
 
     public Optional<Adresse> getAdresse(Long id) {
         return adresseRepository.findById(id);
     }
 
     public Adresse addAdresse(AdresseDTO adresseDTO) {
-        return adresseRepository.save(adresseMapper.adresseDTOtoAdresse(adresseDTO));
+        User user = userRepository.getOne(adresseDTO.getUserID());
+
+        if(user.getId() != null) {
+            Adresse adresse = adresseMapper.adresseDTOtoAdresse(adresseDTO);
+            user.getAdresses().add(adresse);
+            userRepository.save(user);
+        return adresseRepository.save(adresse);
+        } else throw new RuntimeException("Une erreure s'est produite lors de la création de l'adresse");
     }
 
     public Adresse updateAdresse(AdresseDTO adresseDTO) {
@@ -53,7 +63,12 @@ public class AdresseService {
     }
 
     public Long deleteAdresse(Long id) {
-        adresseRepository.deleteById(id);
-        return id;
+        Optional<Adresse> adresse = getAdresse(id);
+        if(adresse.isPresent()) {
+            User user = userRepository.getOne(adresse.get().getUserID());
+            user.getAdresses().remove(adresse.get());
+            adresseRepository.deleteById(id);
+            return id;
+        } else throw new NotFoundException("L'adresse n'existe pas ou n'a pas été retrouvé");
     }
 }

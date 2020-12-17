@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/user/address")
+@RequestMapping("/api/user/address")
 public class AdresseController {
 
     @Autowired
@@ -41,8 +41,6 @@ public class AdresseController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteAdresse(@PathVariable("id") Long id) {
-        Optional<Adresse> adresse = adresseService.getAdresse(id);
-        if(!adresse.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cette adresse n'existe pas");
-        return new ResponseEntity<>(adresseService.deleteAdresse(adresse.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(adresseService.deleteAdresse(id), HttpStatus.OK);
     }
 }

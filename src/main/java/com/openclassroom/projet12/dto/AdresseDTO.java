@@ -38,4 +38,8 @@ public class AdresseDTO {
 
     @NotNull(message= "Veuillez renseigner votre porte sur le palier !")
     private String porte;
+
+    @NotNull(message= "L'ID user ne peut être null")
+    private Long UserID;
+
 }

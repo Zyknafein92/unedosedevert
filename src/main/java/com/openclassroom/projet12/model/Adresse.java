@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -46,4 +48,6 @@ public class Adresse {
 
     @NotNull(message= "Veuillez renseigner votre porte sur le palier !")
     private String porte;
+
+    private Long userID;
 }
