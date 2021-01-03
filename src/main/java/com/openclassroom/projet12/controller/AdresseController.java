@@ -3,6 +3,7 @@ package com.openclassroom.projet12.controller;
 import com.openclassroom.projet12.dto.AdresseDTO;
 import com.openclassroom.projet12.model.Adresse;
 import com.openclassroom.projet12.service.AdresseService;
+import com.openclassroom.projet12.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,9 @@ public class AdresseController {
     @Autowired
     AdresseService adresseService;
 
+    @Autowired
+    AuthenticationService authenticationService;
+
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Adresse>> getAdresse(@PathVariable("id") Long id) {
         Optional<Adresse> adresse = adresseService.getAdresse(id);
@@ -29,18 +33,21 @@ public class AdresseController {
 
     @PostMapping
     public ResponseEntity<Adresse> addAdresse(@Valid @RequestBody AdresseDTO adresseDTO) {
-        Adresse adresseToCreate = adresseService.addAdresse(adresseDTO);
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        Adresse adresseToCreate = adresseService.addAdresse(adresseDTO, currentUsername);
         return new ResponseEntity<>(adresseToCreate,HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<Adresse> updateAdresse(@Valid @RequestBody AdresseDTO adresseDTO) {
-        Adresse adresse = adresseService.updateAdresse(adresseDTO);
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        Adresse adresse = adresseService.updateAdresse(adresseDTO,currentUsername);
         return new ResponseEntity<>(adresse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteAdresse(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(adresseService.deleteAdresse(id), HttpStatus.OK);
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        return new ResponseEntity<>(adresseService.deleteAdresse(id, currentUsername), HttpStatus.OK);
     }
 }

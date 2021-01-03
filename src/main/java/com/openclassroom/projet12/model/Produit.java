@@ -49,8 +49,6 @@ public class Produit {
     @NotNull(message= "Veuillez renseigner la disponibilitée du produit !")
     private Stock stock;
 
-    private String urlPhotoPetite;
-
-    private String urlPhotoGrande;
+    private String urlPhoto;
 
 }

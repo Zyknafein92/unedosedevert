@@ -19,6 +19,8 @@ import java.util.Date;
 @Table(name = "t_commande")
 public class Commande {
 
+    //todo: Ajouter List<Produit> avec une table CommandeLigne
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

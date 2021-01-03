@@ -48,6 +48,4 @@ public class Adresse {
 
     @NotNull(message= "Veuillez renseigner votre porte sur le palier !")
     private String porte;
-
-    private Long userID;
 }

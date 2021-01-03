@@ -10,8 +10,8 @@ import javax.validation.constraints.NotNull;
 public class AdresseDTO {
 
     private Long id;
-    @NotNull(message= "Veuillez définir un nom pour votre adresse ! (ex: Travail, Domicile)")
 
+    @NotNull(message= "Veuillez définir un nom pour votre adresse ! (ex: Travail, Domicile)")
     private String nom;
 
     @NotNull(message= "Veuillez renseigner le numéro de voie !")
@@ -38,8 +38,4 @@ public class AdresseDTO {
 
     @NotNull(message= "Veuillez renseigner votre porte sur le palier !")
     private String porte;
-
-    @NotNull(message= "L'ID user ne peut être null")
-    private Long UserID;
-
 }

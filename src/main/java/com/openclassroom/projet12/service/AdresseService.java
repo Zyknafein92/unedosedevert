@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -21,7 +22,6 @@ public class AdresseService {
     AdresseRepository adresseRepository;
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     AdresseMapper adresseMapper;
 
@@ -29,10 +29,9 @@ public class AdresseService {
         return adresseRepository.findById(id);
     }
 
-    public Adresse addAdresse(AdresseDTO adresseDTO) {
-        User user = userRepository.getOne(adresseDTO.getUserID());
-
-        if(user.getId() != null) {
+    public Adresse addAdresse(AdresseDTO adresseDTO, String username) {
+        User user = userRepository.findByEmail(username);
+        if (user != null) {
             Adresse adresse = adresseMapper.adresseDTOtoAdresse(adresseDTO);
             user.getAdresses().add(adresse);
             userRepository.save(user);
@@ -40,34 +39,36 @@ public class AdresseService {
         } else throw new RuntimeException("Une erreure s'est produite lors de la création de l'adresse");
     }
 
-    public Adresse updateAdresse(AdresseDTO adresseDTO) {
+    public Adresse updateAdresse(AdresseDTO adresseDTO, String username) {
+        User user = userRepository.findByEmail(username);
         Optional<Adresse> adresseOptional = getAdresse(adresseDTO.getId());
-        Adresse adresse = null;
-        if(adresseOptional.isPresent()) {
-            adresse = Adresse.builder()
-                    .nom(adresseOptional.get().getNom())
-                    .numero(adresseOptional.get().getNumero())
-                    .voie(adresseOptional.get().getVoie())
-                    .codePostal(adresseOptional.get().getCodePostal())
-                    .ville(adresseOptional.get().getVille())
-                    .batiment(adresseOptional.get().getBatiment())
-                    .digicode(adresseOptional.get().getDigicode())
-                    .interphone(adresseOptional.get().getInterphone())
-                    .etage(adresseOptional.get().getEtage())
-                    .porte(adresseOptional.get().getPorte())
-                    .build();
+        if(!adresseOptional.isPresent()){
+            throw new NotFoundException("L'adresse n'existe pas ou n'a pas été retrouvé");
         }
-        if(adresse == null) throw new NotFoundException("L'adresse n'existe pas ou n'a pas été retrouvé");
-        adresseMapper.updateAdresseFromAdresseDTO(adresseDTO,adresse);
-        return adresse;
+        if(user != null && user.getAdresses().contains(adresseOptional.get())) {
+            adresseOptional.get().setNom(adresseDTO.getNom());
+            adresseOptional.get().setNumero(adresseDTO.getNumero());
+            adresseOptional.get().setVoie(adresseDTO.getVoie());
+            adresseOptional.get().setCodePostal(adresseDTO.getCodePostal());
+            adresseOptional.get().setVille(adresseDTO.getVille());
+            adresseOptional.get().setBatiment(adresseDTO.getBatiment());
+            adresseOptional.get().setDigicode(adresseDTO.getDigicode());
+            adresseOptional.get().setInterphone(adresseDTO.getInterphone());
+            adresseOptional.get().setEtage(adresseDTO.getEtage());
+            adresseOptional.get().setPorte(adresseDTO.getPorte());
+           return adresseRepository.save(adresseOptional.get());
+        }
+        throw new NotFoundException("L'utilisateur ne possède pas l'adress à modifier");
     }
 
-    public Long deleteAdresse(Long id) {
+    public Long deleteAdresse(Long id, String username) {
         Optional<Adresse> adresse = getAdresse(id);
         if(adresse.isPresent()) {
-            User user = userRepository.getOne(adresse.get().getUserID());
-            user.getAdresses().remove(adresse.get());
-            adresseRepository.deleteById(id);
+            User user = userRepository.findByEmail(username);
+            boolean removed = user.getAdresses().remove(adresse.get());
+            if(removed) {
+                adresseRepository.deleteById(id);
+            }
             return id;
         } else throw new NotFoundException("L'adresse n'existe pas ou n'a pas été retrouvé");
     }
