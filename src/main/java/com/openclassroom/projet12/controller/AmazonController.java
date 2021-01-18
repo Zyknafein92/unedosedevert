@@ -1,7 +1,7 @@
 package com.openclassroom.projet12.controller;
 
 import com.openclassroom.projet12.dto.PhotoDTO;
-import com.openclassroom.projet12.service.utils.PhotoService;
+import com.openclassroom.projet12.service.PhotoService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

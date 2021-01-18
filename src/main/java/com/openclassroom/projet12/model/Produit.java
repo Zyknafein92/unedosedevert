@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 
 @Entity
@@ -39,16 +40,19 @@ public class Produit {
     @NotNull(message= "Veuillez renseigner une origine pour le produit !")
     private String origine;
 
-    @NotNull(message= "Veuillez renseigner un prix pour le produit !")
-    private Double prix;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Variant> variant;
 
-    @NotNull(message= "Veuillez renseigner la tva pour le produit !")
-    private Double tva;
+    @ManyToMany
+    private List<Tag> tags;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull(message= "Veuillez renseigner la disponibilitée du produit !")
-    private Stock stock;
+    @ManyToMany
+    private List<TagsCategorie> tagsCategories;
 
     private String urlPhoto;
-
 }
+
+
+// Reduction -> prix // date départ // date de fin // taux de remise
+
+

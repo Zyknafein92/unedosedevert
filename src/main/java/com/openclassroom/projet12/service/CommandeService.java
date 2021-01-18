@@ -31,6 +31,11 @@ public class CommandeService {
         return commandeRepository.findById(id);
     }
 
+//todo:
+//    public List<Commande> getCommandesForCurrentUser(String username) {
+//        return null;
+//    }
+
     public Commande addCommande(CommandeDTO commandeDTO) {
         return commandeRepository.save(commandeMapper.commandeDTOtoCommande(commandeDTO));
     }
@@ -57,9 +62,5 @@ public class CommandeService {
     public Long deleteCommande(Long id) {
         commandeRepository.deleteById(id);
         return id;
-    }
-
-    public List<Commande> getCommandesForCurrentUser(String username) {
-        return null;
     }
 }

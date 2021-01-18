@@ -1,7 +1,8 @@
-package com.openclassroom.projet12.service.utils;
+package com.openclassroom.projet12.service;
 
 import com.openclassroom.projet12.model.Photo;
 import com.openclassroom.projet12.respository.PhotoRepository;
+import com.openclassroom.projet12.service.utils.AmazonService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

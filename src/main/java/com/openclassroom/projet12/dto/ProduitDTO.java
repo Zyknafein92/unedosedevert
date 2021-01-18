@@ -1,10 +1,9 @@
 package com.openclassroom.projet12.dto;
-import com.openclassroom.projet12.model.Categorie;
-import com.openclassroom.projet12.model.Stock;
-import com.openclassroom.projet12.model.Type;
+import com.openclassroom.projet12.model.*;
 import lombok.Builder;
 import lombok.Data;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Builder
@@ -27,14 +26,11 @@ public class ProduitDTO {
     @NotNull(message= "Veuillez renseigner une origine pour le produit !")
     private String origine;
 
-    @NotNull(message= "Veuillez renseigner un prix pour le produit !")
-    private Double prix;
+    private List<Variant> variants;
 
-    @NotNull(message= "Veuillez renseigner la tva pour le produit !")
-    private Double tva;
+    private List<Tag> tags;
 
-    @NotNull(message= "Veuillez renseigner la disponibilitée du produit !")
-    private Stock stock;
+    private List<TagsCategorie> tagsCategorie;
 
     private String urlPhoto;
 

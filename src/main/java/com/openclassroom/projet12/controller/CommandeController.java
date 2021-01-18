@@ -32,17 +32,17 @@ public class CommandeController {
         return new ResponseEntity<>(commandes, HttpStatus.OK);
     }
 
-    /** Get all orders for a user */
-    @GetMapping("/users/{username}")
-    public ResponseEntity<List<Commande>> getOrdersForCurrentUser(@PathVariable("username") String username) {
-        String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        if(currentUsername == null || !username.equals(currentUsername)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        List<Commande> commandes = commandeService.getCommandesForCurrentUser(username);
-        return new ResponseEntity<>(commandes, HttpStatus.OK);
-    }
+//    /** Get all orders for a user */
+//    @GetMapping("/users/{username}")
+//    public ResponseEntity<List<Commande>> getOrdersForCurrentUser(@PathVariable("username") String username) {
+//        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+//        if(currentUsername == null || !username.equals(currentUsername)) {
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
+//
+//        List<Commande> commandes = commandeService.getCommandesForCurrentUser(username);
+//        return new ResponseEntity<>(commandes, HttpStatus.OK);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Commande>> getCommande(@PathVariable("id") Long id) {

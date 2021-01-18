@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,9 +70,9 @@ public class ProduitService {
                     .type(produitOptional.get().getType())
                     .description(produitOptional.get().getDescription())
                     .origine(produitOptional.get().getOrigine())
-                    .prix(produitOptional.get().getPrix())
-                    .tva(produitOptional.get().getTva())
-                    .stock(produitOptional.get().getStock())
+                    .variant(produitOptional.get().getVariant())
+                    .tags(produitOptional.get().getTags())
+                    .tagsCategories(produitOptional.get().getTagsCategories())
                     .urlPhoto(produitOptional.get().getUrlPhoto())
                     .build();
         }
