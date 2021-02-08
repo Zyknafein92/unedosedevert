@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import javax.validation.constraints.Size;
 
 @Entity
 @Getter
@@ -19,14 +19,20 @@ public class Variant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String imageURL;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Produit produit;
 
+    private String imageURLOnSelect;
+
+    private String imageURLnonSelect;
+
+    @NotNull(message= "Veuillez renseigner un prix pour le produit !")
     private Double prix;
 
-    private Double tva;
+    @NotNull(message= "Veuillez renseigner un prix au kg pour le produit !")
+    private Double prixKg;
 
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
-    private Reduction reduction;
+    private Double prixReduction;
 
     @Enumerated(EnumType.STRING)
     @NotNull(message= "Veuillez renseigner la disponibilitée du produit !")

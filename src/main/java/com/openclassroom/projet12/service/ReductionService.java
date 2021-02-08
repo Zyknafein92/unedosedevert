@@ -44,8 +44,7 @@ public class ReductionService {
         if (reductionOptional.isPresent()) {
             reduction = Reduction.builder()
                     .id(reductionOptional.get().getId())
-                    .prixReduit(reductionOptional.get().getPrixReduit())
-                    .totalReduction(reductionOptional.get().getTotalReduction())
+
                     .reductionStart(reductionOptional.get().getReductionStart())
                     .reductionEnd(reductionOptional.get().getReductionEnd())
                     .build();

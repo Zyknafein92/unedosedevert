@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
@@ -28,11 +29,8 @@ public class Categorie {
     @NotNull(message= "Veuillez définir un nom ! (ex: Riz, Légumineuse...)")
     private String name;
 
-//    @CreationTimestamp
-//    private LocalDateTime createdAt;
-//
-//    @UpdateTimestamp
-//    private LocalDateTime updatedAt;
+    @OneToMany
+    private List<SousCategorie> sousCategorieList;
 }
 
 

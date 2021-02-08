@@ -19,9 +19,7 @@ public class Reduction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double prixReduit;
-
-    private Integer totalReduction;
+    private Integer reduction;
 
     private LocalDate reductionStart;
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class PanierDTO {
+public class  PanierDTO {
 
     private Long id;
 

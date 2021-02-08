@@ -41,11 +41,13 @@ public class VariantService {
         if (variantOptional.isPresent()) {
             variant = Variant.builder()
                     .id(variantOptional.get().getId())
+                    .produit(variantOptional.get().getProduit())
+                    .imageURLOnSelect(variantOptional.get().getImageURLOnSelect())
+                    .imageURLnonSelect(variantOptional.get().getImageURLnonSelect())
                     .prix(variantOptional.get().getPrix())
-                    .tva(variantOptional.get().getTva())
-                    .reduction(variantOptional.get().getReduction())
+                    .prixKg(variantOptional.get().getPrixKg())
+                    .prixReduction(variantOptional.get().getPrixReduction())
                     .stock(variantOptional.get().getStock())
-                    .imageURL(variantOptional.get().getImageURL())
                     .build();
         }
         if (variant == null) throw new NotFoundException("Le variant recherché n'a pas été trouvé");

@@ -6,6 +6,8 @@ import com.openclassroom.projet12.mapper.TagMapper;
 import com.openclassroom.projet12.model.Tag;
 import com.openclassroom.projet12.respository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,11 @@ public class TagService {
 
     public List<Tag> getTags() {
         return tagRepository.findAll();
+    }
+
+    public Page<TagDTO> getTagPage(Pageable pageable) {
+        return tagRepository.findAll(pageable)
+                .map(tag -> tagMapper.tagToTagDTO(tag));
     }
 
     public Optional<Tag> getTag(Long id) {

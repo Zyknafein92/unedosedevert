@@ -12,11 +12,9 @@ public class ReductionDTO {
 
     private Long id;
 
-    private Double prixReduit;
+    private Integer reduction;
 
-    private Integer totalReduction;
+    private LocalDate reductionStart;
 
-    private LocalDate start;
-
-    private LocalDate end;
+    private LocalDate reductionEnd;
 }

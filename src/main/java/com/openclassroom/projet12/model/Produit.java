@@ -26,33 +26,59 @@ public class Produit {
     private String name;
 
     @OneToOne
+    @NotNull(message= "Veuillez renseigner un type pour le produit !")
+    private Type type;
+
+    @OneToOne
     @NotNull(message= "Veuillez renseigner une categorie pour le produit !")
     private Categorie categorie;
 
     @OneToOne
-    @NotNull(message= "Veuillez renseigner un type pour le produit !")
-    private Type type;
-
-    @Size(min = 10, max= 500)
-    @NotNull(message= "Veuillez renseigner une description pour le produit !")
-    private String description;
-
-    @NotNull(message= "Veuillez renseigner une origine pour le produit !")
-    private String origine;
-
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Variant> variant;
+    @NotNull(message= "Veuillez renseigner une sous-categorie pour le produit !")
+    private SousCategorie sousCategorie;
 
     @ManyToMany
     private List<Tag> tags;
 
     @ManyToMany
-    private List<TagsCategorie> tagsCategories;
+    private List<Label> labels;
+
+    @NotNull(message= "Veuillez renseigner une origine pour le produit !")
+    private String origine;
+
+    @NotNull(message= "Veuillez renseigner une description pour le produit !")
+    private String descriptionProduit;
+
+    private String commentaireProduit;
+
+    @NotNull(message= "Veuillez renseigner les conseils d'utilisations pour le produit !")
+    private String conseilUtilisation;
+
+    @NotNull(message= "Veuillez renseigner la composition du produit !")
+    private String composition;
+
+    @NotNull(message= "Veuillez renseigner le pourquoi ? du produit !")
+    private String pourquoi;
+
+    @NotNull(message= "Veuillez renseigner les informations sur le producteur !")
+    private String producteur;
+
+    @NotNull(message= "Veuillez renseigner la valeur et les allergènes du produit !")
+    private String allergenes;
+
+    @NotNull(message= "Veuillez renseigner les informations nutritions du produit !")
+    private String infoNutrition;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "produit", orphanRemoval = true)
+    private List<Variant> variant;
+
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    private Reduction reduction;
 
     private String urlPhoto;
 }
 
 
-// Reduction -> prix // date départ // date de fin // taux de remise
+
 
 

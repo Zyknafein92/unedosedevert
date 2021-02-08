@@ -60,13 +60,6 @@ public class PanierService {
         return id;
     }
 
-    /*
-     *
-     *
-     *
-     */
-
-
     public List<PanierLigne> getPanierLignes() {
         return panierLigneRepository.findAll();
     }
