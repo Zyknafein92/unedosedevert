@@ -13,11 +13,11 @@ public class UserDTO {
 
     private Long id;
 
-    private List<AdresseDTO> adressesAdresseDTOS;
+    private List<AdresseDTO> adresses;
 
-    private PanierDTO panierDTO;
+    private PanierDTO panier;
 
-    private List<CommandeDTO> commandesCommandeDTOS;
+    private List<CommandeDTO> commandesCommandes;
 
     private Set<Role> roles;
 

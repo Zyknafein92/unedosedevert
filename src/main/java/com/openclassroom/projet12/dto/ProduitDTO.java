@@ -2,6 +2,8 @@ package com.openclassroom.projet12.dto;
 import com.openclassroom.projet12.model.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
@@ -11,7 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
-@Builder
+@Getter
+@Setter
 public class ProduitDTO {
 
     private Long id;

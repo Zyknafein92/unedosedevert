@@ -22,7 +22,7 @@ public class Type {
     @NotNull(message= "Veuillez définir un nom ! (ex: Alimentaire, Cosmétique...)")
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Categorie> categories;
 }
 

@@ -12,10 +12,10 @@ public class PanierLigneDTO {
     private long id;
 
     @NotNull(message= "Erreur, le panier ne peut pas être null !")
-    private PanierDTO panierDTO;
+    private PanierDTO panier;
 
     @NotNull(message= "Erreur, le produit ne peut pas être null !")
-    private ProduitDTO produitDTO;
+    private ProduitDTO produit;
 
     @NotNull(message= "Veuillez renseigner la quantité du produit !")
     private Integer quantity;

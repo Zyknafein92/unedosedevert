@@ -14,5 +14,5 @@ public class CategorieDTO {
     private Long id;
     @NotNull(message= "Veuillez définir un nom ! (ex: Riz, Légumineuse...)")
     private String name;
-    private List<SousCategorieDTO> sousCategorieDTOS;
+    private List<SousCategorieDTO> sousCategories;
 }

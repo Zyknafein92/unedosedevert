@@ -1,17 +1,10 @@
 package com.openclassroom.projet12.dto;
 
-import com.openclassroom.projet12.model.Produit;
-import com.openclassroom.projet12.model.Reduction;
 import com.openclassroom.projet12.model.Stock;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+
 
 @Data
 @Builder
@@ -19,7 +12,7 @@ public class VariantDTO {
 
     private Long id;
 
-    private ProduitDTO produitDTO;
+    private ProduitDTO produit;
 
     private String imageURLOnSelect;
 
