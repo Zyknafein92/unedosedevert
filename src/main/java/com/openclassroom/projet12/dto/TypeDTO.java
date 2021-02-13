@@ -12,5 +12,5 @@ public class TypeDTO {
     private Long id;
     @NotNull(message= "Veuillez définir un nom ! (ex: Alimentaire, Cosmétique...)")
     private String name;
-    private List<Categorie> categories;
+    private List<CategorieDTO> categoriesDTOs;
 }

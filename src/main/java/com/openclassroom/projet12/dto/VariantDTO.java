@@ -19,7 +19,7 @@ public class VariantDTO {
 
     private Long id;
 
-    private Produit produit;
+    private ProduitDTO produitDTO;
 
     private String imageURLOnSelect;
 

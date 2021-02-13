@@ -29,8 +29,8 @@ public class Categorie {
     @NotNull(message= "Veuillez définir un nom ! (ex: Riz, Légumineuse...)")
     private String name;
 
-    @OneToMany
-    private List<SousCategorie> sousCategorieList;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<SousCategorie> sousCategories;
 }
 
 

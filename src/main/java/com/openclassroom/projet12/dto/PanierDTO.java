@@ -14,7 +14,7 @@ public class  PanierDTO {
 
     private Long id;
 
-    private List<PanierLigne> panierLigne;
+    private List<PanierLigneDTO> panierLigneDTOS;
 
     private Double prixTotal;
 

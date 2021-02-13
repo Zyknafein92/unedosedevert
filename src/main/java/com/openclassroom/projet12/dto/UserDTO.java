@@ -1,20 +1,9 @@
 package com.openclassroom.projet12.dto;
-
-
-import com.openclassroom.projet12.model.Adresse;
-import com.openclassroom.projet12.model.Commande;
-import com.openclassroom.projet12.model.Panier;
 import com.openclassroom.projet12.model.Role;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -24,11 +13,11 @@ public class UserDTO {
 
     private Long id;
 
-    private List<Adresse> adresses;
+    private List<AdresseDTO> adressesAdresseDTOS;
 
-    private Panier panier;
+    private PanierDTO panierDTO;
 
-    private List<Commande> commandes;
+    private List<CommandeDTO> commandesCommandeDTOS;
 
     private Set<Role> roles;
 

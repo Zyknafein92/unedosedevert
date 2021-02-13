@@ -60,6 +60,7 @@ public class CategorieService {
             categorie = Categorie.builder()
                     .id(categorieOptional.get().getId())
                     .name(categorieOptional.get().getName())
+                    .sousCategories(categorieOptional.get().getSousCategories())
                     .build();
         }
         if(categorie == null) throw new NotFoundException("La categorie n'existe pas !");

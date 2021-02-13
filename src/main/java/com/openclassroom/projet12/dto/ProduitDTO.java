@@ -20,17 +20,16 @@ public class ProduitDTO {
     private String name;
 
     @NotNull(message= "Veuillez renseigner un type pour le produit !")
-    private Type type;
+    private TypeDTO type;
 
     @NotNull(message= "Veuillez renseigner une categorie pour le produit !")
-    private Categorie categorie;
+    private CategorieDTO categorie;
 
-    @NotNull(message= "Veuillez renseigner une sous-categorie pour le produit !")
-    private SousCategorie sousCategorie;
+    private SousCategorieDTO sousCategorie;
 
-    private List<Tag> tags;
+    private List<TagDTO> tags;
 
-    private List<Label> labels;
+    private List<LabelDTO> labels;
 
     @NotNull(message= "Veuillez renseigner une origine pour le produit !")
     private String origine;
@@ -53,14 +52,14 @@ public class ProduitDTO {
     private String producteur;
 
     @NotNull(message= "Veuillez renseigner la valeur et les allergènes du produit !")
-    private String allergènes;
+    private String allergenes;
 
     @NotNull(message= "Veuillez renseigner les informations nutritions du produit !")
     private String infoNutrition;
 
-    private List<Variant> variant;
+    private List<VariantDTO> variant;
 
-    private Reduction reduction;
+    private ReductionDTO reduction;
 
     private String urlPhoto;
 

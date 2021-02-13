@@ -17,12 +17,13 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/souscategorie")
+@RequestMapping("/api/produits/sousCategorie")
 @AllArgsConstructor
 public class SousCategorieController {
 
     private final SousCategorieService sousCategorieService;
 
+    @GetMapping
     public ResponseEntity<List<SousCategorie>> getSousCategories() {
         List<SousCategorie> sousCategories = sousCategorieService.getSousCategories();
         return new ResponseEntity<>(sousCategories, HttpStatus.OK);

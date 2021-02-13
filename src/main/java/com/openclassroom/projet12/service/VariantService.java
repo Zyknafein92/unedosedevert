@@ -1,5 +1,6 @@
 package com.openclassroom.projet12.service;
 
+import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.dto.VariantDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.VariantMapper;
@@ -24,6 +25,10 @@ public class VariantService {
 
     public List<Variant> getVariants() {
         return variantRepository.findAll();
+    }
+
+    public List<Variant> getVariantsByProductId(Long id) {
+        return variantRepository.findAllByProduitId(id);
     }
 
     public Optional<Variant> getVariant(Long id) {

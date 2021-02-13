@@ -25,22 +25,21 @@ public class Produit {
     @NotNull(message= "Veuillez renseigner un nom pour le produit !")
     private String name;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @NotNull(message= "Veuillez renseigner un type pour le produit !")
     private Type type;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @NotNull(message= "Veuillez renseigner une categorie pour le produit !")
     private Categorie categorie;
 
-    @OneToOne
-    @NotNull(message= "Veuillez renseigner une sous-categorie pour le produit !")
+    @OneToOne(fetch = FetchType.LAZY)
     private SousCategorie sousCategorie;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Tag> tags;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Label> labels;
 
     @NotNull(message= "Veuillez renseigner une origine pour le produit !")
