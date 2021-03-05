@@ -24,8 +24,7 @@ public class LabelController {
     private final LabelService labelService;
 
     public ResponseEntity<List<Label>> getLabelCategories() {
-        List<Label> tagsCategories = labelService.getLabels();
-        return new ResponseEntity<>(tagsCategories, HttpStatus.OK);
+        return new ResponseEntity<>(labelService.getLabels(), HttpStatus.OK);
     }
 
     @GetMapping("/xxx")
@@ -34,10 +33,8 @@ public class LabelController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Label>> getLabelCategorie(@PathVariable("id") Long id) {
-        Optional<Label> label = labelService.getLabel(id);
-        if(!label.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La catégorie de tag n'existe pas");
-        return new ResponseEntity<>(label, HttpStatus.OK);
+    public ResponseEntity<Label> getLabelCategorie(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(labelService.getLabel(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -55,8 +52,6 @@ public class LabelController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteLabelCategorie(@PathVariable("id") Long id) {
-        Optional<Label> label = labelService.getLabel(id);
-        if(!label.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La catégorie de tag n'existe pas");
-        return new ResponseEntity<>(labelService.deleteLabel(label.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(labelService.deleteLabel(id), HttpStatus.OK);
     }
 }

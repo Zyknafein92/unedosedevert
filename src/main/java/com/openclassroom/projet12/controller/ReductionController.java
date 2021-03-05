@@ -25,10 +25,8 @@ public class ReductionController {
     private final ReductionService reductionService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Reduction>> getReduction(@PathVariable("id") Long id) {
-        Optional<Reduction> reduction = reductionService.getReduction(id);
-        if(!reduction.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La reduction n'existe pas");
-        return new ResponseEntity<>(reduction, HttpStatus.OK);
+    public ResponseEntity<Reduction> getReduction(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(reductionService.getReduction(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -46,8 +44,6 @@ public class ReductionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteReduction(@PathVariable("id") Long id) {
-        Optional<Reduction> reduction = reductionService.getReduction(id);
-        if(!reduction.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La reduction n'existe pas");
-        return new ResponseEntity<>(reductionService.deleteReduction(reduction.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(reductionService.deleteReduction(id), HttpStatus.OK);
     }
 }

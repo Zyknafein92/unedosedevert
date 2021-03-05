@@ -2,17 +2,22 @@ package com.openclassroom.projet12.mapper;
 
 import com.openclassroom.projet12.dto.ReductionDTO;
 import com.openclassroom.projet12.model.Reduction;
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface ReductionMapper {
+@Component
+public class ReductionMapper {
 
-    Reduction reductionDTOtoReduction(ReductionDTO reductionDTO);
+    public static Reduction toReduction(ReductionDTO reductionDTO) {
+        return Reduction.builder()
+                .reduction(reductionDTO.getReduction())
+                .reductionStart(reductionDTO.getReductionStart())
+                .reductionEnd(reductionDTO.getReductionEnd())
+                .build();
+    }
 
-    ReductionDTO reductionToReductionDTO(Reduction reduc);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-    Reduction updateReductionFromReductionDTO(ReductionDTO reductionDTO, @MappingTarget Reduction reduction);
-
+    public static void update(ReductionDTO dto, Reduction entity) {
+        entity.setReduction(dto.getReduction());
+        entity.setReductionStart(dto.getReductionStart());
+        entity.setReductionEnd(dto.getReductionEnd());
+    }
 }

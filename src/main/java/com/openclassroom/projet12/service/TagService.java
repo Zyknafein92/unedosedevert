@@ -5,52 +5,44 @@ import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.TagMapper;
 import com.openclassroom.projet12.model.Tag;
 import com.openclassroom.projet12.respository.TagRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
+@AllArgsConstructor
 public class TagService {
 
-    @Autowired
-    private TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
-    @Autowired
-    private TagMapper tagMapper;
 
     public List<Tag> getTags() {
         return tagRepository.findAll();
     }
 
-    public Page<TagDTO> getTagPage(Pageable pageable) {
-        return tagRepository.findAll(pageable)
-                .map(tag -> tagMapper.tagToTagDTO(tag));
+    public List<Tag> getTagsByIds(List<Long> ids) {
+        return tagRepository.findAllById(ids);
     }
 
-    public Optional<Tag> getTag(Long id) {
-        return tagRepository.findById(id);
+    public Page<TagDTO> getTagPage(Pageable pageable) {
+        return tagRepository.findAll(pageable)
+                .map(TagMapper::toDTO);
+    }
+    public Tag getTag(Long id) {
+        return tagRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Le tag recherché n'a pas été trouvé"));
     }
 
     public Tag addTag(TagDTO tagDTO) {
-        return tagRepository.save(tagMapper.tagDTOtoTag(tagDTO));
+        return tagRepository.save(TagMapper.toTag(tagDTO));
     }
 
     public Tag updateTag(TagDTO tagDTO) {
-        Optional<Tag> tagOptional = getTag(tagDTO.getId());
-        Tag tag = null;
-
-        if (tagOptional.isPresent()) {
-            tag = Tag.builder()
-                    .id(tagOptional.get().getId())
-                    .name(tagOptional.get().getName())
-                    .build();
-        }
-        if (tag == null) throw new NotFoundException("Le tag recherché n'a pas été trouvé");
-        tagMapper.updateTagFromTagDTO(tagDTO, tag);
+        Tag tag = getTag(tagDTO.getId());
+        TagMapper.update(tagDTO, tag);
         return tagRepository.save(tag);
     }
 

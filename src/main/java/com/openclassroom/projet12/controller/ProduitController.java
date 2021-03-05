@@ -44,12 +44,10 @@ public class ProduitController {
         return produitService.getProduitPage(pageable);
     }
 
-    //todo : corriger les optionales comme ci-dessous
+
     @GetMapping("/{id}")
     public ResponseEntity<Produit> getProduit(@PathVariable("id") Long id) {
-        Optional<Produit> produit = produitService.getProduit(id);
-        if(!produit.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le produit n'existe pas");
-        return new ResponseEntity<>(produit.get(), HttpStatus.OK);
+        return new ResponseEntity<>(produitService.getProduit(id), HttpStatus.OK);
     }
 
 //    @GetMapping("/categories")
@@ -74,8 +72,6 @@ public class ProduitController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteProduit(@PathVariable("id") Long id) {
-        Optional<Produit> produit = produitService.getProduit(id);
-        if(!produit.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le produit n'existe pas");
-        return new ResponseEntity<>(produitService.deleteProduit(produit.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(produitService.deleteProduit(id), HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ import com.openclassroom.projet12.dto.AdresseDTO;
 import com.openclassroom.projet12.model.Adresse;
 import com.openclassroom.projet12.service.AdresseService;
 import com.openclassroom.projet12.service.AuthenticationService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,19 +17,16 @@ import java.util.Optional;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/user/address")
+@AllArgsConstructor
 public class AdresseController {
 
-    @Autowired
-    AdresseService adresseService;
+    private final AdresseService adresseService;
 
-    @Autowired
-    AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Adresse>> getAdresse(@PathVariable("id") Long id) {
-        Optional<Adresse> adresse = adresseService.getAdresse(id);
-        if(!adresse.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cette adresse n'existe pas");
-        return new ResponseEntity<>(adresse, HttpStatus.OK);
+    public ResponseEntity<Adresse> getAdresse(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(adresseService.getAdresse(id), HttpStatus.OK);
     }
 
     @PostMapping

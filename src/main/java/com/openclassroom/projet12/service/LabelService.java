@@ -6,6 +6,7 @@ import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.LabelMapper;
 import com.openclassroom.projet12.model.Label;
 import com.openclassroom.projet12.respository.LabelRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +16,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class LabelService {
 
-    @Autowired
-    private LabelRepository labelRepository;
-
-    @Autowired
-    private LabelMapper labelMapper;
+    private final LabelRepository labelRepository;
 
     public List<Label> getLabels() {
         return labelRepository.findAll();
@@ -29,35 +27,30 @@ public class LabelService {
 
     public Page<LabelDTO> getLabelPage(Pageable pageable) {
         return labelRepository.findAll(pageable)
-                .map(tagCat -> labelMapper.labelToLabelDTO(tagCat));
+                .map(LabelMapper::toDTO);
     }
 
-    public Optional<Label> getLabel(Long id) {
-        return labelRepository.findById(id);
+    public Label getLabel(Long id) {
+        return labelRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Le label n'existe pas"));
     }
 
     public Label addLabel(LabelDTO labelDTO) {
-        return labelRepository.save(labelMapper.labelDTOToLabel(labelDTO));
+        return labelRepository.save(LabelMapper.toLabel(labelDTO));
     }
 
     public Label updateLabel(LabelDTO labelDTO) {
-        Optional<Label> labelOptional = getLabel(labelDTO.getId());
-        Label label = null;
-
-        if (labelOptional.isPresent()) {
-            label = Label.builder()
-                    .id(labelOptional.get().getId())
-                    .name(labelOptional.get().getName())
-                    .urlPhoto(labelOptional.get().getUrlPhoto())
-                    .build();
-        }
-        if (label == null) throw new NotFoundException("La catégorie de tag n'existe pas");
-        labelMapper.updateLabelFromLabelDTO(labelDTO, label);
-        return labelRepository.save(label);
+      Label label = getLabel(labelDTO.getId());
+      LabelMapper.update(labelDTO, label);
+      return labelRepository.save(label);
     }
 
     public Long deleteLabel(Long id) {
         labelRepository.deleteById(id);
         return id;
+    }
+
+    public List<Label> getLabelsByIds(List<Long> ids) {
+        return labelRepository.findAllById(ids);
     }
 }

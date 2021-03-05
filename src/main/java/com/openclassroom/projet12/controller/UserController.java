@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.swing.text.html.parser.Entity;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -42,14 +41,12 @@ public class UserController {
         }
         User user = userService.findByEmail(userEmail);
         if(user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'utilisateur n'existe pas");
-        return new ResponseEntity<>( user, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> getUser(@PathVariable("id") Long id) {
-        Optional<User> user = userService.getUser(id);
-        if(!user.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'utilisateur n'existe pas");
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -67,8 +64,6 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteUser(@PathVariable("id") Long id) {
-        Optional<User> user = userService.getUser(id);
-        if(!user.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'utilisateur n'existe pas");
-        return new ResponseEntity<>(userService.deleteUser(user.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(userService.deleteUser(userService.deleteUser(id)), HttpStatus.OK);
     }
 }

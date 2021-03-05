@@ -10,6 +10,7 @@ import com.openclassroom.projet12.model.Panier;
 import com.openclassroom.projet12.model.PanierLigne;
 import com.openclassroom.projet12.respository.PanierLigneRepository;
 import com.openclassroom.projet12.respository.PanierRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,40 +19,26 @@ import java.util.Optional;
 
 
 @Service
+@AllArgsConstructor
 public class PanierService {
 
-    @Autowired
-    PanierRepository panierRepository;
+    private final PanierRepository panierRepository;
+    private final PanierLigneRepository panierLigneRepository;
 
-    @Autowired
-    PanierMapper panierMapper;
 
-    @Autowired
-    PanierLigneRepository panierLigneRepository;
-
-    @Autowired
-    PanierLigneMapper panierLigneMapper;
-
-    public Optional<Panier> getPanier(Long id) {
-        return panierRepository.findById(id);
+    public Panier getPanier(Long id) {
+        return panierRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Le panier n'existe pas !"));
     }
 
     public Panier addPanier(PanierDTO panierDTO) {
-        return panierRepository.save(panierMapper.panierDTOtoPanier(panierDTO));
+        return panierRepository.save(PanierMapper.toPanier(panierDTO));
     }
 
     public Panier updatePanier(PanierDTO panierDTO) {
-        Optional<Panier> panierOptional = getPanier(panierDTO.getId());
-        Panier panier = null;
-        if (panierOptional.isPresent()) {
-            panier = Panier.builder()
-                    .id(panierOptional.get().getId())
-                    .panierLigne(panierOptional.get().getPanierLigne())
-                    .prixTotal(panierOptional.get().getPrixTotal())
-                    .build();
-        }
-        if (panier == null) throw new NotFoundException("Le panier n'existe pas ou n'a pas été retrouvé");
-        panierMapper.updatePanierFromPanierDTO(panierDTO, panier);
+        Panier panier = getPanier(panierDTO.getId());
+        //todo: PanierLigne
+        PanierMapper.update(panierDTO,panier);
         return panier;
     }
 
@@ -64,27 +51,19 @@ public class PanierService {
         return panierLigneRepository.findAll();
     }
 
-    public Optional<PanierLigne> getPanierLigne(Long id) {
-        return panierLigneRepository.findById(id);
+    public PanierLigne getPanierLigne(Long id) {
+        return panierLigneRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("La ligne du panier n'existe pas !"));
     }
 
     public PanierLigne addPanierLigne(PanierLigneDTO panierLigneDTO) {
-        return panierLigneRepository.save(panierLigneMapper.panierLigneDTOtoPanierLigne(panierLigneDTO));
+        return panierLigneRepository.save(PanierLigneMapper.toPanierLigne(panierLigneDTO));
     }
 
     public PanierLigne updatePanierLigne(PanierLigneDTO panierLigneDTO) {
-        Optional<PanierLigne> panierLigneOptional = getPanierLigne(panierLigneDTO.getId());
-        PanierLigne panierLigne = null;
-        if (panierLigneOptional.isPresent()) {
-            panierLigne = PanierLigne.builder()
-                    .id(panierLigneOptional.get().getId())
-                    .produit(panierLigneOptional.get().getProduit())
-                    .quantity(panierLigneOptional.get().getQuantity())
-                    .prix(panierLigneOptional.get().getPrix())
-                    .build();
-        }
-        if (panierLigne == null) throw new NotFoundException("La ligne du panier n'existe pas ou n'a pas été retrouvé");
-        panierLigneMapper.updatePanierLigneFromPanierLigneDTO(panierLigneDTO, panierLigne);
+        PanierLigne panierLigne = getPanierLigne(panierLigneDTO.getId());
+        PanierLigneMapper.update(panierLigneDTO, panierLigne);
+        this.panierLigneRepository.save(panierLigne);
         return panierLigne;
     }
 

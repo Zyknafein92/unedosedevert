@@ -1,27 +1,26 @@
 package com.openclassroom.projet12.service;
 
-import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.dto.VariantDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.VariantMapper;
+import com.openclassroom.projet12.model.Produit;
 import com.openclassroom.projet12.model.Variant;
+import com.openclassroom.projet12.respository.ProduitRepository;
 import com.openclassroom.projet12.respository.VariantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
+
+
 
 @Service
+@AllArgsConstructor
 public class VariantService {
 
-    @Autowired
-    private VariantRepository variantRepository;
+    private final VariantRepository variantRepository;
 
-    @Autowired
-    private VariantMapper variantMapper;
+    private final ProduitRepository produitRepository;
+
 
     public List<Variant> getVariants() {
         return variantRepository.findAll();
@@ -31,32 +30,28 @@ public class VariantService {
         return variantRepository.findAllByProduitId(id);
     }
 
-    public Optional<Variant> getVariant(Long id) {
-        return variantRepository.findById(id);
+    public List<Variant> getVariantsByIds(List<Long> ids) {
+        return variantRepository.findAllById(ids);
     }
 
-    public Variant addVariant(VariantDTO variantDTO) {
-        return variantRepository.save(variantMapper.variantDTOtoVariant(variantDTO));
+    public Variant getVariant(Long id) {
+        return variantRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Le variant recherché n'a pas été trouvé"));
+    }
+
+    public Variant addVariant(Long produitID, VariantDTO variantDTO) {
+        Produit produit = this.produitRepository.getOne(produitID);
+        Variant newVariant = VariantMapper.toVariant(variantDTO);
+        produit.getVariants().add(newVariant);
+        produit = produitRepository.save(produit);
+
+        return produit.getVariants().get(produit.getVariants().size() - 1);
     }
 
     public Variant updateVariant(VariantDTO variantDTO) {
-        Optional<Variant> variantOptional = getVariant(variantDTO.getId());
-        Variant variant = null;
-
-        if (variantOptional.isPresent()) {
-            variant = Variant.builder()
-                    .id(variantOptional.get().getId())
-                    .produit(variantOptional.get().getProduit())
-                    .imageURLOnSelect(variantOptional.get().getImageURLOnSelect())
-                    .imageURLnonSelect(variantOptional.get().getImageURLnonSelect())
-                    .prix(variantOptional.get().getPrix())
-                    .prixKg(variantOptional.get().getPrixKg())
-                    .prixReduction(variantOptional.get().getPrixReduction())
-                    .stock(variantOptional.get().getStock())
-                    .build();
-        }
-        if (variant == null) throw new NotFoundException("Le variant recherché n'a pas été trouvé");
-        variantMapper.updateVariantFromVariantDTO(variantDTO, variant);
+        Variant variant = getVariant(variantDTO.getId());
+        //todo: reduction?
+        VariantMapper.update(variantDTO, variant);
         return variantRepository.save(variant);
     }
 

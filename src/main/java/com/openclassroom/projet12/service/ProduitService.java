@@ -1,15 +1,12 @@
 package com.openclassroom.projet12.service;
 
 
-import com.openclassroom.projet12.dto.ProduitDTO;
-import com.openclassroom.projet12.dto.SearchCriteria;
+import com.openclassroom.projet12.dto.*;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.ProduitMapper;
-import com.openclassroom.projet12.model.Categorie;
-import com.openclassroom.projet12.model.Produit;
-import com.openclassroom.projet12.model.Type;
-import com.openclassroom.projet12.respository.ProduitRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.openclassroom.projet12.model.*;
+import com.openclassroom.projet12.respository.*;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,22 +14,28 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class ProduitService {
-    
-    @Autowired
-    private ProduitRepository produitRepository;
+import static java.util.stream.Collectors.toList;
 
-    @Autowired
-    private ProduitMapper produitMapper;
-    
+@Service
+@AllArgsConstructor
+public class ProduitService {
+
+    private final ProduitRepository produitRepository;
+    private final TypeService typeService;
+    private final CategorieService categorieService;
+    private final SousCategorieService sousCategorieService;
+    private final ReductionService reductionService;
+    private final TagService tagService;
+    private final LabelService labelService;
+    private final VariantService variantService;
+
     public List<Produit> getProduits() {
         return produitRepository.findAll();
     }
 
     public Page<ProduitDTO> getProduitPage(Pageable pageable) {
         return produitRepository.findAll(pageable)
-                .map(prod -> produitMapper.produitToProduitDTO(prod));
+                .map(ProduitMapper::toDTO);
     }
 
     public List<Produit> findProduitsByCriteria(SearchCriteria searchCriteria) {
@@ -49,45 +52,55 @@ public class ProduitService {
         return produits;
     }
 
-    public Optional<Produit> getProduit(Long id) {
-        return produitRepository.findById(id);
+    public Produit getProduit(Long id) {
+        return produitRepository.findById(id).orElseThrow(() -> new NotFoundException("Le produit n'existe pas"));
     }
 
     public Produit addProduit(ProduitDTO produitDTO) {
 
-        return produitRepository.save(produitMapper.produitDTOtoProduit(produitDTO));
+        Type type = this.typeService.getType(produitDTO.getId());
+        Categorie categorie = this.categorieService.getCategorie(produitDTO.getCategorie().getId());
+        SousCategorie sousCategorie = this.sousCategorieService.getSousCategorie(produitDTO.getSousCategorie().getId());
+        Reduction reduction = this.reductionService.getReduction(produitDTO.getReduction().getId());
+        List<Tag> tags = this.tagService.getTagsByIds(produitDTO.getTags().stream().map(TagDTO::getId).collect(toList()));
+        List<Label> labels = this.labelService.getLabelsByIds(produitDTO.getLabels().stream().map(LabelDTO::getId).collect(toList()));
+        List<Variant> variants = this.variantService.getVariantsByIds(produitDTO.getVariants().stream().map(VariantDTO::getId).collect(toList()));
+
+        Produit produit = Produit.builder()
+                .type(type)
+                .categorie(categorie)
+                .sousCategorie(sousCategorie)
+                .reduction(reduction)
+                .tags(tags)
+                .labels(labels)
+                .variants(variants)
+                .build();
+
+        ProduitMapper.toProduit(produitDTO);
+        return produitRepository.save(produit);
     }
 
+
     public Produit updateProduit(ProduitDTO produitDTO) {
-        Optional<Produit> produitOptional = getProduit(produitDTO.getId());
-        Produit produit = null;
+        Produit produit = getProduit(produitDTO.getId());
 
-        if(produitOptional.isPresent()) {
-            produit = Produit.builder()
-                    .id(produitOptional.get().getId())
-                    .name(produitOptional.get().getName())
-                    .type(produitOptional.get().getType())
-                    .categorie(produitOptional.get().getCategorie())
-                    .sousCategorie(produitOptional.get().getSousCategorie())
-                    .tags(produitOptional.get().getTags())
-                    .labels(produitOptional.get().getLabels())
-                    .origine(produitOptional.get().getOrigine())
-                    .descriptionProduit(produitOptional.get().getDescriptionProduit())
-                    .commentaireProduit(produitOptional.get().getCommentaireProduit())
-                    .conseilUtilisation(produitOptional.get().getConseilUtilisation())
-                    .composition(produitOptional.get().getComposition())
-                    .pourquoi(produitOptional.get().getPourquoi())
-                    .producteur(produitOptional.get().getProducteur())
-                    .allergenes(produitOptional.get().getAllergenes())
-                    .infoNutrition(produitOptional.get().getInfoNutrition())
-                    .variant(produitOptional.get().getVariant())
-                    .reduction(produitOptional.get().getReduction())
-                    .urlPhoto(produitOptional.get().getUrlPhoto())
-                    .build();
-        }
+        Type type = this.typeService.getType(produitDTO.getId());
+        Categorie categorie = this.categorieService.getCategorie(produitDTO.getCategorie().getId());
+        SousCategorie sousCategorie = this.sousCategorieService.getSousCategorie(produitDTO.getSousCategorie().getId());
+        Reduction reduction = this.reductionService.getReduction(produitDTO.getReduction().getId());
+        List<Tag> tags = this.tagService.getTagsByIds(produitDTO.getTags().stream().map(TagDTO::getId).collect(toList()));
+        List<Label> labels = this.labelService.getLabelsByIds(produitDTO.getLabels().stream().map(LabelDTO::getId).collect(toList()));
+        List<Variant> variants = this.variantService.getVariantsByIds(produitDTO.getVariants().stream().map(VariantDTO::getId).collect(toList()));
 
-        if(produit == null) throw new NotFoundException("Le produit recherché n'a pas été trouvé");
-        produitMapper.updateProduitFromProduitDTO(produitDTO, produit);
+        produit.setType(type);
+        produit.setCategorie(categorie);
+        produit.setSousCategorie(sousCategorie);
+        produit.setReduction(reduction);
+        produit.setTags(tags);
+        produit.setLabels(labels);
+        produit.setVariants(variants);
+        ProduitMapper.update(produitDTO, produit);
+
         return produitRepository.save(produit);
     }
 

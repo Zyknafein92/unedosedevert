@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/variants")
+@RequestMapping("/api/produits/{produitID}/variants")
 @AllArgsConstructor
 public class VariantController {
 
@@ -29,7 +29,7 @@ public class VariantController {
         return new ResponseEntity<>(variants, HttpStatus.OK);
     }
 
-    @GetMapping("/produit/{produitID}")
+    @GetMapping()
     public ResponseEntity<List<Variant>> getVariantsByProductId(@PathVariable("produitID") Long id) {
         List<Variant> variantList = variantService.getVariantsByProductId(id);
         if(variantList.isEmpty())
@@ -38,17 +38,14 @@ public class VariantController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Variant>> getVariant(@PathVariable("id") Long id) {
-        Optional<Variant> variant = variantService.getVariant(id);
-        if(!variant.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le variant n'existe pas");
-        return new ResponseEntity<>(variant, HttpStatus.OK);
+    public ResponseEntity<Variant> getVariant(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(variantService.getVariant(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Variant> addVariant(@Valid @RequestBody VariantDTO variantDTO) {
-        Variant variantToCreate = variantService.addVariant(variantDTO);
+    public ResponseEntity<Variant> addVariant(@PathVariable("produitID") Long id, @Valid @RequestBody VariantDTO variantDTO) {
+        Variant variantToCreate = variantService.addVariant(id,variantDTO);
         return new ResponseEntity<>(variantToCreate,HttpStatus.CREATED);
-
     }
 
     @PutMapping
@@ -59,8 +56,6 @@ public class VariantController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteVariant(@PathVariable("id") Long id) {
-        Optional<Variant> variant = variantService.getVariant(id);
-        if(!variant.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le variant n'existe pas");
-        return new ResponseEntity<>(variantService.deleteVariant(variant.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(variantService.deleteVariant(id), HttpStatus.OK);
     }
 }

@@ -11,9 +11,6 @@ public class PanierLigneDTO {
 
     private long id;
 
-    @NotNull(message= "Erreur, le panier ne peut pas être null !")
-    private PanierDTO panier;
-
     @NotNull(message= "Erreur, le produit ne peut pas être null !")
     private ProduitDTO produit;
 

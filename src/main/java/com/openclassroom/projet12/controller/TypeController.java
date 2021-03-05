@@ -1,8 +1,6 @@
 package com.openclassroom.projet12.controller;
 
-import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.dto.TypeDTO;
-import com.openclassroom.projet12.model.Categorie;
 import com.openclassroom.projet12.model.Type;
 import com.openclassroom.projet12.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -32,11 +28,8 @@ public class TypeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Type>> getType(@PathVariable("id") Long id) {
-        Optional<Type> type = typeService.getType(id);
-        if (!type.isPresent())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ce type n'existe pas");
-        return new ResponseEntity<>(type, HttpStatus.OK);
+    public ResponseEntity<Type> getType(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(typeService.getType(id), HttpStatus.OK);
     }
 
     @GetMapping("/xxx")
@@ -58,9 +51,6 @@ public class TypeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteType(@PathVariable("id") Long id) {
-        Optional<Type> type = typeService.getType(id);
-        if (!type.isPresent())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ce type n'existe pas");
-        return new ResponseEntity<>(typeService.deleteType(type.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(typeService.deleteType(id), HttpStatus.OK);
     }
 }

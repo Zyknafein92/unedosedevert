@@ -36,17 +36,13 @@ public class TagController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Tag>> getTag(@PathVariable("id") Long id) {
-        Optional<Tag> tag = tagService.getTag(id);
-        if(!tag.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le tag n'existe pas");
-        return new ResponseEntity<>(tag, HttpStatus.OK);
+    public ResponseEntity<Tag> getTag(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(tagService.getTag(id), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Tag> addTag(@Valid @RequestBody TagDTO tagDTO) {
-        Tag tagToCreate = tagService.addTag(tagDTO);
-        return new ResponseEntity<>(tagToCreate,HttpStatus.CREATED);
-
+        return new ResponseEntity<>(tagService.addTag(tagDTO),HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -57,8 +53,6 @@ public class TagController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteTag(@PathVariable("id") Long id) {
-        Optional<Tag> tag = tagService.getTag(id);
-        if(!tag.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le tag n'existe pas");
-        return new ResponseEntity<>(tagService.deleteTag(tag.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(tagService.deleteTag(id), HttpStatus.OK);
     }
 }

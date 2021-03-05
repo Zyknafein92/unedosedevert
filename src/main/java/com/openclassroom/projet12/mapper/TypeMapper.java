@@ -1,20 +1,27 @@
 package com.openclassroom.projet12.mapper;
 
-
-import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.dto.TypeDTO;
 import com.openclassroom.projet12.model.Type;
-import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface TypeMapper {
+import static java.util.stream.Collectors.toList;
 
-    Type typeDTOtoType(TypeDTO typeDTO);
+public class TypeMapper {
 
-    TypeDTO typeToTypeDTO(Type type);
+    public static Type toType(TypeDTO typeDTO) {
+        return Type.builder()
+                .name(typeDTO.getName())
+                .build();
+    }
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-    Type updateTypeFromTypeDTO(TypeDTO typeDTO, @MappingTarget Type type);
+    public static TypeDTO toDTO(Type type) {
+        return TypeDTO.builder()
+                .id(type.getId())
+                .name(type.getName())
+                .categories(type.getCategories().stream().map(t -> CategorieMapper.toDTO(t)).collect(toList()))
+                .build();
+    }
 
+    public static void update(TypeDTO dto, Type entity) {
+        entity.setName(dto.getName());
+    }
 }

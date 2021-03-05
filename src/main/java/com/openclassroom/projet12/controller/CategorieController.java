@@ -49,11 +49,8 @@ public class CategorieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Categorie>> getCategorie(@PathVariable("id") Long id) {
-        Optional<Categorie> categorie = categorieService.getCategorie(id);
-        if (!categorie.isPresent())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cette categorie n'existe pas");
-        return new ResponseEntity<>(categorie, HttpStatus.OK);
+    public ResponseEntity<Categorie> getCategorie(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(categorieService.getCategorie(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -70,9 +67,6 @@ public class CategorieController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteCategorie(@PathVariable("id") Long id) {
-        Optional<Categorie> categorie = categorieService.getCategorie(id);
-        if (!categorie.isPresent())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cette categorie n'existe pas");
-        return new ResponseEntity<>(categorieService.deleteCategorie(categorie.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(categorieService.deleteCategorie(id), HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ package com.openclassroom.projet12.service;
 import com.openclassroom.projet12.model.User;
 import com.openclassroom.projet12.model.UserPrinciple;
 import com.openclassroom.projet12.respository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,10 +14,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
+@AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional

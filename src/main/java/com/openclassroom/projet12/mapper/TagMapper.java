@@ -2,16 +2,25 @@ package com.openclassroom.projet12.mapper;
 
 import com.openclassroom.projet12.dto.TagDTO;
 import com.openclassroom.projet12.model.Tag;
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface TagMapper {
+@Component
+public class TagMapper {
 
-    Tag tagDTOtoTag(TagDTO tagDTO);
+    public static Tag toTag(TagDTO tagDTO) {
+        return Tag.builder()
+                .name(tagDTO.getName())
+                .build();
+    }
 
-    TagDTO tagToTagDTO(Tag tag);
+    public static TagDTO toDTO(Tag tag) {
+        return TagDTO.builder()
+                .id(tag.getId())
+                .name(tag.getName())
+                .build();
+    }
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-    Tag updateTagFromTagDTO(TagDTO tagDTO, @MappingTarget Tag tag);
+    public static void update(TagDTO dto, Tag entity) {
+        entity.setName(dto.getName());
+    }
 }

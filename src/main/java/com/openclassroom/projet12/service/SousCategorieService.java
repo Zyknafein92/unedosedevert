@@ -4,54 +4,45 @@ import com.openclassroom.projet12.dto.SousCategorieDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.SousCategorieMapper;
 import com.openclassroom.projet12.model.SousCategorie;
-
 import com.openclassroom.projet12.respository.SousCategorieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
+@AllArgsConstructor
 public class SousCategorieService {
 
-    @Autowired
-    private SousCategorieRepository sousCategorieRepository;
+    private final SousCategorieRepository sousCategorieRepository;
 
-    @Autowired
-    private SousCategorieMapper sousCategorieMapper;
+    public SousCategorie getSousCategorie(Long id) {
+        return sousCategorieRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("La sous-catégorie du produit n'éxiste pas"));
+    }
 
     public List<SousCategorie> getSousCategories() {
         return sousCategorieRepository.findAll();
     }
 
-    public Page<SousCategorieDTO> getSousContegoriePage(Pageable pageable) {
-        return sousCategorieRepository.findAll(pageable)
-                .map(sousCat -> sousCategorieMapper.sousCategorieToSousCategorieDTO(sousCat));
+    public List<SousCategorie> getSousCategoriesByIds(List<Long> ids) {
+        return sousCategorieRepository.findAllById(ids);
     }
 
-    public Optional<SousCategorie> getSousCategorie(Long id) {
-        return sousCategorieRepository.findById(id);
+    public Page<SousCategorieDTO> getSousContegoriePage(Pageable pageable) {
+        return sousCategorieRepository.findAll(pageable)
+                .map(SousCategorieMapper::toDTO);
     }
 
     public SousCategorie addSousCategorie(SousCategorieDTO sousCategorieDTO) {
-        return sousCategorieRepository.save(sousCategorieMapper.sousCategorieDTOtoSousCategorie(sousCategorieDTO));
+        return sousCategorieRepository.save(SousCategorieMapper.toSousCategorie(sousCategorieDTO));
     }
 
     public SousCategorie updateSousCategorie(SousCategorieDTO sousCategorieDTO) {
-        Optional<SousCategorie> sousCategorieOptional = getSousCategorie(sousCategorieDTO.getId());
-        SousCategorie sousCategorie = null;
-
-        if (sousCategorieOptional.isPresent()) {
-            sousCategorie = SousCategorie.builder()
-                    .id(sousCategorieOptional.get().getId())
-                    .name(sousCategorieOptional.get().getName())
-                    .build();
-        }
-        if (sousCategorie == null) throw new NotFoundException("La sous-catégorie du produit n'existe pas");
-        sousCategorieMapper.updateSousCategorieFromSousCategorieDTO(sousCategorieDTO, sousCategorie);
+        SousCategorie sousCategorie = getSousCategorie(sousCategorieDTO.getId());
+        SousCategorieMapper.update(sousCategorieDTO, sousCategorie);
         return sousCategorieRepository.save(sousCategorie);
     }
 

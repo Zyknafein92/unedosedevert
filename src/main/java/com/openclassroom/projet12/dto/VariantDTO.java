@@ -5,14 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import javax.validation.constraints.NotNull;
 
-
 @Data
 @Builder
 public class VariantDTO {
 
     private Long id;
-
-    private ProduitDTO produit;
 
     private String imageURLOnSelect;
 

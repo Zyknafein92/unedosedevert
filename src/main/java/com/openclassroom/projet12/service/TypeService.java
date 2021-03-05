@@ -6,59 +6,53 @@ import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.TypeMapper;
 import com.openclassroom.projet12.model.Categorie;
 import com.openclassroom.projet12.model.Type;
-import com.openclassroom.projet12.respository.CategorieRepository;
 import com.openclassroom.projet12.respository.TypeRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
+@AllArgsConstructor
 public class TypeService {
 
-    @Autowired
-    private TypeRepository typeRepository;
-    @Autowired
-    private CategorieService categorieService;
-    @Autowired
-    private TypeMapper typeMapper;
+    private final TypeRepository typeRepository;
+    private final CategorieService categorieService;
 
     public List<Type> getTypes() {
         return typeRepository.findAll();
     }
 
-    public Optional<Type> getType(Long id) {
-        return typeRepository.findById(id);
+    public Type getType(Long id) {
+        return typeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Le type n'existe pas"));
     }
 
     public Page<TypeDTO> getTypePage(Pageable pageable) {
         return typeRepository.findAll(pageable)
-                .map(typ -> typeMapper.typeToTypeDTO(typ));
+                .map(TypeMapper::toDTO);
     }
 
     public Type addType(TypeDTO typeDTO) {
-        return typeRepository.save(typeMapper.typeDTOtoType(typeDTO));
+        List<Categorie> categories = categorieService.getCategoriesByIds(typeDTO.getCategories().stream().map(CategorieDTO::getId).collect(toList()));
+        Type type = TypeMapper.toType(typeDTO);
+        type.setCategories(categories);
+        return typeRepository.save(type);
     }
 
     public Type updateType(TypeDTO typeDTO) {
-        Optional<Type> typeOptional = getType(typeDTO.getId());
-        Type type = null;
-
-        if(typeOptional.isPresent()) {
-            type = Type.builder()
-                    .id(typeOptional.get().getId())
-                    .name(typeOptional.get().getName())
-                    .categories(typeOptional.get().getCategories())
-                    .build();
-        }
-        if(type == null) throw new NotFoundException("La type n'existe pas !");
-        typeRepository.save(typeMapper.updateTypeFromTypeDTO(typeDTO,type));
-        return type;
+        Type type = getType(typeDTO.getId());
+        List<Categorie> categories = categorieService.getCategoriesByIds(typeDTO.getCategories().stream().map(CategorieDTO::getId).collect(toList()));
+        type.setCategories(categories);
+        TypeMapper.update(typeDTO,type);
+        return typeRepository.save(type);
     }
 
     public Long deleteType(Long id) {

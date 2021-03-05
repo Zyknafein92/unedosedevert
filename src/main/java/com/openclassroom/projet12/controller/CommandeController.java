@@ -45,10 +45,8 @@ public class CommandeController {
 //    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Commande>> getCommande(@PathVariable("id") Long id) {
-        Optional<Commande> commande = commandeService.getCommande(id);
-        if(!commande.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le commande n'existe pas");
-        return new ResponseEntity<>(commande, HttpStatus.OK);
+    public ResponseEntity<Commande> getCommande(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(commandeService.getCommande(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -66,8 +64,6 @@ public class CommandeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteCommande(@PathVariable("id") Long id) {
-        Optional<Commande> commande = commandeService.getCommande(id);
-        if(!commande.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le commande n'existe pas");
-        return new ResponseEntity<>(commandeService.deleteCommande(commande.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(commandeService.deleteCommande(id), HttpStatus.OK);
     }
 }

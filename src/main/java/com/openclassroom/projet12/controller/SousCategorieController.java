@@ -35,10 +35,8 @@ public class SousCategorieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<SousCategorie>> getSousCategorie(@PathVariable("id") Long id) {
-        Optional<SousCategorie> sousCategorie = sousCategorieService.getSousCategorie(id);
-        if(!sousCategorie.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La sous-catégorie du produit n'existe pas");
-        return new ResponseEntity<>(sousCategorie, HttpStatus.OK);
+    public ResponseEntity<SousCategorie> getSousCategorie(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(sousCategorieService.getSousCategorie(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -56,8 +54,6 @@ public class SousCategorieController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteSousCategorie(@PathVariable("id") Long id) {
-        Optional<SousCategorie> sousCategorie = sousCategorieService.getSousCategorie(id);
-        if(!sousCategorie.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La sous-catégorie du produit n'existe pas");
-        return new ResponseEntity<>(sousCategorieService.deleteSousCategorie(sousCategorie.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(sousCategorieService.deleteSousCategorie(id), HttpStatus.OK);
     }
 }

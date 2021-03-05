@@ -1,17 +1,26 @@
 package com.openclassroom.projet12.mapper;
 
-
 import com.openclassroom.projet12.dto.PanierDTO;
 import com.openclassroom.projet12.model.Panier;
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface PanierMapper {
+import java.util.List;
 
-    Panier panierDTOtoPanier(PanierDTO panierDTO);
+@Component
+public class PanierMapper {
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-    Panier updatePanierFromPanierDTO(PanierDTO panierDTO, @MappingTarget Panier panier);
+    public static Panier toPanier(PanierDTO panierDTO) {
+        return Panier.builder()
+                .id(panierDTO.getId())
+                .prixTotal(panierDTO.getPrixTotal())
+                .build();
+    }
+
+    public static void update (PanierDTO panierDTO, Panier entity) {
+        entity.setPrixTotal(entity.getPrixTotal());
+    }
 }
+
+
+    //private List<PanierLigneDTO> panierLigne;
 

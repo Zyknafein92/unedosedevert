@@ -2,16 +2,23 @@ package com.openclassroom.projet12.mapper;
 
 import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.model.Categorie;
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface CategorieMapper {
+@Component
+public class CategorieMapper {
 
-    Categorie categorieDTOtoCategorie(CategorieDTO categorieDTO);
+    public static Categorie toCategorie(CategorieDTO categorieDTO) {
+        return Categorie.builder()
+                .name(categorieDTO.getName())
+                .build();
+    }
 
-    CategorieDTO categorieToCategorieDTO(Categorie categorie);
+    public static void update(CategorieDTO dto, Categorie entity) {
+        entity.setName(dto.getName());
+    }
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-    Categorie updateCategorieFromCategorieDTO(CategorieDTO categorieDTO, @MappingTarget Categorie categorie);
+    public static CategorieDTO toDTO(Categorie c) {
+        return CategorieDTO.builder()
+                .name(c.getName())
+                .build();  }
 }

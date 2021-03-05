@@ -11,8 +11,6 @@ import lombok.Data;
 public class LabelDTO {
 
     private Long id;
-
     private String name;
-
-    private String photoURL;
+    private String urlPhoto;
 }

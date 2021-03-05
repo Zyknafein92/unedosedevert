@@ -6,6 +6,7 @@ import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.CommandeMapper;
 import com.openclassroom.projet12.model.Commande;
 import com.openclassroom.projet12.respository.CommandeRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,21 +15,18 @@ import java.util.Optional;
 
 
 @Service
+@AllArgsConstructor
 public class CommandeService {
 
-    @Autowired
-    CommandeRepository commandeRepository;
-
-    @Autowired
-    CommandeMapper commandeMapper;
-
+    private final  CommandeRepository commandeRepository;
 
     public List<Commande> getCommandes() {
         return commandeRepository.findAll();
     }
 
-    public Optional<Commande> getCommande(Long id) {
-        return commandeRepository.findById(id);
+    public Commande getCommande(Long id) {
+        return commandeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("La commande n'existe pas !"));
     }
 
 //todo:
@@ -37,26 +35,13 @@ public class CommandeService {
 //    }
 
     public Commande addCommande(CommandeDTO commandeDTO) {
-        return commandeRepository.save(commandeMapper.commandeDTOtoCommande(commandeDTO));
+        return commandeRepository.save(CommandeMapper.toCommande(commandeDTO));
     }
 
     public Commande updateCommande(CommandeDTO commandeDTO) {
-        Optional<Commande> commandeOptional = getCommande(commandeDTO.getId());
-        Commande commande = null;
-
-        if(commandeOptional.isPresent()) {
-            commande = Commande.builder()
-                    .id(commandeOptional.get().getId())
-                    .date(commandeOptional.get().getDate())
-                    .total(commandeOptional.get().getTotal())
-                    .statusCommande(commandeOptional.get().getStatusCommande())
-                    .modeReglement(commandeOptional.get().getModeReglement())
-                    .livraison(commandeOptional.get().getLivraison())
-                    .build();
-        }
-        if(commande == null) throw new NotFoundException("La commande n'existe pas !");
-        commandeRepository.save(commandeMapper.updateCommandeFromCommandeDTO(commandeDTO,commande));
-        return commande;
+        Commande commande = getCommande(commandeDTO.getId());
+        CommandeMapper.update(commandeDTO, commande);
+        return commandeRepository.save(commande);
     }
 
     public Long deleteCommande(Long id) {

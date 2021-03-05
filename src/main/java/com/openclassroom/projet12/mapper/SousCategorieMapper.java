@@ -1,19 +1,26 @@
 package com.openclassroom.projet12.mapper;
 
-import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.dto.SousCategorieDTO;
-import com.openclassroom.projet12.model.Categorie;
 import com.openclassroom.projet12.model.SousCategorie;
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface SousCategorieMapper {
+@Component
+public class SousCategorieMapper {
 
-    SousCategorie sousCategorieDTOtoSousCategorie(SousCategorieDTO sousCategorieDTO);
+    public static SousCategorie toSousCategorie(SousCategorieDTO sousCategorieDTO) {
+        return SousCategorie.builder()
+                .name(sousCategorieDTO.getName())
+                .build();
+    }
 
-    SousCategorieDTO sousCategorieToSousCategorieDTO(SousCategorie sousCategorie);
+    public static SousCategorieDTO toDTO(SousCategorie sousCategorie) {
+        return SousCategorieDTO.builder()
+                .id(sousCategorie.getId())
+                .name(sousCategorie.getName())
+                .build();
+    }
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-    SousCategorie updateSousCategorieFromSousCategorieDTO(SousCategorieDTO sousCategorieDTO, @MappingTarget SousCategorie sousCategorie);
+    public static void update(SousCategorieDTO sousCategorieDTO, SousCategorie entity) {
+        entity.setName(sousCategorieDTO.getName());
+    }
 }

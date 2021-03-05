@@ -13,8 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
-@Getter
-@Setter
+@Builder
 public class ProduitDTO {
 
     private Long id;
@@ -60,7 +59,7 @@ public class ProduitDTO {
     @NotNull(message= "Veuillez renseigner les informations nutritions du produit !")
     private String infoNutrition;
 
-    private List<VariantDTO> variant;
+    private List<VariantDTO> variants;
 
     private ReductionDTO reduction;
 

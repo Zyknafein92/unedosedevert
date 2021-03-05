@@ -10,11 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -26,10 +23,8 @@ public class PanierController {
 
     //todo: récupérer directement par l'utilisateur et pas de recherche par id.
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Panier>> getPanier(@PathVariable("id") Long id) {
-        Optional<Panier> panier = panierService.getPanier(id);
-        if(!panier.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le panier n'existe pas");
-        return new ResponseEntity<>(panier, HttpStatus.OK);
+    public ResponseEntity<Panier> getPanier(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(panierService.getPanier(id), HttpStatus.OK);
 
         /** Algro simple
          * Trouver la personne connecté (client connecté) ??? Il faut implémenter userservice detail (spring sécurité) // userservice.getAuthenticatedUsername() => get client by username
@@ -53,9 +48,7 @@ public class PanierController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deletePanier(@PathVariable("id") Long id) {
-        Optional<Panier> panier = panierService.getPanier(id);
-        if(!panier.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Le panier n'existe pas");
-        return new ResponseEntity<>(panierService.deletePanier(panier.get().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(panierService.deletePanier(id), HttpStatus.OK);
     }
 
     /*

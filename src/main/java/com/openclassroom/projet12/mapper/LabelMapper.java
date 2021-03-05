@@ -2,18 +2,30 @@ package com.openclassroom.projet12.mapper;
 
 import com.openclassroom.projet12.dto.LabelDTO;
 import com.openclassroom.projet12.model.Label;
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface LabelMapper {
+@Component
+public class LabelMapper {
 
-    Label labelDTOToLabel(LabelDTO labelDTO);
+    public static Label toLabel(LabelDTO labelDTO) {
+        return Label.builder()
+                .name(labelDTO.getName())
+                .urlPhoto(labelDTO.getUrlPhoto())
+                .build();
+    }
 
-    LabelDTO labelToLabelDTO(Label label);
+    public static LabelDTO toDTO(Label label) {
+        return LabelDTO.builder()
+                .id(label.getId())
+                .name(label.getName())
+                .urlPhoto(label.getUrlPhoto())
+                .build();
+    }
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-    Label updateLabelFromLabelDTO(LabelDTO tagCategorieDTO, @MappingTarget Label label);
+    public static void update(LabelDTO dto, Label entity) {
+        entity.setName(dto.getName());
+        entity.setUrlPhoto(dto.getUrlPhoto());
+    }
 
 
 }
