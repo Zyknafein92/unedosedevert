@@ -19,6 +19,7 @@ public class CategorieMapper {
 
     public static CategorieDTO toDTO(Categorie c) {
         return CategorieDTO.builder()
+                .id(c.getId())
                 .name(c.getName())
                 .build();  }
 }

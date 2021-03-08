@@ -57,33 +57,20 @@ public class ProduitService {
     }
 
     public Produit addProduit(ProduitDTO produitDTO) {
-
-        Type type = this.typeService.getType(produitDTO.getId());
-        Categorie categorie = this.categorieService.getCategorie(produitDTO.getCategorie().getId());
-        SousCategorie sousCategorie = this.sousCategorieService.getSousCategorie(produitDTO.getSousCategorie().getId());
-        Reduction reduction = this.reductionService.getReduction(produitDTO.getReduction().getId());
-        List<Tag> tags = this.tagService.getTagsByIds(produitDTO.getTags().stream().map(TagDTO::getId).collect(toList()));
-        List<Label> labels = this.labelService.getLabelsByIds(produitDTO.getLabels().stream().map(LabelDTO::getId).collect(toList()));
-        List<Variant> variants = this.variantService.getVariantsByIds(produitDTO.getVariants().stream().map(VariantDTO::getId).collect(toList()));
-
-        Produit produit = Produit.builder()
-                .type(type)
-                .categorie(categorie)
-                .sousCategorie(sousCategorie)
-                .reduction(reduction)
-                .tags(tags)
-                .labels(labels)
-                .variants(variants)
-                .build();
-
-        ProduitMapper.toProduit(produitDTO);
+        Produit produit = ProduitMapper.toProduit(produitDTO);
+        populateProduit(produit, produitDTO);
         return produitRepository.save(produit);
     }
 
 
     public Produit updateProduit(ProduitDTO produitDTO) {
         Produit produit = getProduit(produitDTO.getId());
+        populateProduit(produit, produitDTO);
+        ProduitMapper.update(produitDTO, produit);
+        return produitRepository.save(produit);
+    }
 
+    private Produit populateProduit(Produit produit, ProduitDTO produitDTO) {
         Type type = this.typeService.getType(produitDTO.getId());
         Categorie categorie = this.categorieService.getCategorie(produitDTO.getCategorie().getId());
         SousCategorie sousCategorie = this.sousCategorieService.getSousCategorie(produitDTO.getSousCategorie().getId());
@@ -99,13 +86,15 @@ public class ProduitService {
         produit.setTags(tags);
         produit.setLabels(labels);
         produit.setVariants(variants);
-        ProduitMapper.update(produitDTO, produit);
-
-        return produitRepository.save(produit);
+        return produit;
     }
 
     public Long deleteProduit(Long id) {
         produitRepository.deleteById(id);
         return id;
+    }
+
+    public Produit saveProduit(Produit produit) {
+        return this.produitRepository.save(produit);
     }
 }

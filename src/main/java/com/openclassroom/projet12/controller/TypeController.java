@@ -3,6 +3,7 @@ package com.openclassroom.projet12.controller;
 import com.openclassroom.projet12.dto.TypeDTO;
 import com.openclassroom.projet12.model.Type;
 import com.openclassroom.projet12.service.TypeService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,11 +16,11 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/types")
+@RequestMapping("/api/produits/types") //todo: retirer produit
+@AllArgsConstructor
 public class TypeController {
 
-    @Autowired
-    TypeService typeService;
+    private final TypeService typeService;
 
     @GetMapping
     public ResponseEntity<List<Type>> getTypes() {

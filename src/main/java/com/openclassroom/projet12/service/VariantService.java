@@ -18,8 +18,7 @@ import java.util.List;
 public class VariantService {
 
     private final VariantRepository variantRepository;
-
-    private final ProduitRepository produitRepository;
+    private final ProduitService produitService;
 
 
     public List<Variant> getVariants() {
@@ -40,10 +39,10 @@ public class VariantService {
     }
 
     public Variant addVariant(Long produitID, VariantDTO variantDTO) {
-        Produit produit = this.produitRepository.getOne(produitID);
+        Produit produit = this.produitService.getProduit(produitID);
         Variant newVariant = VariantMapper.toVariant(variantDTO);
         produit.getVariants().add(newVariant);
-        produit = produitRepository.save(produit);
+        produit = this.produitService.saveProduit(produit);
 
         return produit.getVariants().get(produit.getVariants().size() - 1);
     }

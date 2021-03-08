@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/sousCategorie")
+@RequestMapping("/api/produits/sousCategorie") // todo: /api/categorie/{categorieID}/sousCategorie
 @AllArgsConstructor
 public class SousCategorieController {
 

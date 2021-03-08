@@ -32,8 +32,6 @@ public class VariantController {
     @GetMapping()
     public ResponseEntity<List<Variant>> getVariantsByProductId(@PathVariable("produitID") Long id) {
         List<Variant> variantList = variantService.getVariantsByProductId(id);
-        if(variantList.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Aucun variant n'est disponible pour ce produit");
         return new ResponseEntity<>(variantList, HttpStatus.OK);
     }
 

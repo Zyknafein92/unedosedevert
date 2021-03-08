@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/tag")
+@RequestMapping("/api/produits/tag") //todo : retirer tag et ajouter un s
 @AllArgsConstructor
 public class TagController {
 

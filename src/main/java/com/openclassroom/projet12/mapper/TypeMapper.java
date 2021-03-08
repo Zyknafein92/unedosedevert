@@ -17,7 +17,7 @@ public class TypeMapper {
         return TypeDTO.builder()
                 .id(type.getId())
                 .name(type.getName())
-                .categories(type.getCategories().stream().map(t -> CategorieMapper.toDTO(t)).collect(toList()))
+                .categories(type.getCategories().stream().map(CategorieMapper::toDTO).collect(toList()))
                 .build();
     }
 

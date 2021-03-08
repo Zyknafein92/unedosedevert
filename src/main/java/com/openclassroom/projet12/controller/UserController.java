@@ -6,6 +6,7 @@ import com.openclassroom.projet12.dto.UserDTO;
 import com.openclassroom.projet12.model.User;
 import com.openclassroom.projet12.service.AuthenticationService;
 import com.openclassroom.projet12.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +20,11 @@ import java.util.Optional;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/user")
+@AllArgsConstructor
 public class UserController {
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    AuthenticationService authenticationService;
+   private final UserService userService;
+   private final AuthenticationService authenticationService;
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
@@ -33,13 +32,13 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/myprofil/{userEmail}")
-    public ResponseEntity<User> getMyProfil(@PathVariable("userEmail") String userEmail){
+    @GetMapping("/myprofil")
+    public ResponseEntity<User> getMyProfil(){
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        if(currentUsername == null || !userEmail.equals(currentUsername)) {
+        if(currentUsername == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        User user = userService.findByEmail(userEmail);
+        User user = userService.findByEmail(currentUsername);
         if(user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'utilisateur n'existe pas");
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
