@@ -31,9 +31,3 @@ public class UserMapper {
 }
 
 
-// todo : voir si besoin
-//    private List<AdresseDTO> adresses;
-//    private PanierDTO panier;
-//    private List<CommandeDTO> commandesCommandes;
-//    private Set<Role> roles;
-

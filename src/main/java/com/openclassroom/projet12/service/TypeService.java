@@ -8,14 +8,11 @@ import com.openclassroom.projet12.model.Categorie;
 import com.openclassroom.projet12.model.Type;
 import com.openclassroom.projet12.respository.TypeRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 import static java.util.stream.Collectors.toList;
 

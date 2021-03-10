@@ -19,22 +19,24 @@ public class Variant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    private String name;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     private Produit produit;
 
     private String imageURLOnSelect;
 
     private String imageURLnonSelect;
 
-    @NotNull(message= "Veuillez renseigner un prix pour le produit !")
+    @NotNull(message= "Veuillez renseigner un prix pour le variant!")
     private Double prix;
 
-    @NotNull(message= "Veuillez renseigner un prix au kg pour le produit !")
+    @NotNull(message= "Veuillez renseigner un prix au kg pour le variant!")
     private Double prixKg;
 
     private Double prixReduction;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message= "Veuillez renseigner la disponibilitée du produit !")
+    @NotNull(message= "Veuillez renseigner la disponibilitée du variant!")
     private Stock stock;
 }

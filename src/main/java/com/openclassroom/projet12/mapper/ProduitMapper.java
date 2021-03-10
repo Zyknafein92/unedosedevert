@@ -2,6 +2,7 @@ package com.openclassroom.projet12.mapper;
 
 import com.openclassroom.projet12.dto.*;
 import com.openclassroom.projet12.model.Produit;
+import com.openclassroom.projet12.model.Variant;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,6 +29,43 @@ public class ProduitMapper {
         return ProduitDTO.builder()
                 .id(produit.getId())
                 .name(produit.getName())
+                .type(TypeDTO.builder().name(produit.getType().getName()).build())
+                .categorie(CategorieDTO.builder().name(produit.getCategorie().getName()).build())
+                .origine(produit.getOrigine())
+                .descriptionProduit(produit.getDescriptionProduit())
+                .commentaireProduit(produit.getCommentaireProduit())
+                .conseilUtilisation(produit.getConseilUtilisation())
+                .composition(produit.getComposition())
+                .pourquoi(produit.getPourquoi())
+                .producteur(produit.getProducteur())
+                .allergenes(produit.getAllergenes())
+                .infoNutrition(produit.getInfoNutrition())
+                .urlPhoto(produit.getUrlPhoto())
+                .build();
+    }
+
+    public static ProduitDTO toCompleteDTO(Produit produit) {
+        TypeDTO type = TypeDTO.builder()
+                .id(produit.getType().getId())
+                .name(produit.getType().getName())
+                .build();
+
+        CategorieDTO categorieDTO = CategorieDTO.builder()
+                .id(produit.getCategorie().getId())
+                .name(produit.getCategorie().getName())
+                .build();
+
+        SousCategorieDTO sousCategorieDTO = SousCategorieDTO.builder()
+                .id(produit.getSousCategorie().getId())
+                .name(produit.getSousCategorie().getName())
+                .build();
+
+        return ProduitDTO.builder()
+                .id(produit.getId())
+                .name(produit.getName())
+                .type(type)
+                .categorie(categorieDTO)
+                .sousCategorie(sousCategorieDTO)
                 .origine(produit.getOrigine())
                 .descriptionProduit(produit.getDescriptionProduit())
                 .commentaireProduit(produit.getCommentaireProduit())

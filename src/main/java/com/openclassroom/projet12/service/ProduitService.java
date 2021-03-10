@@ -10,9 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -27,7 +25,7 @@ public class ProduitService {
     private final ReductionService reductionService;
     private final TagService tagService;
     private final LabelService labelService;
-    private final VariantService variantService;
+
 
     public List<Produit> getProduits() {
         return produitRepository.findAll();
@@ -55,13 +53,15 @@ public class ProduitService {
     public Produit getProduit(Long id) {
         return produitRepository.findById(id).orElseThrow(() -> new NotFoundException("Le produit n'existe pas"));
     }
+    public ProduitDTO getProduitDTO(Long id) {
+        return ProduitMapper.toCompleteDTO(produitRepository.findById(id).orElseThrow(() -> new NotFoundException("Le produit n'existe pas")));
+    }
 
     public Produit addProduit(ProduitDTO produitDTO) {
         Produit produit = ProduitMapper.toProduit(produitDTO);
         populateProduit(produit, produitDTO);
         return produitRepository.save(produit);
     }
-
 
     public Produit updateProduit(ProduitDTO produitDTO) {
         Produit produit = getProduit(produitDTO.getId());
@@ -71,21 +71,30 @@ public class ProduitService {
     }
 
     private Produit populateProduit(Produit produit, ProduitDTO produitDTO) {
-        Type type = this.typeService.getType(produitDTO.getId());
-        Categorie categorie = this.categorieService.getCategorie(produitDTO.getCategorie().getId());
-        SousCategorie sousCategorie = this.sousCategorieService.getSousCategorie(produitDTO.getSousCategorie().getId());
-        Reduction reduction = this.reductionService.getReduction(produitDTO.getReduction().getId());
-        List<Tag> tags = this.tagService.getTagsByIds(produitDTO.getTags().stream().map(TagDTO::getId).collect(toList()));
-        List<Label> labels = this.labelService.getLabelsByIds(produitDTO.getLabels().stream().map(LabelDTO::getId).collect(toList()));
-        List<Variant> variants = this.variantService.getVariantsByIds(produitDTO.getVariants().stream().map(VariantDTO::getId).collect(toList()));
-
-        produit.setType(type);
-        produit.setCategorie(categorie);
-        produit.setSousCategorie(sousCategorie);
-        produit.setReduction(reduction);
-        produit.setTags(tags);
-        produit.setLabels(labels);
-        produit.setVariants(variants);
+        if( produitDTO.getType() != null) {
+            Type type = this.typeService.getType(produitDTO.getType().getId());
+            produit.setType(type);
+        }
+        if( produitDTO.getCategorie() != null) {
+            Categorie categorie = this.categorieService.getCategorie(produitDTO.getCategorie().getId());
+            produit.setCategorie(categorie);
+        }
+        if( produitDTO.getSousCategorie() != null) {
+            SousCategorie sousCategorie = this.sousCategorieService.getSousCategorie(produitDTO.getSousCategorie().getId());
+            produit.setSousCategorie(sousCategorie);
+        }
+        if( produitDTO.getReduction() != null) {
+            Reduction reduction = this.reductionService.getReduction(produitDTO.getReduction().getId());
+            produit.setReduction(reduction);
+        }
+        if( produitDTO.getTags() != null) {
+            List<Tag> tags = this.tagService.getTagsByIds(produitDTO.getTags().stream().map(TagDTO::getId).collect(toList()));
+            produit.setTags(tags);
+        }
+        if( produitDTO.getLabels() != null) {
+            List<Label> labels = this.labelService.getLabelsByIds(produitDTO.getLabels().stream().map(LabelDTO::getId).collect(toList()));
+            produit.setLabels(labels);
+        }
         return produit;
     }
 

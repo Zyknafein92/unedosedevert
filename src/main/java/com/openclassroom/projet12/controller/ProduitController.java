@@ -44,18 +44,10 @@ public class ProduitController {
         return produitService.getProduitPage(pageable);
     }
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<Produit> getProduit(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(produitService.getProduit(id), HttpStatus.OK);
+    public ResponseEntity<ProduitDTO> getProduit(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(produitService.getProduitDTO(id), HttpStatus.OK);
     }
-
-//    @GetMapping("/categories")
-//    public ResponseEntity<List<Categorie>> getCategories() {
-//       //List<String> categories = Stream.of(Categorie.values()).map(Categorie::getDescription).collect(Collectors.toList());
-//       return new ResponseEntity<>(Arrays.asList(Categorie.values()), HttpStatus.OK);
-//        //return new ResponseEntity<>(categories, HttpStatus.OK);
-//    }
 
     @PostMapping
     public ResponseEntity<Produit> addProduit(@Valid @RequestBody ProduitDTO produitDTO) {

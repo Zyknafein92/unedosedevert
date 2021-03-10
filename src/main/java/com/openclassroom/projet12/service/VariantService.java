@@ -2,15 +2,16 @@ package com.openclassroom.projet12.service;
 
 import com.openclassroom.projet12.dto.VariantDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
+import com.openclassroom.projet12.mapper.ProduitMapper;
 import com.openclassroom.projet12.mapper.VariantMapper;
 import com.openclassroom.projet12.model.Produit;
 import com.openclassroom.projet12.model.Variant;
-import com.openclassroom.projet12.respository.ProduitRepository;
 import com.openclassroom.projet12.respository.VariantRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
 
 
 @Service
@@ -25,12 +26,13 @@ public class VariantService {
         return variantRepository.findAll();
     }
 
-    public List<Variant> getVariantsByProductId(Long id) {
-        return variantRepository.findAllByProduitId(id);
+    public List<VariantDTO> getVariantsByProductId(Long id) {
+        return variantRepository.findAllByProduitId(id).stream().map(VariantMapper::toDTO).collect(toList());
     }
 
-    public List<Variant> getVariantsByIds(List<Long> ids) {
-        return variantRepository.findAllById(ids);
+    public VariantDTO getVariantDTO(Long id) {
+        return VariantMapper.toDTO(variantRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Le variant recherché n'a pas été trouvé")));
     }
 
     public Variant getVariant(Long id) {
@@ -41,10 +43,9 @@ public class VariantService {
     public Variant addVariant(Long produitID, VariantDTO variantDTO) {
         Produit produit = this.produitService.getProduit(produitID);
         Variant newVariant = VariantMapper.toVariant(variantDTO);
-        produit.getVariants().add(newVariant);
-        produit = this.produitService.saveProduit(produit);
-
-        return produit.getVariants().get(produit.getVariants().size() - 1);
+        newVariant.setProduit(produit);
+        this.variantRepository.save(newVariant);
+        return newVariant;
     }
 
     public Variant updateVariant(VariantDTO variantDTO) {

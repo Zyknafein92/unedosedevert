@@ -30,14 +30,13 @@ public class VariantController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Variant>> getVariantsByProductId(@PathVariable("produitID") Long id) {
-        List<Variant> variantList = variantService.getVariantsByProductId(id);
-        return new ResponseEntity<>(variantList, HttpStatus.OK);
+    public ResponseEntity<List<VariantDTO>> getVariantsByProductId(@PathVariable("produitID") Long id) {
+        return new ResponseEntity<>(variantService.getVariantsByProductId(id), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Variant> getVariant(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(variantService.getVariant(id), HttpStatus.OK);
+    public ResponseEntity<VariantDTO> getVariant(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(variantService.getVariantDTO(id), HttpStatus.OK);
     }
 
     @PostMapping

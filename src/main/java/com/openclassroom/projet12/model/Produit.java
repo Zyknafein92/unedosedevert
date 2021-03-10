@@ -26,18 +26,15 @@ public class Produit {
     @NotNull(message= "Veuillez renseigner un nom pour le produit !")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @NotNull(message= "Veuillez renseigner un type pour le produit !")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Type type;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @NotNull(message= "Veuillez renseigner une categorie pour le produit !")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Categorie categorie;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private SousCategorie sousCategorie;
 
     @ManyToMany(fetch = FetchType.LAZY)
