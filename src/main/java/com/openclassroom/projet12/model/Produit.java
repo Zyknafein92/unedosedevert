@@ -69,7 +69,7 @@ public class Produit {
     @NotNull(message= "Veuillez renseigner les informations nutritions du produit !")
     private String infoNutrition;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "produit", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "produit", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Variant> variants;
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)

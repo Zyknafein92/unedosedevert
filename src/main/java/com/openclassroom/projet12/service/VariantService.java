@@ -44,13 +44,13 @@ public class VariantService {
         Produit produit = this.produitService.getProduit(produitID);
         Variant newVariant = VariantMapper.toVariant(variantDTO);
         newVariant.setProduit(produit);
-        this.variantRepository.save(newVariant);
-        return newVariant;
+        produit.getVariants().add(newVariant);
+        produit = this.produitService.saveProduit(produit);
+        return produit.getVariants().get(produit.getVariants().size() - 1);
     }
 
     public Variant updateVariant(VariantDTO variantDTO) {
         Variant variant = getVariant(variantDTO.getId());
-        //todo: reduction?
         VariantMapper.update(variantDTO, variant);
         return variantRepository.save(variant);
     }
