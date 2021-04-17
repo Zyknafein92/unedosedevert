@@ -77,3 +77,8 @@ testem.log
 Thumbs.db
 
 front/src/services/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
