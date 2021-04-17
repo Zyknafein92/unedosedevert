@@ -21,7 +21,7 @@ public class Variant {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Produit produit;
 
     private String imageURLOnSelect;

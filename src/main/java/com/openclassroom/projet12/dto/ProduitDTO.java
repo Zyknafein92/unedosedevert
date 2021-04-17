@@ -1,15 +1,9 @@
 package com.openclassroom.projet12.dto;
-import com.openclassroom.projet12.model.*;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -34,35 +28,49 @@ public class ProduitDTO {
     private List<LabelDTO> labels;
 
     @NotNull(message= "Veuillez renseigner une origine pour le produit !")
+    @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
     private String origine;
 
     @NotNull(message= "Veuillez renseigner une description pour le produit !")
+    @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
     private String descriptionProduit;
 
+    @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
     private String commentaireProduit;
 
     @NotNull(message= "Veuillez renseigner les conseils d'utilisations pour le produit !")
+    @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
     private String conseilUtilisation;
 
     @NotNull(message= "Veuillez renseigner la composition du produit !")
+    @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
     private String composition;
 
     @NotNull(message= "Veuillez renseigner le pourquoi ? du produit !")
+    @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
     private String pourquoi;
 
-    @NotNull(message= "Veuillez renseigner les informations sur le producteur !")
+    @NotNull(message= "Veuillez renseigner le nom du producteur !")
+    @Size(max = 100, message = "Le texte ne peut pas dépasser les 100 charactères..")
     private String producteur;
 
+    @NotNull(message= "Veuillez renseigner les informations sur le producteur !")
+    @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
+    private String commentaireProducteur;
+
     @NotNull(message= "Veuillez renseigner la valeur et les allergènes du produit !")
+    @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
     private String allergenes;
 
     @NotNull(message= "Veuillez renseigner les informations nutritions du produit !")
+    @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
     private String infoNutrition;
 
     private List<VariantDTO> variants;
 
     private ReductionDTO reduction;
 
-    private String urlPhoto;
+    private String urlPetitePhoto;
 
+    private String urlGrandePhoto;
 }

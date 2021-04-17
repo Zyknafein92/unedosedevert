@@ -20,4 +20,7 @@ public class Tag {
 
     @NotNull(message = "Veuillez renseigner un nom pour le tag !")
     private String name;
+
+    @NotNull(message = "Veuillez renseigner une description pour le tag !")
+    private String description;
 }

@@ -23,6 +23,7 @@ public class LabelController {
 
     private final LabelService labelService;
 
+    @GetMapping
     public ResponseEntity<List<Label>> getLabelCategories() {
         return new ResponseEntity<>(labelService.getLabels(), HttpStatus.OK);
     }

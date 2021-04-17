@@ -18,11 +18,16 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/reductions")
+@RequestMapping("/api/produits/{produitID}/reduction")
 @AllArgsConstructor
 public class ReductionController {
 
     private final ReductionService reductionService;
+
+    @GetMapping()
+    public ResponseEntity<ReductionDTO> getReductionByProductId(@PathVariable("produitID") Long id) {
+        return new ResponseEntity<>(reductionService.findReductionByProduitId(id), HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Reduction> getReduction(@PathVariable("id") Long id) {
@@ -43,7 +48,8 @@ public class ReductionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> deleteReduction(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(reductionService.deleteReduction(id), HttpStatus.OK);
+    public ResponseEntity<Void> deleteReduction(@PathVariable("id") Long id) {
+        reductionService.deleteReduction(id);
+        return new ResponseEntity<Void> (HttpStatus.OK);
     }
 }

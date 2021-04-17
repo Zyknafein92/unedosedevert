@@ -19,7 +19,10 @@ public class Reduction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer reduction;
+    @OneToOne(cascade = CascadeType.DETACH)
+    private Produit produit;
+
+    private Double pourcentageRemise;
 
     private LocalDate reductionStart;
 

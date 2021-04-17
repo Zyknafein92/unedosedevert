@@ -61,6 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/localhost:5432/epicerie").permitAll();
+        http.authorizeRequests().antMatchers("/**").permitAll();
+        http.authorizeRequests().antMatchers("/accueil/**").permitAll();
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers("/api/login", "/api/user", "/api/**").permitAll()

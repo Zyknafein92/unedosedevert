@@ -27,15 +27,14 @@ public class ProduitController {
     private ProduitService produitService;
 
     @GetMapping
-    public ResponseEntity<List<Produit>> getProduits() {
-        List<Produit> produits = produitService.getProduits();
+    public ResponseEntity<List<ProduitDTO>> getProduits() {
+        List<ProduitDTO> produits = produitService.getProduits();
         return new ResponseEntity<>(produits, HttpStatus.OK);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<Produit>> search(SearchCriteria searchCriteria) {
-        List<Produit> produits = produitService.findProduitsByCriteria(searchCriteria);
-        return new ResponseEntity<>(produits, HttpStatus.OK);
+    @PostMapping("/search")
+    public ResponseEntity<List<ProduitDTO>> findProduitsByCriteria(@RequestBody(required = false) SearchCriteria searchCriteria) {
+        return new ResponseEntity<>(produitService.findProduitsBySpecification(searchCriteria), HttpStatus.OK);
     }
 
 
@@ -48,6 +47,7 @@ public class ProduitController {
     public ResponseEntity<ProduitDTO> getProduit(@PathVariable("id") Long id) {
         return new ResponseEntity<>(produitService.getProduitDTO(id), HttpStatus.OK);
     }
+
 
     @PostMapping
     public ResponseEntity<Produit> addProduit(@Valid @RequestBody ProduitDTO produitDTO) {

@@ -12,8 +12,11 @@ import java.time.LocalDate;
 public class ReductionDTO {
 
     private Long id;
+
+    private Long produitID;
+
     @NotNull(message= "La valeur de la réduction doit être définie")
-    private Integer reduction;
+    private Double pourcentageRemise;
     @NotNull(message= "La date de début de la réduction doit être définie")
     private LocalDate reductionStart;
     @NotNull(message= "La date de fin de la réduction doit être définie")

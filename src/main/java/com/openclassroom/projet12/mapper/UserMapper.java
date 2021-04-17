@@ -9,6 +9,7 @@ public class UserMapper {
 
     public static User toUser(UserDTO userDTO) {
         return User.builder()
+                .genre(userDTO.getGenre())
                 .nom(userDTO.getNom())
                 .prenom(userDTO.getPrenom())
                 .anniversaire(userDTO.getAnniversaire())
@@ -20,6 +21,7 @@ public class UserMapper {
     }
 
     public static void update(UserDTO dto, User entity) {
+        entity.setGenre(dto.getGenre());
         entity.setNom(dto.getNom());
         entity.setPrenom(dto.getPrenom());
         entity.setAnniversaire(dto.getAnniversaire());

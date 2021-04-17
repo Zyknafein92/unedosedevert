@@ -1,9 +1,13 @@
 package com.openclassroom.projet12.mapper;
 
 import com.openclassroom.projet12.dto.*;
+import com.openclassroom.projet12.model.Label;
 import com.openclassroom.projet12.model.Produit;
-import com.openclassroom.projet12.model.Variant;
+import com.openclassroom.projet12.model.Tag;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ProduitMapper {
@@ -19,9 +23,11 @@ public class ProduitMapper {
                 .composition(produitDTO.getComposition())
                 .pourquoi(produitDTO.getPourquoi())
                 .producteur(produitDTO.getProducteur())
+                .commentaireProducteur(produitDTO.getCommentaireProducteur())
                 .allergenes(produitDTO.getAllergenes())
                 .infoNutrition(produitDTO.getInfoNutrition())
-                .urlPhoto(produitDTO.getUrlPhoto())
+                .urlPetitePhoto(produitDTO.getUrlPetitePhoto())
+                .urlGrandePhoto(produitDTO.getUrlGrandePhoto())
                 .build();
     }
 
@@ -38,9 +44,11 @@ public class ProduitMapper {
                 .composition(produit.getComposition())
                 .pourquoi(produit.getPourquoi())
                 .producteur(produit.getProducteur())
+                .commentaireProducteur(produit.getCommentaireProducteur())
                 .allergenes(produit.getAllergenes())
                 .infoNutrition(produit.getInfoNutrition())
-                .urlPhoto(produit.getUrlPhoto())
+                .urlPetitePhoto(produit.getUrlPetitePhoto())
+                .urlGrandePhoto(produit.getUrlGrandePhoto())
                 .build();
     }
 
@@ -60,6 +68,12 @@ public class ProduitMapper {
                 .name(produit.getSousCategorie().getName())
                 .build();
 
+        List<TagDTO> tagDTOList = produit.getTags().stream().map(TagMapper::toDTO).collect(Collectors.toList());
+
+        List<LabelDTO> labelDTOList = produit.getLabels().stream().map(LabelMapper::toDTO).collect(Collectors.toList());
+
+        List<VariantDTO> variantDTOList = produit.getVariants().stream().map(VariantMapper::toDTO).collect(Collectors.toList());
+
         return ProduitDTO.builder()
                 .id(produit.getId())
                 .name(produit.getName())
@@ -73,9 +87,14 @@ public class ProduitMapper {
                 .composition(produit.getComposition())
                 .pourquoi(produit.getPourquoi())
                 .producteur(produit.getProducteur())
+                .commentaireProducteur(produit.getCommentaireProducteur())
                 .allergenes(produit.getAllergenes())
                 .infoNutrition(produit.getInfoNutrition())
-                .urlPhoto(produit.getUrlPhoto())
+                .urlPetitePhoto(produit.getUrlPetitePhoto())
+                .urlGrandePhoto(produit.getUrlGrandePhoto())
+                .variants(variantDTOList)
+                .tags(tagDTOList)
+                .labels(labelDTOList)
                 .build();
     }
 
@@ -88,9 +107,11 @@ public class ProduitMapper {
         entity.setComposition(dto.getComposition());
         entity.setPourquoi(dto.getPourquoi());
         entity.setProducteur(dto.getProducteur());
+        entity.setCommentaireProducteur(dto.getCommentaireProducteur());
         entity.setAllergenes(dto.getAllergenes());
         entity.setInfoNutrition(dto.getInfoNutrition());
-        entity.setUrlPhoto(dto.getUrlPhoto());
+        entity.setUrlPetitePhoto(dto.getUrlPetitePhoto());
+        entity.setUrlGrandePhoto(dto.getUrlGrandePhoto());
     }
 }
 

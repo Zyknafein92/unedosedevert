@@ -6,11 +6,14 @@ import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.ProduitMapper;
 import com.openclassroom.projet12.model.*;
 import com.openclassroom.projet12.respository.*;
+import com.openclassroom.projet12.service.specifications.ProduitSpecifications;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
 
@@ -25,10 +28,10 @@ public class ProduitService {
     private final ReductionService reductionService;
     private final TagService tagService;
     private final LabelService labelService;
+    private final ProduitSpecifications specification;
 
-
-    public List<Produit> getProduits() {
-        return produitRepository.findAll();
+    public List<ProduitDTO> getProduits() {
+        return produitRepository.findAll().stream().map(ProduitMapper::toDTO).collect(toList());
     }
 
     public Page<ProduitDTO> getProduitPage(Pageable pageable) {
@@ -36,18 +39,17 @@ public class ProduitService {
                 .map(ProduitMapper::toDTO);
     }
 
-    public List<Produit> findProduitsByCriteria(SearchCriteria searchCriteria) {
-        List<Produit> produits = null;
-        Type type = searchCriteria.getType();
-        Categorie categorie = searchCriteria.getCategorie();
-        if(type != null && categorie != null) {
-            produits = produitRepository.findAllByCategorieAndType(searchCriteria.getCategorie(), searchCriteria.getType());
-        } else if(categorie != null) {
-            produits = produitRepository.findAllByCategorie(searchCriteria.getCategorie());
-        } else if(type != null) {
-            produits = produitRepository.findAllByType(searchCriteria.getType());
+    public List<ProduitDTO> findProduitsBySpecification(SearchCriteria searchCriteria) {
+        if(searchCriteria == null) {
+            return produitRepository.findAll().stream().map(ProduitMapper::toCompleteDTO).collect(toList());
         }
-        return produits;
+        Specification<Produit> categorieSpecification = specification.tagSpecification(searchCriteria.getCategorie());
+        Specification<Produit> sousCategorieSpecification = specification.sousCategorieSpecification(searchCriteria.getSousCategorie());
+        Specification<Produit> tagSpecification = specification.tagSpecification(searchCriteria.getTag());
+        Specification<Produit> querySpecification = specification.querySpecification(searchCriteria.getQuery());
+        Specification<Produit> totalSpecification = Objects.requireNonNull(categorieSpecification.and(sousCategorieSpecification)).and(tagSpecification).and(querySpecification);
+        List<Produit> produitList = produitRepository.findAll(totalSpecification);
+        return produitList.stream().map(ProduitMapper::toCompleteDTO).collect(toList());
     }
 
     public Produit getProduit(Long id) {

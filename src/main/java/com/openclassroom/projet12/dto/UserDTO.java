@@ -21,6 +21,9 @@ public class UserDTO {
 
     private Set<Role> roles;
 
+    @NotNull(message= "Veuillez renseigner votre sexe !")
+    private String genre;
+
     @NotNull(message= "Veuillez renseigner votre nom !")
     private String nom;
 

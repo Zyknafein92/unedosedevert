@@ -10,6 +10,7 @@ public class TagMapper {
     public static Tag toTag(TagDTO tagDTO) {
         return Tag.builder()
                 .name(tagDTO.getName())
+                .description(tagDTO.getDescription())
                 .build();
     }
 
@@ -17,6 +18,7 @@ public class TagMapper {
         return TagDTO.builder()
                 .id(tag.getId())
                 .name(tag.getName())
+                .description(tag.getDescription())
                 .build();
     }
 
