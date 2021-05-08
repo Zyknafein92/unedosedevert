@@ -33,9 +33,6 @@ public class UserDTO {
     @NotNull(message= "Veuillez renseigner une date de naissance !")
     private LocalDate anniversaire;
 
-    @NotNull(message= "Veuillez renseigner un numéro de téléphone !")
-    private String telephone;
-
     @NotNull(message= "Veuillez renseigner un email !")
     private String email;
 
@@ -43,4 +40,6 @@ public class UserDTO {
     private String password;
 
     private Boolean active;
+
+    private Boolean newsletter;
 }

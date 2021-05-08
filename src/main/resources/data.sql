@@ -2,13 +2,15 @@ INSERT INTO public.t_roles (name) VALUES ('ROLE_ADMIN');
 INSERT INTO public.t_roles (name) VALUES ('ROLE_USER');
 
 
-INSERT INTO public.t_user (id, active, anniversaire, email, genre, nom, password, prenom, telephone, panier_id) VALUES (1, null, '2022-07-02', 'admin@gmail.com', 'Monsieur', 'testN', '$2a$10$3ZgfaLwo0Wl5f74MZ7IGtuzjUV8/v3NgbUDx0VaXZBWPVR9.8ZZ6y', 'testP', '0000000000', null);
+INSERT INTO public.t_user (id, active, anniversaire, email, genre, newsletter, nom, password, prenom, panier_id) VALUES (1, null, '2022-07-02', 'admin@gmail.com', 'Monsieur', null, 'testN', '$2a$10$3ZgfaLwo0Wl5f74MZ7IGtuzjUV8/v3NgbUDx0VaXZBWPVR9.8ZZ6y', 'testP', null);
 SELECT setval('t_user_id_seq', 2, true);
+
 
 INSERT INTO public.user_roles (user_id, role_id) VALUES (1, 1);
 
 
 
+-- INSERT INTO public.t_type (id, name) VALUES (t_type_id_seq.nextval(), 'Epicerie fine');
 INSERT INTO public.t_type (id, name) VALUES (1, 'Epicerie fine');
 INSERT INTO public.t_type (id, name) VALUES (2, 'Prêt à cuisiner');
 INSERT INTO public.t_type (id, name) VALUES (3, 'vrac alimentaire');

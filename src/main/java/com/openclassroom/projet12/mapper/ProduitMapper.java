@@ -53,7 +53,7 @@ public class ProduitMapper {
     }
 
     public static ProduitDTO toCompleteDTO(Produit produit) {
-        TypeDTO type = TypeDTO.builder()
+        TypeDTO typeDTO = TypeDTO.builder()
                 .id(produit.getType().getId())
                 .name(produit.getType().getName())
                 .build();
@@ -77,7 +77,7 @@ public class ProduitMapper {
         return ProduitDTO.builder()
                 .id(produit.getId())
                 .name(produit.getName())
-                .type(type)
+                .type(typeDTO)
                 .categorie(categorieDTO)
                 .sousCategorie(sousCategorieDTO)
                 .origine(produit.getOrigine())

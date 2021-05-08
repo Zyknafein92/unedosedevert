@@ -3,6 +3,9 @@ package com.openclassroom.projet12.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -11,8 +14,30 @@ public class AdresseDTO {
 
     private Long id;
 
+    @NotNull(message= "Veuillez définir le genre")
+    private String genre;
+
     @NotNull(message= "Veuillez définir un nom pour votre adresse ! (ex: Travail, Domicile)")
+    private String nomAdresse;
+
+    @NotNull(message= "Veuillez définir votre nom !")
     private String nom;
+
+    @NotNull(message= "Veuillez définir votre prénom !")
+    private String prenom;
+
+    @NotNull(message= "Veuillez définir un numéro de téléphone")
+    private String phone;
+
+    private String digicode;
+
+    @NotNull(message= "Veuillez renseigner le nom ou le numéro de votre interphone !")
+    private String interphone;
+
+    @NotNull(message= "Veuillez renseigner votre étage !")
+    private Integer etage;
+
+    private String batiment;
 
     @NotNull(message= "Veuillez renseigner le numéro de voie !")
     private Integer numero;
@@ -26,16 +51,9 @@ public class AdresseDTO {
     @NotNull(message= "Veuillez renseigner le nom de votre ville !")
     private String ville;
 
-    private String batiment;
+    private String information;
 
-    private String digicode;
+    private Boolean livraison;
 
-    @NotNull(message= "Veuillez renseigner le nom ou le numéro de votre interphone !")
-    private String interphone;
-
-    @NotNull(message= "Veuillez renseigner votre étage !")
-    private Integer etage;
-
-    @NotNull(message= "Veuillez renseigner votre porte sur le palier !")
-    private String porte;
+    private Boolean facturation;
 }

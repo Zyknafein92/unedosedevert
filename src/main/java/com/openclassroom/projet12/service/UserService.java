@@ -40,8 +40,9 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("L'utilisateur recherché n'a pas été trouvé"));
     }
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);}
+    public UserDTO findByEmail(String email) {
+        return UserMapper.toUserDTO(userRepository.findByEmail(email));
+    }
 
     public User addUser(UserDTO userDTO) {
         User userFind = userRepository.findByEmail(userDTO.getEmail());
@@ -55,6 +56,7 @@ public class UserService {
             }
             User user = UserMapper.toUser(userDTO);
             user.setPassword(encoder.encode(user.getPassword()));
+            user.setNewsletter(false);
             return userRepository.save(user);
         } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cet email est déjà utilisé");
     }
@@ -69,5 +71,9 @@ public class UserService {
     public Long deleteUser(Long id) {
         userRepository.deleteById(id);
         return id;
+    }
+
+    public void save(User user) {
+        this.userRepository.save(user);
     }
 }

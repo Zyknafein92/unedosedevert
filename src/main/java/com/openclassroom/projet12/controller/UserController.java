@@ -33,14 +33,14 @@ public class UserController {
     }
 
     @GetMapping("/myprofil")
-    public ResponseEntity<User> getMyProfil(){
+    public ResponseEntity<UserDTO> getMyProfil() {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
         if(currentUsername == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        User user = userService.findByEmail(currentUsername);
-        if(user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'utilisateur n'existe pas");
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        UserDTO userDTO = userService.findByEmail(currentUsername);
+        if(userDTO == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'utilisateur n'existe pas");
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

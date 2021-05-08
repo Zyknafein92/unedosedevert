@@ -1,6 +1,7 @@
 package com.openclassroom.projet12.controller;
 
 import com.openclassroom.projet12.dto.AdresseDTO;
+import com.openclassroom.projet12.dto.UserDTO;
 import com.openclassroom.projet12.model.Adresse;
 import com.openclassroom.projet12.service.AdresseService;
 import com.openclassroom.projet12.service.AuthenticationService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController

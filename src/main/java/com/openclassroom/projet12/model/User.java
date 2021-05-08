@@ -23,7 +23,7 @@ public class  User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Adresse> adresses;
 
     @OneToOne
@@ -50,9 +50,6 @@ public class  User {
     @NotNull(message= "Veuillez renseigner une date de naissance !")
     private LocalDate anniversaire;
 
-    @NotNull(message= "Veuillez renseigner un numéro de téléphone !")
-    private String telephone;
-
     @NotNull(message= "Veuillez renseigner un email !")
     @Column(unique = true)
     private String email;
@@ -62,5 +59,7 @@ public class  User {
 
     // pour pouvoir désactiver un compte si besoin
     private Boolean active;
+
+    private Boolean newsletter;
 
 }
