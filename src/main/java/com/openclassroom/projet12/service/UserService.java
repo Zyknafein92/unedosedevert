@@ -63,8 +63,8 @@ public class UserService {
 
     public User updateUser(UserDTO userDTO) {
         User user = getUser(userDTO.getId());
-        UserMapper.update(userDTO,user);
         userDTO.setPassword(encoder.encode(userDTO.getPassword()));
+        UserMapper.update(userDTO,user);
         return userRepository.save(user);
     }
 

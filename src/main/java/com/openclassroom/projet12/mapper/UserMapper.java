@@ -51,8 +51,8 @@ public class UserMapper {
         entity.setPrenom(dto.getPrenom());
         entity.setAnniversaire(dto.getAnniversaire());
         entity.setEmail(dto.getEmail());
-        entity.setPassword(entity.getPassword());
-        entity.setActive(entity.getActive());
+        entity.setPassword(dto.getPassword());
+        entity.setActive(dto.getActive());
         entity.setNewsletter(dto.getNewsletter());
     }
 }

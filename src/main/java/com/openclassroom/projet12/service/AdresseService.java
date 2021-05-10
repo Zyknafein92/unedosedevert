@@ -32,27 +32,32 @@ public class AdresseService {
     }
 
     public Adresse addAdresse(AdresseDTO adresseDTO, String username) {
-        boolean gotDelivryAdress = false;
-        UserDTO user = userService.findByEmail(username);
-        if (user != null) {
-            for (AdresseDTO adresse: user.getAdresses())
-                if (adresseDTO.getLivraison()) {
-                    gotDelivryAdress = true;
-                    break;
-                }
-            if(!gotDelivryAdress) adresseDTO.setLivraison(true);
+
+        UserDTO userDTO = userService.findByEmail(username);
+
+        if (userDTO != null) {
+            if (!checkDelivryStatus(userDTO)) adresseDTO.setLivraison(true);
+            if (!checkBillingStatus(userDTO)) adresseDTO.setFacturation(true);
+
             Adresse adresse = AdresseMapper.toAdresse(adresseDTO);
-            user.getAdresses().add(adresseDTO);
-            User userEntity = UserMapper.toUser(user);
+            userDTO.getAdresses().add(adresseDTO);
+            User userEntity = UserMapper.toUser(userDTO);
             userService.save(userEntity);
             return adresse;
+
         } else throw new RuntimeException("Une erreure s'est produite lors de la création de l'adresse");
     }
 
     public Adresse updateAdresse(AdresseDTO adresseDTO, String username) {
-        UserDTO user = userService.findByEmail(username);
+        UserDTO userDTO = userService.findByEmail(username);
         Adresse adresse = getAdresse(adresseDTO.getId());
-        if(user != null && adresse != null) {
+        if(userDTO != null && adresse != null) {
+            if (adresse.getLivraison() && checkDelivryStatus(userDTO)) {
+                updateUserAdresseDeliveryStatus(userDTO,adresse);
+            }
+            if(adresse.getFacturation() && checkBillingStatus(userDTO)) {
+                updateUserAdresseBillingStatus(userDTO, adresse);
+            }
             AdresseMapper.update(adresseDTO, adresse);
             return adresseRepository.save(adresse);
         }
@@ -69,4 +74,49 @@ public class AdresseService {
         } else throw new NotFoundException("L'adresse n'existe pas");
         return id;
     }
+
+    private boolean checkDelivryStatus(UserDTO userDTO) {
+        boolean status = false;
+        for (AdresseDTO adresse: userDTO.getAdresses()) {
+            if(adresse.getLivraison()) {
+                status = true;
+                break;
+            } else {
+                return false;
+            }
+        }
+        return status;
+    }
+
+    private boolean checkBillingStatus(UserDTO userDTO) {
+        boolean status = false;
+        for (AdresseDTO adresse: userDTO.getAdresses()) {
+            if(adresse.getFacturation()) {
+                status = true;
+                break;
+            } else {
+                return false;
+            }
+        }
+        return status;
+    }
+
+    private void updateUserAdresseBillingStatus(UserDTO userDTO, Adresse adresse) {
+        for (AdresseDTO adresseDTO: userDTO.getAdresses()) {
+            if (!adresseDTO.getId().equals(adresse.getId()) && adresseDTO.getFacturation()) {
+                adresseDTO.setFacturation(false);
+                adresseRepository.save(AdresseMapper.toAdresse(adresseDTO));
+            }
+        }
+    }
+
+    private void updateUserAdresseDeliveryStatus(UserDTO userDTO, Adresse adresse) {
+        for (AdresseDTO adresseDTO: userDTO.getAdresses()) {
+            if (!adresseDTO.getId().equals(adresse.getId()) && adresseDTO.getLivraison()) {
+                adresseDTO.setFacturation(false);
+                adresseRepository.save(AdresseMapper.toAdresse(adresseDTO));
+            }
+        }
+    }
+
 }
