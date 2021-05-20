@@ -1,9 +1,6 @@
 package com.openclassroom.projet12.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,6 +16,8 @@ import java.util.List;
 @Builder
 @Table(name = "t_produit")
 public class Produit {
+
+    //todo: Rajouter petite description (100 carac), retirer les éléments notnull non nécessaire, photos ? (supprimer une des deux photos ? Redimensionable ?)
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

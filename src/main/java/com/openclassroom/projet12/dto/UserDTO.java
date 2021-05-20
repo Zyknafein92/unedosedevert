@@ -15,7 +15,7 @@ public class UserDTO {
 
     private List<AdresseDTO> adresses;
 
-    private PanierDTO panier;
+    private PanierDTO panierDTO;
 
     private List<CommandeDTO> commandesCommandes;
 

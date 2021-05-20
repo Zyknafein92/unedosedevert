@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -37,7 +38,7 @@ public class AdresseService {
 
         if (userDTO != null) {
             if (!checkDelivryStatus(userDTO)) adresseDTO.setLivraison(true);
-            if (!checkBillingStatus(userDTO)) adresseDTO.setFacturation(true);
+          //  if (!checkBillingStatus(userDTO)) adresseDTO.setFacturation(true);
 
             Adresse adresse = AdresseMapper.toAdresse(adresseDTO);
             userDTO.getAdresses().add(adresseDTO);
@@ -76,29 +77,11 @@ public class AdresseService {
     }
 
     private boolean checkDelivryStatus(UserDTO userDTO) {
-        boolean status = false;
-        for (AdresseDTO adresse: userDTO.getAdresses()) {
-            if(adresse.getLivraison()) {
-                status = true;
-                break;
-            } else {
-                return false;
-            }
-        }
-        return status;
+       return userDTO.getAdresses().stream().anyMatch(AdresseDTO::getLivraison);
     }
 
     private boolean checkBillingStatus(UserDTO userDTO) {
-        boolean status = false;
-        for (AdresseDTO adresse: userDTO.getAdresses()) {
-            if(adresse.getFacturation()) {
-                status = true;
-                break;
-            } else {
-                return false;
-            }
-        }
-        return status;
+        return userDTO.getAdresses().stream().anyMatch(AdresseDTO::getLivraison);
     }
 
     private void updateUserAdresseBillingStatus(UserDTO userDTO, Adresse adresse) {
@@ -108,6 +91,10 @@ public class AdresseService {
                 adresseRepository.save(AdresseMapper.toAdresse(adresseDTO));
             }
         }
+
+//        userDTO.getAdresses().stream()
+//                .filter( adresseDTO -> !adresseDTO.getId().equals(adresse.getId()) && adresseDTO.getFacturation())
+//                .forEach(adresseDTO -> { adresseDTO.setFacturation(false); adresseRepository.save(AdresseMapper.toAdresse(adresseDTO));});
     }
 
     private void updateUserAdresseDeliveryStatus(UserDTO userDTO, Adresse adresse) {

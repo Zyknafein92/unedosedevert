@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -19,7 +20,7 @@ import java.util.Date;
 @Table(name = "t_commande")
 public class Commande {
 
-    //todo: Ajouter List<Produit> avec une table CommandeLigne
+    //todo: Ajouter List<Variant> Juste une copie avec infos importantes. Vérifier les paniers des utilisateurs et supprimer les éléments.
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +29,9 @@ public class Commande {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message="L'utilisateur ne peut pas être null")
     private User user;
+
+    @OneToMany
+    private List<Variant> variantList;
 
     @NotNull(message= "La date ne peut être null")
     private LocalDateTime date;

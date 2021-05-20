@@ -15,12 +15,12 @@ import javax.validation.constraints.NotNull;
 public class PanierLigne {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produit_id")
-    @NotNull(message= "Erreur, le produit ne peut pas être null !")
-    private Produit produit;
+    @JoinColumn(name = "variant_id")
+    @NotNull(message= "Erreur, le variant du produit ne peut pas être null !")
+    private Variant variant;
 
     @NotNull(message= "Veuillez renseigner la quantité du produit !")
     private Integer quantity;

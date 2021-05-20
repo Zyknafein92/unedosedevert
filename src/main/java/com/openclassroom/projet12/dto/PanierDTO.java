@@ -1,8 +1,6 @@
 package com.openclassroom.projet12.dto;
 
 
-
-import com.openclassroom.projet12.model.PanierLigne;
 import lombok.Builder;
 import lombok.Data;
 import java.util.List;
@@ -14,7 +12,7 @@ public class  PanierDTO {
 
     private Long id;
 
-    private List<PanierLigneDTO> panierLigne;
+    private List<PanierLigneDTO> panierLigneDTOList;
 
     private Double prixTotal;
 

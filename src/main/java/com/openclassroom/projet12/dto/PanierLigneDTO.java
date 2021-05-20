@@ -9,10 +9,10 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class PanierLigneDTO {
 
-    private long id;
+    private Long id;
 
     @NotNull(message= "Erreur, le produit ne peut pas être null !")
-    private ProduitDTO produit;
+    private VariantDTO variantDTO;
 
     @NotNull(message= "Veuillez renseigner la quantité du produit !")
     private Integer quantity;

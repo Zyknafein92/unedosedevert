@@ -5,44 +5,44 @@ import com.openclassroom.projet12.dto.PanierDTO;
 import com.openclassroom.projet12.dto.PanierLigneDTO;
 import com.openclassroom.projet12.model.Panier;
 import com.openclassroom.projet12.model.PanierLigne;
+import com.openclassroom.projet12.service.AuthenticationService;
 import com.openclassroom.projet12.service.PanierService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/utilisateur/panier")
+@RequestMapping("/api/user/panier")
+@AllArgsConstructor
 public class PanierController {
 
-    @Autowired
-    PanierService panierService;
+    private final PanierService panierService;
 
-    //todo: récupérer directement par l'utilisateur et pas de recherche par id.
+    private final AuthenticationService authenticationService;
+
     @GetMapping("/{id}")
-    public ResponseEntity<Panier> getPanier(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(panierService.getPanier(id), HttpStatus.OK);
-
-        /** Algro simple
-         * Trouver la personne connecté (client connecté) ??? Il faut implémenter userservice detail (spring sécurité) // userservice.getAuthenticatedUsername() => get client by username
-         * à partir de personne trouvé: client.getPanier()
-         * retouner le panier.
-         * */
+    public ResponseEntity<PanierDTO> getPanier() {
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        return new ResponseEntity<>(panierService.getPanier(currentUsername), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Panier> addPanier(@Valid @RequestBody PanierDTO panierDTO) {
-        Panier panierToCreate = panierService.addPanier(panierDTO);
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        Panier panierToCreate = panierService.addPanier(panierDTO, currentUsername);
         return new ResponseEntity<>(panierToCreate,HttpStatus.CREATED);
-
     }
 
     @PutMapping
     public ResponseEntity<Panier> updatePanier(@Valid @RequestBody PanierDTO panierDTO) {
-        Panier panier = panierService.updatePanier(panierDTO);
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        Panier panier = panierService.updatePanier(panierDTO, currentUsername);
         return new ResponseEntity<>(panier, HttpStatus.OK);
     }
 
@@ -63,9 +63,8 @@ public class PanierController {
 //    }
 //
 //    @GetMapping("/{idPanier}")
-//    public ResponseEntity<Optional<PanierLigne>> getPanierLigne(@PathVariable("idPanier") Long idPanier) {
-//        Optional<PanierLigne> panierLigne = panierService.getPanierLigne(idPanier);
-//        if(!panierLigne.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La ligne du panier n'existe pas");
+//    public ResponseEntity<PanierLigne> getPanierLigne(@PathVariable("idPanier") Long idPanier) {
+//        PanierLigne panierLigne = panierService.getPanierLigne(idPanier);
 //        return new ResponseEntity<>(panierLigne, HttpStatus.OK);
 //    }
 //
@@ -82,10 +81,9 @@ public class PanierController {
 //        return new ResponseEntity<>(panierLigne, HttpStatus.OK);
 //    }
 //
-//    @DeleteMapping("/{idPanier}")
+//    @DeleteMapping("/{idPanier}/{id}")
 //    public ResponseEntity<Long> deletePanierLigne(@PathVariable("idPanier") Long idPanier) {
-//        Optional<PanierLigne> panierLigne = panierService.getPanierLigne(idPanier);
-//        if(!panierLigne.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La ligne du panier n'existe pas");
-//        return new ResponseEntity<>(panierService.deletePanierLigne(panierLigne.get().getId()), HttpStatus.OK);
+//        PanierLigne panierLigne = panierService.getPanierLigne(idPanier);
+//        return new ResponseEntity<>(panierService.deletePanierLigne(panierLigne.getId()), HttpStatus.OK);
 //    }
 }
