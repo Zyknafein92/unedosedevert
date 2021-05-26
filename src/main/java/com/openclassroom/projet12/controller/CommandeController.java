@@ -50,8 +50,9 @@ public class CommandeController {
     }
 
     @PostMapping
-    public ResponseEntity<Commande> addCommande(@Valid @RequestBody CommandeDTO commandeDTO) {
-        Commande commandeToCreate = commandeService.addCommande(commandeDTO);
+    public ResponseEntity<Commande> validerCommande(@Valid @RequestBody CommandeDTO commandeDTO) {
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        Commande commandeToCreate = commandeService.validerCommande(commandeDTO, currentUsername);
         return new ResponseEntity<>(commandeToCreate,HttpStatus.CREATED);
 
     }

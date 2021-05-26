@@ -52,10 +52,6 @@ public class PanierService {
         return panier;
     }
 
-    public Long deletePanier(Long id) {
-        panierRepository.deleteById(id);
-        return id;
-    }
 
     // PanierLigne //
 
@@ -90,7 +86,10 @@ public class PanierService {
         else throw new RuntimeException("Une erreure s'est produite lors de la modification de la ligne du panier");
     }
 
-    public Long deletePanierLigne(Long id) {
+    public Long deletePanierLigne(String currentUsername, Long id) {
+        UserDTO userDTO = userService.findByEmail(currentUsername);
+        userDTO.getPanierDTO().getPanierLigneDTOList().remove(id);
+        userService.save(UserMapper.toUser(userDTO));
         panierLigneRepository.deleteById(id);
         return id;
     }

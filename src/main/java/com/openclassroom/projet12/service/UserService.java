@@ -5,10 +5,7 @@ import com.openclassroom.projet12.dto.UserDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.UserMapper;
 import com.openclassroom.projet12.mapper.VariantMapper;
-import com.openclassroom.projet12.model.Role;
-import com.openclassroom.projet12.model.RoleName;
-import com.openclassroom.projet12.model.User;
-import com.openclassroom.projet12.model.Variant;
+import com.openclassroom.projet12.model.*;
 import com.openclassroom.projet12.respository.RoleRepository;
 import com.openclassroom.projet12.respository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -57,6 +54,7 @@ public class UserService {
             User user = UserMapper.toUser(userDTO);
             user.setPassword(encoder.encode(user.getPassword()));
             user.setNewsletter(false);
+            user.setPanier(new Panier());
             return userRepository.save(user);
         } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cet email est déjà utilisé");
     }

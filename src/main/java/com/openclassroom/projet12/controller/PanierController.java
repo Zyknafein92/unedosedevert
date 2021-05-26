@@ -46,44 +46,43 @@ public class PanierController {
         return new ResponseEntity<>(panier, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Long> deletePanier(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(panierService.deletePanier(id), HttpStatus.OK);
-    }
-
     /*
      *             PanierLigne
      *
      */
 
-//    @GetMapping
-//    public ResponseEntity<List<PanierLigne>> getPanierLignes() {
-//        List<PanierLigne> panierList = panierService.getPanierLignes();
-//        return new ResponseEntity<>(panierList, HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/{idPanier}")
-//    public ResponseEntity<PanierLigne> getPanierLigne(@PathVariable("idPanier") Long idPanier) {
-//        PanierLigne panierLigne = panierService.getPanierLigne(idPanier);
-//        return new ResponseEntity<>(panierLigne, HttpStatus.OK);
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<PanierLigne> addPanierLigne(@Valid @RequestBody PanierLigneDTO panierLigneDTO) {
-//        PanierLigne panierLigneToCreate = panierService.addPanierLigne(panierLigneDTO);
-//        return new ResponseEntity<>(panierLigneToCreate,HttpStatus.CREATED);
-//
-//    }
-//
-//    @PutMapping
-//    public ResponseEntity<PanierLigne> updatePanierLigne(@Valid @RequestBody PanierLigneDTO panierLigneDTO) {
-//        PanierLigne panierLigne = panierService.updatePanierLigne(panierLigneDTO);
-//        return new ResponseEntity<>(panierLigne, HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping("/{idPanier}/{id}")
-//    public ResponseEntity<Long> deletePanierLigne(@PathVariable("idPanier") Long idPanier) {
-//        PanierLigne panierLigne = panierService.getPanierLigne(idPanier);
-//        return new ResponseEntity<>(panierService.deletePanierLigne(panierLigne.getId()), HttpStatus.OK);
-//    }
+    @GetMapping
+    public ResponseEntity<List<PanierLigne>> getPanierLignes() {
+        List<PanierLigne> panierList = panierService.getPanierLignes();
+        return new ResponseEntity<>(panierList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{idPanier}")
+    public ResponseEntity<PanierLigne> getPanierLigne(@PathVariable("idPanier") Long idPanier) {
+        PanierLigne panierLigne = panierService.getPanierLigne(idPanier);
+        return new ResponseEntity<>(panierLigne, HttpStatus.OK);
+    }
+
+    @PostMapping("/{idPanier}")
+    public ResponseEntity<PanierLigne> addPanierLigne(@Valid @RequestBody PanierLigneDTO panierLigneDTO,
+                                                      @PathVariable("idPanier") Long idPanier) {
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        PanierLigne panierLigneToCreate = panierService.addPanierLigne(panierLigneDTO, currentUsername);
+        return new ResponseEntity<>(panierLigneToCreate,HttpStatus.CREATED);
+
+    }
+
+    @PutMapping("/{idPanier}")
+    public ResponseEntity<PanierLigne> updatePanierLigne(@Valid @RequestBody PanierLigneDTO panierLigneDTO,
+                                                         @PathVariable("idPanier") Long idPanier) {
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        PanierLigne panierLigne = panierService.updatePanierLigne(panierLigneDTO, currentUsername);
+        return new ResponseEntity<>(panierLigne, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePanierLigne(@PathVariable("id") Long id) {
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        return new ResponseEntity (panierService.deletePanierLigne(currentUsername, id), HttpStatus.OK);
+    }
 }

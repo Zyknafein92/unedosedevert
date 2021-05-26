@@ -20,8 +20,6 @@ import java.util.List;
 @Table(name = "t_commande")
 public class Commande {
 
-    //todo: Ajouter List<Variant> Juste une copie avec infos importantes. Vérifier les paniers des utilisateurs et supprimer les éléments.
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,8 +28,12 @@ public class Commande {
     @NotNull(message="L'utilisateur ne peut pas être null")
     private User user;
 
+    @OneToOne
+    private Adresse adresse;
+
     @OneToMany
-    private List<Variant> variantList;
+    @NotNull(message= "La commande doit posséder au moins un produit")
+    private List<VariantCommande> variantCommandeList;
 
     @NotNull(message= "La date ne peut être null")
     private LocalDateTime date;
