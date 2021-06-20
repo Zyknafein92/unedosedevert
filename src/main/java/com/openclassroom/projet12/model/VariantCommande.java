@@ -25,10 +25,6 @@ public class VariantCommande {
     @ManyToOne(fetch = FetchType.LAZY)
     private Produit produit;
 
-    private String imageURLOnSelect;
-
-    private String imageURLnonSelect;
-
     private Integer quantity;
 
     @NotNull(message= "Veuillez renseigner un prix pour le variant!")

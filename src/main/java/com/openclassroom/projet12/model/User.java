@@ -26,7 +26,7 @@ public class  User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Adresse> adresses;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Panier panier;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

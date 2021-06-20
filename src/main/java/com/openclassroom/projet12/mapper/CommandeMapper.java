@@ -36,7 +36,6 @@ public class CommandeMapper {
                 .date(commandeDTO.getDate())
                 .livraison(commandeDTO.getLivraison())
                 .statusCommande(commandeDTO.getStatusCommande())
-                .modeReglement(commandeDTO.getModeReglement())
                 .total(commandeDTO.getTotal())
                 .build();
     }
@@ -60,7 +59,6 @@ public class CommandeMapper {
                 .date(commande.getDate())
                 .livraison(commande.getLivraison())
                 .statusCommande(commande.getStatusCommande())
-                .modeReglement(commande.getModeReglement())
                 .total(commande.getTotal())
                 .build();
     }
@@ -69,7 +67,6 @@ public class CommandeMapper {
         entity.setDate(dto.getDate());
         entity.setLivraison(dto.getLivraison());
         entity.setStatusCommande(dto.getStatusCommande());
-        entity.setModeReglement(dto.getModeReglement());
         entity.setTotal(dto.getTotal());
     }
 }

@@ -22,6 +22,11 @@ public class PanierLigne {
     @NotNull(message= "Erreur, le variant du produit ne peut pas être null !")
     private Variant variant;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "produit_id")
+    @NotNull(message= "Erreur, le produit ne peut pas être null !")
+    private Produit produit;
+
     @NotNull(message= "Veuillez renseigner la quantité du produit !")
     private Integer quantity;
 

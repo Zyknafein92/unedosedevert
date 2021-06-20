@@ -1,6 +1,4 @@
 package com.openclassroom.projet12.dto;
-import com.openclassroom.projet12.model.Panier;
-import com.openclassroom.projet12.model.Produit;
 import lombok.Builder;
 import lombok.Data;
 import javax.validation.constraints.NotNull;
@@ -11,8 +9,11 @@ public class PanierLigneDTO {
 
     private Long id;
 
+    @NotNull(message= "Erreur, le variant ne peut pas être null !")
+    private VariantDTO variant;
+
     @NotNull(message= "Erreur, le produit ne peut pas être null !")
-    private VariantDTO variantDTO;
+    private ProduitDTO produit;
 
     @NotNull(message= "Veuillez renseigner la quantité du produit !")
     private Integer quantity;

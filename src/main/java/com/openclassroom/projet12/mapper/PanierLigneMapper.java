@@ -1,8 +1,10 @@
 package com.openclassroom.projet12.mapper;
 
 import com.openclassroom.projet12.dto.PanierLigneDTO;
+import com.openclassroom.projet12.dto.ProduitDTO;
 import com.openclassroom.projet12.dto.VariantDTO;
 import com.openclassroom.projet12.model.PanierLigne;
+import com.openclassroom.projet12.model.Produit;
 import com.openclassroom.projet12.model.Variant;
 import org.springframework.stereotype.Component;
 
@@ -10,18 +12,26 @@ import org.springframework.stereotype.Component;
 public class PanierLigneMapper {
 
     public static PanierLigne toPanierLigne(PanierLigneDTO panierLigneDTO) {
+        Variant variant = VariantMapper.toVariant(panierLigneDTO.getVariant());
+        Produit produit = ProduitMapper.toProduit(panierLigneDTO.getProduit());
+
         return PanierLigne.builder()
                 .id(panierLigneDTO.getId())
-                .variant(Variant.builder().id(panierLigneDTO.getVariantDTO().getId()).build())
+                .variant(variant)
+                .produit(produit)
                 .prix(panierLigneDTO.getPrix())
                 .quantity(panierLigneDTO.getQuantity())
                 .build();
     }
 
     public static PanierLigneDTO toPanierLigneDTO(PanierLigne panierLigne) {
+        VariantDTO variant = VariantMapper.toDTO(panierLigne.getVariant());
+        ProduitDTO produit = ProduitMapper.toCompleteDTO(panierLigne.getProduit());
+
         return PanierLigneDTO.builder()
                 .id(panierLigne.getId())
-                .variantDTO(VariantDTO.builder().id(panierLigne.getVariant().getId()).build())
+                .variant(variant)
+                .produit(produit)
                 .prix(panierLigne.getPrix())
                 .quantity(panierLigne.getQuantity())
                 .build();

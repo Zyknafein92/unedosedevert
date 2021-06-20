@@ -8,7 +8,6 @@ import com.openclassroom.projet12.model.PanierLigne;
 import com.openclassroom.projet12.service.AuthenticationService;
 import com.openclassroom.projet12.service.PanierService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,36 +25,24 @@ public class PanierController {
 
     private final AuthenticationService authenticationService;
 
-    @GetMapping("/{id}")
+    @GetMapping()
     public ResponseEntity<PanierDTO> getPanier() {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
         return new ResponseEntity<>(panierService.getPanier(currentUsername), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Panier> addPanier(@Valid @RequestBody PanierDTO panierDTO) {
+    public ResponseEntity<Panier> addToPanier(@Valid @RequestBody List<PanierLigneDTO> panierLigneDTOList) {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        Panier panierToCreate = panierService.addPanier(panierDTO, currentUsername);
+        Panier panierToCreate = panierService.addToPanier(panierLigneDTOList, currentUsername);
         return new ResponseEntity<>(panierToCreate,HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Panier> updatePanier(@Valid @RequestBody PanierDTO panierDTO) {
-        String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        Panier panier = panierService.updatePanier(panierDTO, currentUsername);
-        return new ResponseEntity<>(panier, HttpStatus.OK);
-    }
 
     /*
      *             PanierLigne
      *
      */
-
-    @GetMapping
-    public ResponseEntity<List<PanierLigne>> getPanierLignes() {
-        List<PanierLigne> panierList = panierService.getPanierLignes();
-        return new ResponseEntity<>(panierList, HttpStatus.OK);
-    }
 
     @GetMapping("/{idPanier}")
     public ResponseEntity<PanierLigne> getPanierLigne(@PathVariable("idPanier") Long idPanier) {
@@ -63,18 +50,16 @@ public class PanierController {
         return new ResponseEntity<>(panierLigne, HttpStatus.OK);
     }
 
-    @PostMapping("/{idPanier}")
-    public ResponseEntity<PanierLigne> addPanierLigne(@Valid @RequestBody PanierLigneDTO panierLigneDTO,
-                                                      @PathVariable("idPanier") Long idPanier) {
+    @PostMapping("/panierLigne")
+    public ResponseEntity<PanierLigne> addPanierLigne(@Valid @RequestBody PanierLigneDTO panierLigneDTO) {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
         PanierLigne panierLigneToCreate = panierService.addPanierLigne(panierLigneDTO, currentUsername);
         return new ResponseEntity<>(panierLigneToCreate,HttpStatus.CREATED);
 
     }
 
-    @PutMapping("/{idPanier}")
-    public ResponseEntity<PanierLigne> updatePanierLigne(@Valid @RequestBody PanierLigneDTO panierLigneDTO,
-                                                         @PathVariable("idPanier") Long idPanier) {
+    @PutMapping("/panierLigne")
+    public ResponseEntity<PanierLigne> updatePanierLigne(@Valid @RequestBody PanierLigneDTO panierLigneDTO) {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
         PanierLigne panierLigne = panierService.updatePanierLigne(panierLigneDTO, currentUsername);
         return new ResponseEntity<>(panierLigne, HttpStatus.OK);

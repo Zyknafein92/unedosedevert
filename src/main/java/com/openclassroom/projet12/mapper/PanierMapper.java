@@ -14,22 +14,22 @@ import java.util.stream.Collectors;
 public class PanierMapper {
 
     public static Panier toPanier(PanierDTO panierDTO) {
-        List<PanierLigne> panierLigneList = panierDTO.getPanierLigneDTOList() == null ? new ArrayList<>() : panierDTO.getPanierLigneDTOList().stream().map(PanierLigneMapper::toPanierLigne).collect(Collectors.toList());
+        List<PanierLigne> panierLigneList = panierDTO.getPanierLignes() == null ? new ArrayList<>() : panierDTO.getPanierLignes().stream().map(PanierLigneMapper::toPanierLigne).collect(Collectors.toList());
 
         return Panier.builder()
                 .id(panierDTO.getId())
-                .panierLigne(panierLigneList)
+                .panierLignes(panierLigneList)
                 .prixTotal(panierDTO.getPrixTotal())
                 .build();
     }
 
     public static PanierDTO toPanierDTO(Panier panier) {
 
-        List<PanierLigneDTO> panierLigneList = panier.getPanierLigne() == null ? new ArrayList<>() : panier.getPanierLigne().stream().map(PanierLigneMapper::toPanierLigneDTO).collect(Collectors.toList());
+        List<PanierLigneDTO> panierLigneList = panier.getPanierLignes() == null ? new ArrayList<>() : panier.getPanierLignes().stream().map(PanierLigneMapper::toPanierLigneDTO).collect(Collectors.toList());
 
         return PanierDTO.builder()
                 .id(panier.getId())
-                .panierLigneDTOList(panierLigneList)
+                .panierLignes(panierLigneList)
                 .prixTotal(panier.getPrixTotal())
                 .build();
     }

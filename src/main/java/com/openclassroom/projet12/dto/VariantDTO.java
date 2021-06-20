@@ -14,9 +14,9 @@ public class VariantDTO {
     @NotNull(message= "Veuillez renseigner un nom pour le variant!")
     private String name;
 
-    private String imageURLOnSelect;
-
-    private String imageURLnonSelect;
+//    private String imageURLOnSelect;
+//
+//    private String imageURLnonSelect;
 
     @NotNull(message= "Veuillez renseigner un prix pour le variant!")
     private Double prix;

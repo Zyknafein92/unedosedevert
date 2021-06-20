@@ -18,7 +18,8 @@ public class Panier {
     private Long id;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<PanierLigne> panierLigne;
+    private List<PanierLigne> panierLignes;
 
     private Double prixTotal;
+
 }

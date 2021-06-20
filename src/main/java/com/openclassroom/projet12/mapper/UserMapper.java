@@ -17,15 +17,33 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
+
+    public static User createUser(UserDTO userDTO) {
+
+        return User.builder()
+                .id(userDTO.getId())
+                .adresses(new ArrayList<>())
+                .genre(userDTO.getGenre())
+                .nom(userDTO.getNom())
+                .prenom(userDTO.getPrenom())
+                .anniversaire(userDTO.getAnniversaire())
+                .email(userDTO.getEmail())
+                .password(userDTO.getPassword())
+                .active(userDTO.getActive())
+                .newsletter(false)
+                .panier(new Panier())
+                .build();
+    }
+
     public static User toUser(UserDTO userDTO) {
 
         List<Adresse> adresseList = userDTO.getAdresses() == null ? new ArrayList<>() : userDTO.getAdresses().stream().map(AdresseMapper::toAdresse).collect(Collectors.toList());
-        List<PanierLigne> panierLigneList = userDTO.getPanierDTO().getPanierLigneDTOList() == null ? new ArrayList<>() : userDTO.getPanierDTO().getPanierLigneDTOList().stream().map(PanierLigneMapper::toPanierLigne).collect(Collectors.toList());
+        List<PanierLigne> panierLigneList = userDTO.getPanier().getPanierLignes() == null ? new ArrayList<>() : userDTO.getPanier().getPanierLignes().stream().map(PanierLigneMapper::toPanierLigne).collect(Collectors.toList());
 
         Panier panier = Panier.builder()
-                .id(userDTO.getPanierDTO().getId())
-                .panierLigne(panierLigneList)
-                .prixTotal(userDTO.getPanierDTO().getPrixTotal())
+                .id(userDTO.getPanier().getId())
+                .panierLignes(panierLigneList)
+                .prixTotal(userDTO.getPanier().getPrixTotal())
                 .build();
 
         return User.builder()
@@ -45,11 +63,11 @@ public class UserMapper {
 
     public static UserDTO toUserDTO(User user) {
         List<AdresseDTO> adresseDTOList = user.getAdresses().stream().map(AdresseMapper::toAdresseDTO).collect(Collectors.toList());
-        List<PanierLigneDTO> panierLigneList = user.getPanier().getPanierLigne() == null ? new ArrayList<>() : user.getPanier().getPanierLigne().stream().map(PanierLigneMapper::toPanierLigneDTO).collect(Collectors.toList());
+        List<PanierLigneDTO> panierLigneList = user.getPanier().getPanierLignes() == null ? new ArrayList<>() : user.getPanier().getPanierLignes().stream().map(PanierLigneMapper::toPanierLigneDTO).collect(Collectors.toList());
 
         PanierDTO panierDTO = PanierDTO.builder()
                 .id(user.getPanier().getId())
-                .panierLigneDTOList(panierLigneList)
+                .panierLignes(panierLigneList)
                 .prixTotal(user.getPanier().getPrixTotal())
                 .build();
 
@@ -62,7 +80,7 @@ public class UserMapper {
                 .anniversaire(user.getAnniversaire())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .panierDTO(panierDTO)
+                .panier(panierDTO)
                 .active(user.getActive())
                 .newsletter(user.getNewsletter())
                 .build();

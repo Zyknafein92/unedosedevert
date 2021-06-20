@@ -7,14 +7,10 @@ import com.openclassroom.projet12.mapper.*;
 import com.openclassroom.projet12.model.*;
 import com.openclassroom.projet12.respository.CommandeRepository;
 import lombok.AllArgsConstructor;
-import org.joda.time.LocalDate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -25,7 +21,6 @@ public class CommandeService {
     private final UserService userService;
 
     // Une méthode pour retrouver les commandes d'un utilisateur
-    //
 
     private final  CommandeRepository commandeRepository;
 
@@ -41,11 +36,11 @@ public class CommandeService {
     public Commande validerCommande(CommandeDTO commandeDTO, String currentname) {
         List<VariantCommandeDTO> variantCommandeDTOList = new ArrayList<>();
         UserDTO userDTO =  userService.findByEmail(currentname);
-        PanierDTO panierDTO = userDTO.getPanierDTO();
+        PanierDTO panierDTO = userDTO.getPanier();
         AdresseDTO adresseDTO = commandeDTO.getAdresseDTO();
 
-        for (PanierLigneDTO ligne: userDTO.getPanierDTO().getPanierLigneDTOList()) {
-            Variant variant =  VariantMapper.toVariant(ligne.getVariantDTO());
+        for (PanierLigneDTO ligne: userDTO.getPanier().getPanierLignes()) {
+            Variant variant =  VariantMapper.toVariant(ligne.getVariant());
             VariantCommandeDTO variantCommandeDTOToSave = VariantCommandeMapper.variantToVariantCommandeDTO(variant);
             variantCommandeDTOToSave.setQuantity(ligne.getQuantity());
             variantCommandeDTOList.add(variantCommandeDTOToSave);
@@ -59,7 +54,6 @@ public class CommandeService {
                 .statusCommande(StatusCommande.ATTENTE)
                 .date(LocalDateTime.now())
                 .livraison(commandeDTO.getLivraison())
-                .modeReglement(commandeDTO.getModeReglement())
                 .total(variantCommandeList.stream().map(v -> v.calculateTotalPrice()).reduce(0d, (s, v) -> s + v ))
                 .build();
 

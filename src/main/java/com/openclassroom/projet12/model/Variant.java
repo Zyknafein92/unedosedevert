@@ -24,9 +24,9 @@ public class Variant {
     @ManyToOne(fetch = FetchType.LAZY)
     private Produit produit;
 
-    private String imageURLOnSelect;
-
-    private String imageURLnonSelect;
+//    private String imageURLOnSelect;
+//
+//    private String imageURLnonSelect;
 
     @NotNull(message= "Veuillez renseigner un prix pour le variant!")
     private Double prix;

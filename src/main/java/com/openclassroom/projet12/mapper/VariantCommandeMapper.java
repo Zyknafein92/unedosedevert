@@ -17,8 +17,8 @@ public class VariantCommandeMapper {
                 .name(variantDTO.getName())
                 .produit(Produit.builder().id(variantDTO.getProduitDTO().getId()).name(variantDTO.getProduitDTO().getName()).build())
                 .prix(variantDTO.getPrix())
-                .imageURLnonSelect(variantDTO.getImageURLnonSelect())
-                .imageURLOnSelect(variantDTO.getImageURLOnSelect())
+//                .imageURLnonSelect(variantDTO.getImageURLnonSelect())
+//                .imageURLOnSelect(variantDTO.getImageURLOnSelect())
                 .prixReduction(variantDTO.getPrixReduction())
                 .prixKg(variantDTO.getPrixKg())
                 .quantity(variantDTO.getQuantity())
@@ -32,8 +32,8 @@ public class VariantCommandeMapper {
                 .name(variant.getName())
                 .produitDTO(ProduitDTO.builder().id(variant.getProduit().getId()).name(variant.getProduit().getName()).build())
                 .prix(variant.getPrix())
-                .imageURLnonSelect(variant.getImageURLnonSelect())
-                .imageURLOnSelect(variant.getImageURLOnSelect())
+//                .imageURLnonSelect(variant.getImageURLnonSelect())
+//                .imageURLOnSelect(variant.getImageURLOnSelect())
                 .prixReduction(variant.getPrixReduction())
                 .prixKg(variant.getPrixKg())
                 .quantity(variant.getQuantity())
@@ -43,8 +43,8 @@ public class VariantCommandeMapper {
     public static void update(VariantCommandeDTO dto, VariantCommande entity){
         entity.setVariantID(entity.getVariantID());
         entity.setPrix(dto.getPrix());
-        entity.setImageURLnonSelect(dto.getImageURLnonSelect());
-        entity.setImageURLOnSelect(dto.getImageURLOnSelect());
+//        entity.setImageURLnonSelect(dto.getImageURLnonSelect());
+//        entity.setImageURLOnSelect(dto.getImageURLOnSelect());
         entity.setPrixReduction(dto.getPrixReduction());
         entity.setPrixKg(dto.getPrixKg());
         entity.setName(dto.getName());
@@ -57,8 +57,8 @@ public class VariantCommandeMapper {
               .name(variant.getName())
               .produitDTO(ProduitDTO.builder().id(variant.getProduit().getId()).name(variant.getProduit().getName()).build())
               .prix(variant.getPrix())
-              .imageURLnonSelect(variant.getImageURLnonSelect())
-              .imageURLOnSelect(variant.getImageURLOnSelect())
+//              .imageURLnonSelect(variant.getImageURLnonSelect())
+//              .imageURLOnSelect(variant.getImageURLOnSelect())
               .prixReduction(variant.getPrixReduction())
               .prixKg(variant.getPrixKg())
               .build();

@@ -1,15 +1,9 @@
 package com.openclassroom.projet12.dto;
-import com.openclassroom.projet12.model.ModeReglement;
-import com.openclassroom.projet12.model.Panier;
+
 import com.openclassroom.projet12.model.StatusCommande;
-import com.openclassroom.projet12.model.User;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -30,7 +24,7 @@ public class CommandeDTO {
 
     private StatusCommande statusCommande;
 
-    private ModeReglement modeReglement;
+//    private ModeReglement modeReglement;
 
     private Boolean livraison;
 }

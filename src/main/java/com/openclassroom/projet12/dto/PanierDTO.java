@@ -8,11 +8,11 @@ import java.util.List;
 
 @Data
 @Builder
-public class  PanierDTO {
+public class PanierDTO {
 
     private Long id;
 
-    private List<PanierLigneDTO> panierLigneDTOList;
+    private List<PanierLigneDTO> panierLignes;
 
     private Double prixTotal;
 

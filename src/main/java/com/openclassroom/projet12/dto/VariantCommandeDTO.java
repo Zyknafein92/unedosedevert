@@ -15,9 +15,9 @@ public class VariantCommandeDTO {
 
     private ProduitDTO produitDTO;
 
-    private String imageURLOnSelect;
-
-    private String imageURLnonSelect;
+//    private String imageURLOnSelect;
+//
+//    private String imageURLnonSelect;
 
     private Double prix;
 

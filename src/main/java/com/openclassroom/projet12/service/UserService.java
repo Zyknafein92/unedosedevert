@@ -1,6 +1,7 @@
 package com.openclassroom.projet12.service;
 
 
+import com.openclassroom.projet12.dto.PanierDTO;
 import com.openclassroom.projet12.dto.UserDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.UserMapper;
@@ -51,10 +52,8 @@ public class UserService {
                 roles.add(roleUser);
                 userDTO.setRoles(roles);
             }
-            User user = UserMapper.toUser(userDTO);
+            User user = UserMapper.createUser(userDTO);
             user.setPassword(encoder.encode(user.getPassword()));
-            user.setNewsletter(false);
-            user.setPanier(new Panier());
             return userRepository.save(user);
         } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cet email est déjà utilisé");
     }

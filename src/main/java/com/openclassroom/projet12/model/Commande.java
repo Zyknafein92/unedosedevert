@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 
@@ -45,9 +44,9 @@ public class Commande {
     @NotNull(message= "Le status de la commande ne peut être null")
     private StatusCommande statusCommande;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull(message= "Veuillez choisir un mode de règlement")
-    private ModeReglement modeReglement;
+//    @Enumerated(EnumType.STRING)
+//    @NotNull(message= "Veuillez choisir un mode de règlement")
+//    private ModeReglement modeReglement;
 
     @NotNull(message= "Un choix de retrait doit être sélectionné")
     private Boolean livraison;
