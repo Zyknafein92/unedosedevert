@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -24,13 +24,13 @@ public class  User {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Adresse> adresses;
+    private List<Adress> adresses;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Panier panier;
+    private ShoppingCart shoppingCart;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Commande> commandes;
+    private List<Order> orders;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -39,16 +39,16 @@ public class  User {
     private Set<Role> roles;
 
     @NotNull(message= "Veuillez renseigner votre sexe !")
-    private String genre;
+    private String gender;
 
     @NotNull(message= "Veuillez renseigner votre nom !")
-    private String nom;
+    private String lastName;
 
     @NotNull(message= "Veuillez renseigner votre prénom !")
-    private String prenom;
+    private String firstName;
 
     @NotNull(message= "Veuillez renseigner une date de naissance !")
-    private LocalDate anniversaire;
+    private LocalDate birthday;
 
     @NotNull(message= "Veuillez renseigner un email !")
     @Column(unique = true)
@@ -56,6 +56,10 @@ public class  User {
 
     @NotNull(message = "Veuillez renseigner un mot de passe !")
     private String password;
+
+    private String forgotPasswordToken;
+
+    private LocalDateTime forgotPasswordTokenExpiration;
 
     // pour pouvoir désactiver un compte si besoin
     private Boolean active;

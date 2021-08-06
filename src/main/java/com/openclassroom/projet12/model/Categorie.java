@@ -4,13 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -30,7 +26,7 @@ public class Categorie {
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<SousCategorie> sousCategories;
+    private List<SubCategorie> subCategories;
 }
 
 

@@ -11,5 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface VariantRepository extends JpaRepository<Variant,Long> {
-    List<Variant> findAllByProduitId(Long produit_id);
+    List<Variant> findAllByProductId(Long product_id);
 }

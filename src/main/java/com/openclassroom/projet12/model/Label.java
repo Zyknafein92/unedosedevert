@@ -22,5 +22,5 @@ public class Label {
     @NotNull(message = "Veuillez renseigner un nom pour la categorie de tag !")
     private String name;
 
-    private String urlPhoto;
+    private String urlPicture;
 }

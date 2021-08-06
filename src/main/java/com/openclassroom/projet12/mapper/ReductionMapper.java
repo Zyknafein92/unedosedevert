@@ -10,7 +10,7 @@ public class ReductionMapper {
     public static Reduction toReduction(ReductionDTO reductionDTO) {
         return Reduction.builder()
                 .id(reductionDTO.getId())
-                .pourcentageRemise(reductionDTO.getPourcentageRemise())
+                .percentageReduction(reductionDTO.getPercentageReduction())
                 .reductionStart(reductionDTO.getReductionStart())
                 .reductionEnd(reductionDTO.getReductionEnd())
                 .build();
@@ -19,15 +19,15 @@ public class ReductionMapper {
     public static ReductionDTO toReductionDTO(Reduction reduction) {
         return ReductionDTO.builder()
                 .id(reduction.getId())
-                .produitID(reduction.getProduit().getId())
-                .pourcentageRemise(reduction.getPourcentageRemise())
+                .produitID(reduction.getProduct().getId())
+                .percentageReduction(reduction.getPercentageReduction())
                 .reductionStart(reduction.getReductionStart())
                 .reductionEnd(reduction.getReductionEnd())
                 .build();
     }
 
     public static void update(ReductionDTO dto, Reduction entity) {
-        entity.setPourcentageRemise(dto.getPourcentageRemise());
+        entity.setPercentageReduction(dto.getPercentageReduction());
         entity.setReductionStart(dto.getReductionStart());
         entity.setReductionEnd(dto.getReductionEnd());
     }

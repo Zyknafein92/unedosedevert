@@ -12,5 +12,5 @@ public class LabelDTO {
 
     private Long id;
     private String name;
-    private String urlPhoto;
+    private String urlPicture;
 }

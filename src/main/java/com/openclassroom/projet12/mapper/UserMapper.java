@@ -1,12 +1,12 @@
 package com.openclassroom.projet12.mapper;
 
-import com.openclassroom.projet12.dto.AdresseDTO;
-import com.openclassroom.projet12.dto.PanierDTO;
-import com.openclassroom.projet12.dto.PanierLigneDTO;
+import com.openclassroom.projet12.dto.AdressDTO;
+import com.openclassroom.projet12.dto.ShoppingCartDTO;
+import com.openclassroom.projet12.dto.ShoppingCartLineDTO;
 import com.openclassroom.projet12.dto.UserDTO;
-import com.openclassroom.projet12.model.Adresse;
-import com.openclassroom.projet12.model.Panier;
-import com.openclassroom.projet12.model.PanierLigne;
+import com.openclassroom.projet12.model.Adress;
+import com.openclassroom.projet12.model.ShoppingCart;
+import com.openclassroom.projet12.model.ShoppingCartLine;
 import com.openclassroom.projet12.model.User;
 import org.springframework.stereotype.Component;
 
@@ -23,78 +23,82 @@ public class UserMapper {
         return User.builder()
                 .id(userDTO.getId())
                 .adresses(new ArrayList<>())
-                .genre(userDTO.getGenre())
-                .nom(userDTO.getNom())
-                .prenom(userDTO.getPrenom())
-                .anniversaire(userDTO.getAnniversaire())
+                .gender(userDTO.getGender())
+                .lastName(userDTO.getLastName())
+                .firstName(userDTO.getFirstName())
+                .birthday(userDTO.getBirthday())
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
                 .active(userDTO.getActive())
                 .newsletter(false)
-                .panier(new Panier())
+                .shoppingCart(new ShoppingCart())
                 .build();
     }
 
     public static User toUser(UserDTO userDTO) {
 
-        List<Adresse> adresseList = userDTO.getAdresses() == null ? new ArrayList<>() : userDTO.getAdresses().stream().map(AdresseMapper::toAdresse).collect(Collectors.toList());
-        List<PanierLigne> panierLigneList = userDTO.getPanier().getPanierLignes() == null ? new ArrayList<>() : userDTO.getPanier().getPanierLignes().stream().map(PanierLigneMapper::toPanierLigne).collect(Collectors.toList());
+        List<Adress> adressList = userDTO.getAdresses() == null ? new ArrayList<>() : userDTO.getAdresses().stream().map(AdressMapper::toAdresse).collect(Collectors.toList());
+        List<ShoppingCartLine> shoppingCartLineList = userDTO.getShoppingCart().getShoppingCartLines() == null ? new ArrayList<>() : userDTO.getShoppingCart().getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigne).collect(Collectors.toList());
 
-        Panier panier = Panier.builder()
-                .id(userDTO.getPanier().getId())
-                .panierLignes(panierLigneList)
-                .prixTotal(userDTO.getPanier().getPrixTotal())
+        ShoppingCart shoppingCart = ShoppingCart.builder()
+                .id(userDTO.getShoppingCart().getId())
+                .shoppingCartLines(shoppingCartLineList)
                 .build();
 
         return User.builder()
                 .id(userDTO.getId())
-                .adresses(adresseList)
-                .genre(userDTO.getGenre())
-                .nom(userDTO.getNom())
-                .prenom(userDTO.getPrenom())
-                .anniversaire(userDTO.getAnniversaire())
+                .adresses(adressList)
+                .gender(userDTO.getGender())
+                .lastName(userDTO.getLastName())
+                .firstName(userDTO.getFirstName())
+                .birthday(userDTO.getBirthday())
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
-                .panier(panier)
+                .shoppingCart(shoppingCart)
                 .active(userDTO.getActive())
+                .forgotPasswordToken(userDTO.getForgotPasswordToken())
+                .forgotPasswordTokenExpiration(userDTO.getForgotPasswordTokenExpiration())
                 .newsletter(userDTO.getNewsletter())
                 .build();
     }
 
     public static UserDTO toUserDTO(User user) {
-        List<AdresseDTO> adresseDTOList = user.getAdresses().stream().map(AdresseMapper::toAdresseDTO).collect(Collectors.toList());
-        List<PanierLigneDTO> panierLigneList = user.getPanier().getPanierLignes() == null ? new ArrayList<>() : user.getPanier().getPanierLignes().stream().map(PanierLigneMapper::toPanierLigneDTO).collect(Collectors.toList());
+        List<AdressDTO> adressDTOList = user.getAdresses().stream().map(AdressMapper::toAdresseDTO).collect(Collectors.toList());
+        List<ShoppingCartLineDTO> panierLigneList = user.getShoppingCart().getShoppingCartLines() == null ? new ArrayList<>() : user.getShoppingCart().getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigneDTO).collect(Collectors.toList());
 
-        PanierDTO panierDTO = PanierDTO.builder()
-                .id(user.getPanier().getId())
-                .panierLignes(panierLigneList)
-                .prixTotal(user.getPanier().getPrixTotal())
+        ShoppingCartDTO shoppingCartDTO = ShoppingCartDTO.builder()
+                .id(user.getShoppingCart().getId())
+                .shoppingCartLines(panierLigneList)
                 .build();
 
         return UserDTO.builder()
                 .id(user.getId())
-                .adresses(adresseDTOList)
-                .genre(user.getGenre())
-                .nom(user.getNom())
-                .prenom(user.getPrenom())
-                .anniversaire(user.getAnniversaire())
+                .adresses(adressDTOList)
+                .gender(user.getGender())
+                .lastName(user.getLastName())
+                .firstName(user.getFirstName())
+                .birthday(user.getBirthday())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .panier(panierDTO)
+                .shoppingCart(shoppingCartDTO)
                 .active(user.getActive())
+                .forgotPasswordToken(user.getForgotPasswordToken())
+                .forgotPasswordTokenExpiration(user.getForgotPasswordTokenExpiration())
                 .newsletter(user.getNewsletter())
                 .build();
     }
 
     public static void update(UserDTO dto, User entity) {
-        entity.setGenre(dto.getGenre());
-        entity.setNom(dto.getNom());
-        entity.setPrenom(dto.getPrenom());
-        entity.setAnniversaire(dto.getAnniversaire());
+        entity.setGender(dto.getGender());
+        entity.setLastName(dto.getLastName());
+        entity.setFirstName(dto.getFirstName());
+        entity.setBirthday(dto.getBirthday());
         entity.setEmail(dto.getEmail());
         entity.setPassword(dto.getPassword());
         entity.setActive(dto.getActive());
         entity.setNewsletter(dto.getNewsletter());
+        entity.setForgotPasswordToken(dto.getForgotPasswordToken());
+        entity.setForgotPasswordTokenExpiration(dto.getForgotPasswordTokenExpiration());
     }
 }
 

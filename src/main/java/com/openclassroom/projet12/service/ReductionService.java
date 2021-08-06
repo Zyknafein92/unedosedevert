@@ -3,9 +3,9 @@ package com.openclassroom.projet12.service;
 import com.openclassroom.projet12.dto.ReductionDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.ReductionMapper;
-import com.openclassroom.projet12.model.Produit;
+import com.openclassroom.projet12.model.Product;
 import com.openclassroom.projet12.model.Reduction;
-import com.openclassroom.projet12.respository.ProduitRepository;
+import com.openclassroom.projet12.respository.ProductRepository;
 import com.openclassroom.projet12.respository.ReductionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,7 +21,7 @@ import java.util.List;
 public class ReductionService {
 
     private final ReductionRepository reductionRepository;
-    private final ProduitRepository produitService;
+    private final ProductRepository produitService;
 
     /**
      * CRUD
@@ -37,18 +37,18 @@ public class ReductionService {
     }
 
     public ReductionDTO findReductionByProduitId(Long id) {
-        return ReductionMapper.toReductionDTO(reductionRepository.findReductionsByProduitId(id));
+        return ReductionMapper.toReductionDTO(reductionRepository.findReductionsByProductId(id));
     }
 
     public Reduction addReduction(ReductionDTO reductionDTO) {
-        Produit produit = this.produitService.findById(reductionDTO.getProduitID())
-                .orElseThrow(() -> new NotFoundException("Le produit n'existe pas !"));
+        Product product = this.produitService.findById(reductionDTO.getProduitID())
+                .orElseThrow(() -> new NotFoundException("Le product n'existe pas !"));
 
         Reduction reduction = ReductionMapper.toReduction(reductionDTO);
-        reduction.setProduit(produit);
+        reduction.setProduct(product);
         this.reductionRepository.save(reduction);
-        produit.setReduction(reduction);
-        this.produitService.save(produit);
+        product.setReduction(reduction);
+        this.produitService.save(product);
        return reduction;
 
     }
@@ -61,10 +61,10 @@ public class ReductionService {
 
     public void deleteReduction(Long id) {
         Reduction reduction = getReduction(id);
-        Produit produit = produitService.getOne(reduction.getProduit().getId());
-        produit.setReduction(null);
-        produit.getVariants().forEach(v -> v.setPrixReduction(null));
-        this.produitService.save(produit);
+        Product product = produitService.getOne(reduction.getProduct().getId());
+        product.setReduction(null);
+        product.getVariants().forEach(v -> v.setReductionPrice(null));
+        this.produitService.save(product);
         reductionRepository.deleteById(id);
     }
 
@@ -72,13 +72,13 @@ public class ReductionService {
     * Utils
      */
 
-    private void applyReduction(Produit produit) {
-        produit.getVariants().forEach(v -> v.setPrixReduction(calculateReduction(v.getPrix(),produit.getReduction().getPourcentageRemise())));
-        produitService.save(produit);
+    private void applyReduction(Product product) {
+        product.getVariants().forEach(v -> v.setReductionPrice(calculateReduction(v.getPrice(), product.getReduction().getPercentageReduction())));
+        produitService.save(product);
     }
 
-    private void removeReduction(Produit produit) {
-        deleteReduction(produit.getReduction().getId());
+    private void removeReduction(Product product) {
+        deleteReduction(product.getReduction().getId());
     }
 
     private double calculateReduction(Double prix, Double reduction) {
@@ -98,9 +98,9 @@ public class ReductionService {
         List<Reduction> reductionList = reductionRepository.findReductionByDate(date);
 
         for (Reduction r : reductionList) {
-            Produit produit = produitService.findById(r.getProduit().getId())
-                    .orElseThrow(() -> new NotFoundException("Le produit n'a pas été trouvé"));
-            applyReduction(produit);
+            Product product = produitService.findById(r.getProduct().getId())
+                    .orElseThrow(() -> new NotFoundException("Le product n'a pas été trouvé"));
+            applyReduction(product);
         }
     }
     //@Scheduled(cron= "0 0 0 * * *") //tous les jours à minuit.
@@ -111,9 +111,9 @@ public class ReductionService {
         List<Reduction> reductionList = reductionRepository.findOutDatedReductionByDate(date);
 
         for(Reduction reduction : reductionList) {
-            Produit produit = produitService.findById(reduction.getProduit().getId())
-                    .orElseThrow(() -> new NotFoundException("Le produit n'a pas été trouvé"));
-            removeReduction(produit);
+            Product product = produitService.findById(reduction.getProduct().getId())
+                    .orElseThrow(() -> new NotFoundException("Le product n'a pas été trouvé"));
+            removeReduction(product);
         }
     }
 }

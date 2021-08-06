@@ -24,5 +24,6 @@ public class TagMapper {
 
     public static void update(TagDTO dto, Tag entity) {
         entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
     }
 }

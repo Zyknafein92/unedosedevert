@@ -20,9 +20,9 @@ public class Reduction {
     private Long id;
 
     @OneToOne(cascade = CascadeType.DETACH)
-    private Produit produit;
+    private Product product;
 
-    private Double pourcentageRemise;
+    private Double percentageReduction;
 
     private LocalDate reductionStart;
 

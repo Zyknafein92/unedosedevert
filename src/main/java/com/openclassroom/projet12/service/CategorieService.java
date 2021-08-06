@@ -1,22 +1,19 @@
 package com.openclassroom.projet12.service;
 
 import com.openclassroom.projet12.dto.CategorieDTO;
-import com.openclassroom.projet12.dto.SousCategorieDTO;
+import com.openclassroom.projet12.dto.SubCategorieDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.CategorieMapper;
 import com.openclassroom.projet12.model.Categorie;
-import com.openclassroom.projet12.model.SousCategorie;
+import com.openclassroom.projet12.model.SubCategorie;
 import com.openclassroom.projet12.respository.CategorieRepository;
-import com.openclassroom.projet12.respository.ProduitRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -26,7 +23,7 @@ import static java.util.stream.Collectors.toList;
 public class CategorieService {
 
     private final CategorieRepository categorieRepository;
-    private final SousCategorieService sousCategorieService;
+    private final SubCategorieService subCategorieService;
 
     public List<CategorieDTO> getCategories() {
         return categorieRepository.findAll()
@@ -51,8 +48,8 @@ public class CategorieService {
 
     public Categorie updateCategorie(CategorieDTO categorieDTO) {
        Categorie categorie = getCategorie(categorieDTO.getId());
-       List<SousCategorie> sousCategories = sousCategorieService.getSousCategoriesByIds(categorieDTO.getSousCategories().stream().map(SousCategorieDTO::getId).collect(toList()));
-       categorie.setSousCategories(sousCategories);
+       List<SubCategorie> subCategories = subCategorieService.getSousCategoriesByIds(categorieDTO.getSousCategories().stream().map(SubCategorieDTO::getId).collect(toList()));
+       categorie.setSubCategories(subCategories);
        CategorieMapper.update(categorieDTO,categorie);
        return categorieRepository.save(categorie);
     }

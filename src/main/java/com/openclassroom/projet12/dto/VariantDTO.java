@@ -14,17 +14,13 @@ public class VariantDTO {
     @NotNull(message= "Veuillez renseigner un nom pour le variant!")
     private String name;
 
-//    private String imageURLOnSelect;
-//
-//    private String imageURLnonSelect;
-
     @NotNull(message= "Veuillez renseigner un prix pour le variant!")
-    private Double prix;
+    private Double price;
 
     @NotNull(message= "Veuillez renseigner un prix au kg pour le variant!")
-    private Double prixKg;
+    private Double priceKg;
 
-    private Double prixReduction;
+    private Double reductionPrice;
 
     @NotNull(message= "Veuillez renseigner la disponibilitée du variant!")
     private Stock stock;

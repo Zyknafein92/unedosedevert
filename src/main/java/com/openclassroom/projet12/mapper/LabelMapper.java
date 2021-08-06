@@ -10,7 +10,7 @@ public class LabelMapper {
     public static Label toLabel(LabelDTO labelDTO) {
         return Label.builder()
                 .name(labelDTO.getName())
-                .urlPhoto(labelDTO.getUrlPhoto())
+                .urlPicture(labelDTO.getUrlPicture())
                 .build();
     }
 
@@ -18,13 +18,13 @@ public class LabelMapper {
         return LabelDTO.builder()
                 .id(label.getId())
                 .name(label.getName())
-                .urlPhoto(label.getUrlPhoto())
+                .urlPicture(label.getUrlPicture())
                 .build();
     }
 
     public static void update(LabelDTO dto, Label entity) {
         entity.setName(dto.getName());
-        entity.setUrlPhoto(dto.getUrlPhoto());
+        entity.setUrlPicture(dto.getUrlPicture());
     }
 
 

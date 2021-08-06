@@ -1,25 +1,20 @@
 package com.openclassroom.projet12.service;
 
 
-import com.openclassroom.projet12.dto.PanierDTO;
 import com.openclassroom.projet12.dto.UserDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.UserMapper;
-import com.openclassroom.projet12.mapper.VariantMapper;
 import com.openclassroom.projet12.model.*;
 import com.openclassroom.projet12.respository.RoleRepository;
 import com.openclassroom.projet12.respository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -36,6 +31,13 @@ public class UserService {
     public User getUser(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("L'utilisateur recherché n'a pas été trouvé"));
+    }
+
+    public UserDTO findUserByToken(String token) throws Exception {
+        User user = userRepository.findByForgotPasswordToken(token);
+        if (user.getForgotPasswordTokenExpiration().isAfter(LocalDateTime.now())) {
+            return UserMapper.toUserDTO(user);
+        } else throw new Exception("La validité du token a expiré");
     }
 
     public UserDTO findByEmail(String email) {
@@ -72,5 +74,20 @@ public class UserService {
 
     public void save(User user) {
         this.userRepository.save(user);
+    }
+
+    public String forgotPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) throw new NotFoundException("L'utilisateur n'a pas été trouvé");
+        user.setForgotPasswordToken(UUID.randomUUID().toString());
+        user.setForgotPasswordTokenExpiration(LocalDateTime.now().plusDays(1));
+        userRepository.save(user);
+        return user.getForgotPasswordToken();
+    }
+
+    public void updatePassword(Long id, String password) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("L'utilisateur n'existe pas"));
+        user.setPassword(encoder.encode(password));
+        userRepository.save(user);
     }
 }

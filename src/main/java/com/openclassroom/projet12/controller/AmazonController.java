@@ -1,7 +1,7 @@
 package com.openclassroom.projet12.controller;
 
-import com.openclassroom.projet12.dto.PhotoDTO;
-import com.openclassroom.projet12.service.PhotoService;
+import com.openclassroom.projet12.dto.PictureDTO;
+import com.openclassroom.projet12.service.PictureService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,10 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class AmazonController {
 
-    private final PhotoService photoService;
+    private final PictureService photoService;
 
     @PostMapping("/upload")
-    public PhotoDTO upload(@RequestPart(value = "file") MultipartFile file) throws IllegalAccessException {
-        return PhotoDTO.builder().urlPhoto(photoService.uploadPhoto(file)).build();
+    public PictureDTO upload(@RequestPart(value = "file") MultipartFile file) throws IllegalAccessException {
+        return PictureDTO.builder().urlPicture(photoService.uploadPhoto(file)).build();
     }
 }

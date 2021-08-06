@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/types") //todo: retirer produit
+@RequestMapping("/api/produits/types") //todo: retirer product
 @AllArgsConstructor
 public class TypeController {
 

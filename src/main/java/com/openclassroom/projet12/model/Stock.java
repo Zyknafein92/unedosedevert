@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum Stock {
-    DISPONIBLE("Produit en stock"),
+    DISPONIBLE("Product en stock"),
     STOCK_FAIBLE("Stock faible, réapprovisionnement en cours"),
-    REAPPROVISIONNEMENT("Produit indisponible pour le moment");
+    REAPPROVISIONNEMENT("Product indisponible pour le moment");
 
     private final String description;
 

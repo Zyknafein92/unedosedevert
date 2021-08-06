@@ -5,6 +5,7 @@ package com.openclassroom.projet12.controller;
 import com.openclassroom.projet12.dto.UserDTO;
 import com.openclassroom.projet12.model.User;
 import com.openclassroom.projet12.service.AuthenticationService;
+import com.openclassroom.projet12.service.MailService;
 import com.openclassroom.projet12.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import javax.xml.ws.Response;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +25,9 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserController {
 
-   private final UserService userService;
-   private final AuthenticationService authenticationService;
+    private final UserService userService;
+    private final MailService mailService;
+    private final AuthenticationService authenticationService;
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
@@ -43,6 +46,14 @@ public class UserController {
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
+
+    @GetMapping("/forgot-password")
+    public ResponseEntity<UserDTO> getUserByToken(@RequestParam("token") String token) throws Exception {
+        if (token == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Le token est invalide");
+        UserDTO user = userService.findUserByToken(token);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
@@ -55,14 +66,36 @@ public class UserController {
 
     }
 
+    @PostMapping("/forgetPassword")
+    public ResponseEntity<String> forgetPassword(@RequestParam("email") String email) {
+        String token = userService.forgotPassword(email);
+        String link = "http://localhost:4200/forgot-password?token=" +token;
+        mailService.sendEmail("deneux.j@gmail.com", link);
+        return new ResponseEntity<>(link, HttpStatus.OK);
+    }
+    // recupper token de front
+    // cherche user avec le token
+    // valider token (expirer/valide ...)
+    // tous sont bons, reponse OK, sinon, KO
+
     @PutMapping
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserDTO userDTO) {
         User user = userService.updateUser(userDTO);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @PutMapping("/reset-password/{id}")
+    public ResponseEntity updatePassword(@PathVariable("id") Long id,
+                                         @RequestBody String password) {
+        userService.updatePassword(id,password);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteUser(@PathVariable("id") Long id) {
         return new ResponseEntity<>(userService.deleteUser(userService.deleteUser(id)), HttpStatus.OK);
     }
+
+    // sauvegarde nouveau mdp => faire att de bcryte
+
 }

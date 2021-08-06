@@ -16,7 +16,7 @@ public class ReductionDTO {
     private Long produitID;
 
     @NotNull(message= "La valeur de la réduction doit être définie")
-    private Double pourcentageRemise;
+    private Double percentageReduction;
     @NotNull(message= "La date de début de la réduction doit être définie")
     private LocalDate reductionStart;
     @NotNull(message= "La date de fin de la réduction doit être définie")

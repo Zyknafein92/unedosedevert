@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ReductionRepository extends JpaRepository<Reduction,Long> {
 
-    Reduction findReductionsByProduitId(Long produitID);
+    Reduction findReductionsByProductId(Long productId);
 
     @Query("select r from Reduction r where r.reductionStart = :date")
     List<Reduction> findReductionByDate(LocalDate date);
