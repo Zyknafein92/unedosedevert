@@ -1,9 +1,6 @@
 package com.openclassroom.projet12.mapper;
 
-import com.openclassroom.projet12.dto.AdressDTO;
-import com.openclassroom.projet12.dto.ShoppingCartDTO;
-import com.openclassroom.projet12.dto.ShoppingCartLineDTO;
-import com.openclassroom.projet12.dto.UserDTO;
+import com.openclassroom.projet12.dto.*;
 import com.openclassroom.projet12.model.Adress;
 import com.openclassroom.projet12.model.ShoppingCart;
 import com.openclassroom.projet12.model.ShoppingCartLine;
@@ -85,6 +82,15 @@ public class UserMapper {
                 .forgotPasswordToken(user.getForgotPasswordToken())
                 .forgotPasswordTokenExpiration(user.getForgotPasswordTokenExpiration())
                 .newsletter(user.getNewsletter())
+                .build();
+    }
+
+    public static UserDTO toUserDTOOrder(User user) {
+
+        List<OrderDTO> orderDTOList = user.getOrders().stream().map(OrderMapper::toOrderDTO).collect(Collectors.toList());
+
+        return UserDTO.builder()
+                .orders(orderDTOList)
                 .build();
     }
 

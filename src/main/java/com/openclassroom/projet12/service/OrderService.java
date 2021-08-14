@@ -1,14 +1,22 @@
 package com.openclassroom.projet12.service;
 
 
+
 import com.openclassroom.projet12.dto.*;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.*;
 import com.openclassroom.projet12.model.*;
 import com.openclassroom.projet12.respository.OrderRepository;
+
+import com.openclassroom.projet12.service.specifications.OrderSpecifications;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +29,34 @@ public class OrderService {
 
     private final UserService userService;
     private final VariantMapper variantMapper;
-
-    // Une méthode pour retrouver les orders d'un utilisateur
-
     private final OrderRepository orderRepository;
+    private final OrderSpecifications orderSpecifications;
 
-    public List<Order> getCommandes() {
+
+    public List<Order> getOrders() {
         return orderRepository.findAll();
+    }
+
+    public Page<OrderDTO> getOrdersForAdminBySpecification(Pageable pageable, OrderSpecification orderSpecification) {
+        Specification<Order> specification = Specification.where(null);
+        if(orderSpecification.getUserEmail() != null && !orderSpecification.getUserEmail().isEmpty()) {
+            Specification<Order> userEmailSpecification = orderSpecifications.ordersByUserIdSpecification(orderSpecification.getUserEmail());
+            specification = specification.and(userEmailSpecification);
+        }
+        if(orderSpecification.getOrderStatus() != null) {
+            Specification<Order> orderStatusSpecification = orderSpecifications.ordersByOrderStatusSpecification(orderSpecification.getOrderStatus());
+            specification = specification.and(orderStatusSpecification);
+        }
+        if(orderSpecification.getOrderNumber() != null && !orderSpecification.getOrderNumber().isEmpty()) {
+            Specification<Order> orderNumberSpecification = orderSpecifications.orderByOrderNumberSpecification(orderSpecification.getOrderNumber());
+            specification = specification.and(orderNumberSpecification);
+        }
+        return orderRepository.findAll(specification,pageable).map(OrderMapper::toOrderDTO);
+    }
+
+    public Page<OrderDTO> getOrdersForCurrentUser(String username, Pageable pageable) {
+        UserDTO userDTO = userService.findByEmail(username);
+        return orderRepository.findAllByUserId(userDTO.getId(), pageable).map(OrderMapper::toOrderDTO);
     }
 
     public Order getCommande(Long id) {
@@ -35,10 +64,9 @@ public class OrderService {
                 .orElseThrow(() -> new NotFoundException("La commande n'existe pas !"));
     }
 
-    public Order validerCommande(OrderDTO orderDTO, String currentname) {
+    public Order orderConfirm(OrderDTO orderDTO, String currentname) {
         List<VariantOrderDTO> variantOrderDTOList = new ArrayList<>();
         UserDTO userDTO =  userService.findByEmail(currentname);
-        ShoppingCartDTO shoppingCartDTO = userDTO.getShoppingCart();
         AdressDTO deliveryAdress = orderDTO.getDeliveryAdress();
         AdressDTO billingAdress = orderDTO.getBillingAdress();
 
@@ -75,8 +103,8 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order updateStatusOrder(Long id, OrderStatus orderStatus) {
-        Order order = getCommande(id);
+    public Order updateStatusOrder(String orderNumber, OrderStatus orderStatus) {
+        Order order = orderRepository.findByOrderNumber(orderNumber);
         order.setOrderStatus(orderStatus);
         return orderRepository.save(order);
     }
@@ -89,5 +117,4 @@ public class OrderService {
     public String generateRandomCommandNumber() {
         return RandomStringUtils.randomNumeric(3) + "" + RandomStringUtils.randomAlphabetic(6).toUpperCase();
     }
-
 }

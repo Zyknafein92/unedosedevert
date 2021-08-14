@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -24,13 +25,13 @@ public class  User {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Adress> adresses;
+    private List<Adress> adresses = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

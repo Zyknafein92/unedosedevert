@@ -1,9 +1,7 @@
 package com.openclassroom.projet12.service;
 
 
-import com.openclassroom.projet12.dto.ShoppingCartDTO;
-import com.openclassroom.projet12.dto.ShoppingCartLineDTO;
-import com.openclassroom.projet12.dto.UserDTO;
+import com.openclassroom.projet12.dto.*;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.*;
 import com.openclassroom.projet12.model.ShoppingCart;
@@ -24,51 +22,59 @@ public class ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ShoppingCartLineRepository shoppingCartLineRepository;
     private final UserService userService;
+    private final VariantService variantService;
 
 
-    public ShoppingCartDTO getPanier(String currentUsername) {
+    public ShoppingCartDTO getShoppingCart(String currentUsername) {
         UserDTO userDTO = userService.findByEmail(currentUsername);
         if (userDTO != null) {
-            List<ShoppingCartLineDTO> shoppingCartLineDTOList =  userDTO.getShoppingCart().getShoppingCartLines();
+            List<ShoppingCartLineDTO> shoppingCartLineDTOList = userDTO.getShoppingCart().getShoppingCartLines();
             userDTO.getShoppingCart().setTotalPrice(shoppingCartLineDTOList.stream().mapToDouble(ShoppingCartLineDTO::getPrice).reduce(Double::sum).getAsDouble());
             return userDTO.getShoppingCart();
         } else throw new NotFoundException("Le shoppingCart n'existe pas !");
     }
 
-    public ShoppingCart addToPanier(List<ShoppingCartLineDTO> shoppingCartLineDTOList, String currentUsername) {
+    public ShoppingCart addToShoppingCart(List<ShoppingCartLineDTO> shoppingCartLineDTOList, String currentUsername) {
         UserDTO userDTO = userService.findByEmail(currentUsername);
         if (userDTO != null) {
-            // creer shoppingCart dto
-            // convertir vers shoppingCart
             for (ShoppingCartLineDTO shoppingCartLineDTO : shoppingCartLineDTOList) {
                 userDTO.getShoppingCart().getShoppingCartLines().add(shoppingCartLineDTO);
             }
-            ShoppingCart shoppingCart = ShoppingCartMapper.toPanier(userDTO.getShoppingCart());
+            ShoppingCart shoppingCart = ShoppingCartMapper.toShoppingCart(userDTO.getShoppingCart());
             return shoppingCartRepository.save(shoppingCart);
-        }
-       else throw new RuntimeException("Une erreur s'est produite");
+        } else throw new RuntimeException("Une erreur s'est produite");
     }
-//
-//    public ShoppingCart updatePanier(ShoppingCartDTO panierDTO, String currentUsername) {
-//        UserDTO userDTO = userService.findByEmail(currentUsername);
-//        ShoppingCart shoppingCart = UserMapper.toUser(userDTO).getShoppingCart();
-//        PanierMapper.update(panierDTO,shoppingCart);
-//        return shoppingCart;
-//    }
+
+    public ShoppingCart renewOrder(OrderDTO orderDTO, String currentUsername) {
+        UserDTO userDTO = userService.findByEmail(currentUsername);
+        List<VariantOrderDTO> listToRenew = orderDTO.getVariantOrderDTOS();
+        for (VariantOrderDTO vod : listToRenew) {
+            VariantDTO variantDTO = variantService.getVariantDTO(vod.getVariantID());
+
+            ShoppingCartLineDTO shoppingCartLineDTO = ShoppingCartLineDTO.builder()
+                    .variant(variantDTO)
+                    .product(vod.getProductDTO())
+                    .price(variantDTO.getPrice())
+                    .quantity(vod.getQuantity())
+                    .build();
+
+            userDTO.getShoppingCart().getShoppingCartLines().add(shoppingCartLineDTO);
+        }
+        User user = UserMapper.toUser(userDTO);
+        userDTO.getShoppingCart().setTotalPrice(userDTO.getShoppingCart().getShoppingCartLines().stream().mapToDouble(ShoppingCartLineDTO::getPrice).reduce(Double::sum).getAsDouble());
+        userService.save(user);
+        return user.getShoppingCart();
+    }
 
 
     // ShoppingCartLine //
 
-//    public List<ShoppingCartLine> getShoppingCartLines() {
-//        return panierLigneRepository.findAll();
-//    }
-
-    public ShoppingCartLine getPanierLigne(Long id) {
+    public ShoppingCartLine getShoppingCartLine(Long id) {
         return shoppingCartLineRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("La ligne du shoppingCart n'existe pas !"));
     }
 
-    public ShoppingCartLine addPanierLigne(ShoppingCartLineDTO shoppingCartLineDTO, String currentUsername) {
+    public ShoppingCartLine addShoppingCartLine(ShoppingCartLineDTO shoppingCartLineDTO, String currentUsername) {
         UserDTO userDTO = userService.findByEmail(currentUsername);
         if (userDTO != null) {
             ShoppingCartLine shoppingCartLine = ShoppingCartLineMapper.toPanierLigne(shoppingCartLineDTO);
@@ -79,22 +85,24 @@ public class ShoppingCartService {
         } else throw new RuntimeException("Une erreure s'est produite lors de la création de la ligne du shoppingCart");
     }
 
-    public ShoppingCartLine updatePanierLigne(ShoppingCartLineDTO shoppingCartLineDTO, String currentUsername) {
+    public ShoppingCartLine updateShoppingCartLine(ShoppingCartLineDTO shoppingCartLineDTO, String currentUsername) {
         UserDTO userDTO = userService.findByEmail(currentUsername);
-        ShoppingCartLine shoppingCartLine = getPanierLigne(shoppingCartLineDTO.getId());
+        ShoppingCartLine shoppingCartLine = getShoppingCartLine(shoppingCartLineDTO.getId());
         if (userDTO != null && shoppingCartLine != null) {
             ShoppingCartLineMapper.update(shoppingCartLineDTO, shoppingCartLine);
             shoppingCartLine.setProduct(ProductMapper.toProduit(shoppingCartLineDTO.getProduct()));
-            shoppingCartLine.setVariant(VariantMapper.toVariant(shoppingCartLineDTO.getVariant()));
+            if(shoppingCartLineDTO.getVariant() != null) {
+                shoppingCartLine.setVariant(VariantMapper.toVariant(shoppingCartLineDTO.getVariant()));
+            }
             this.shoppingCartLineRepository.save(shoppingCartLine);
             return shoppingCartLine;
-        }
-        else throw new RuntimeException("Une erreure s'est produite lors de la modification de la ligne du shoppingCart");
+        } else
+            throw new RuntimeException("Une erreure s'est produite lors de la modification de la ligne du shoppingCart");
     }
 
-    public Long deletePanierLigne(String currentUsername, Long id) {
+    public Long deleteShoppingCartLine(String currentUsername, Long id) {
         UserDTO userDTO = userService.findByEmail(currentUsername);
-        ShoppingCartLine shoppingCartLine = getPanierLigne(id);
+        ShoppingCartLine shoppingCartLine = getShoppingCartLine(id);
         if (userDTO != null && shoppingCartLine != null) {
             userDTO.getShoppingCart().getShoppingCartLines().remove(ShoppingCartLineMapper.toPanierLigneDTO(shoppingCartLine));
             userService.save(UserMapper.toUser(userDTO));

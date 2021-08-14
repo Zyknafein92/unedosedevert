@@ -2,7 +2,9 @@ package com.openclassroom.projet12.controller;
 
 
 
+import com.amazonaws.services.xray.model.Http;
 import com.openclassroom.projet12.dto.UserDTO;
+import com.openclassroom.projet12.model.ShoppingCart;
 import com.openclassroom.projet12.model.User;
 import com.openclassroom.projet12.service.AuthenticationService;
 import com.openclassroom.projet12.service.MailService;
@@ -73,10 +75,6 @@ public class UserController {
         mailService.sendEmail("deneux.j@gmail.com", link);
         return new ResponseEntity<>(link, HttpStatus.OK);
     }
-    // recupper token de front
-    // cherche user avec le token
-    // valider token (expirer/valide ...)
-    // tous sont bons, reponse OK, sinon, KO
 
     @PutMapping
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserDTO userDTO) {
@@ -96,6 +94,10 @@ public class UserController {
         return new ResponseEntity<>(userService.deleteUser(userService.deleteUser(id)), HttpStatus.OK);
     }
 
-    // sauvegarde nouveau mdp => faire att de bcryte
-
+    @DeleteMapping("/cleanShoppingCart")
+    public ResponseEntity cleanShoppingCart() {
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        userService.cleanShoppingCart(currentUsername);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

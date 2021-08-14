@@ -90,4 +90,11 @@ public class UserService {
         user.setPassword(encoder.encode(password));
         userRepository.save(user);
     }
+
+    public void cleanShoppingCart(String currentUsername) {
+        UserDTO userDTO = findByEmail(currentUsername);
+        userDTO.getShoppingCart().getShoppingCartLines().clear();
+        User user = UserMapper.toUser(userDTO);
+        userRepository.save(user);
+    }
 }

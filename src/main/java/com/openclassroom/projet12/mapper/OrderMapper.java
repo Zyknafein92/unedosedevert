@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Component
 public class OrderMapper {
 
-    public static Order toCommande(OrderDTO orderDTO) {
+    public static Order toOrder(OrderDTO orderDTO) {
 
         List<VariantOrder> variantOrderList = orderDTO.getVariantOrderDTOS().stream().map(VariantOrderMapper::toVariantCommande).collect(Collectors.toList());
 
@@ -71,14 +71,14 @@ public class OrderMapper {
                 .build();
     }
 
-    public static OrderDTO toCommandeDTO(Order order) {
+    public static OrderDTO toOrderDTO(Order order) {
         List<VariantOrderDTO> variantCommandeList = order.getVariantOrderList().stream().map(VariantOrderMapper::toDTO).collect(Collectors.toList());
 
         UserDTO user = UserDTO.builder()
                 .id(order.getUser().getId())
                 .build();
 
-        AdressDTO deliveryAdress = AdressDTO.builder()
+        AdressDTO deliveryAddress = AdressDTO.builder()
                 .id(order.getDeliveryAdress().getId())
                 .gender(order.getDeliveryAdress().getGender())
                 .adressName(order.getDeliveryAdress().getAdressName())
@@ -96,7 +96,7 @@ public class OrderMapper {
                 .city(order.getDeliveryAdress().getCity())
                 .build();
 
-        AdressDTO billingAdress = AdressDTO.builder()
+        AdressDTO billingAddress = AdressDTO.builder()
                 .id(order.getBillingAdress().getId())
                 .gender(order.getBillingAdress().getGender())
                 .adressName(order.getBillingAdress().getAdressName())
@@ -119,8 +119,8 @@ public class OrderMapper {
                 .id(order.getId())
                 .orderNumber(order.getOrderNumber())
                 .user(user)
-                .deliveryAdress(deliveryAdress)
-                .billingAdress(billingAdress)
+                .deliveryAdress(deliveryAddress)
+                .billingAdress(billingAddress)
                 .variantOrderDTOS(variantCommandeList)
                 .deliveryCharges(order.getDeliveryCharges())
                 .total(order.getTotal())

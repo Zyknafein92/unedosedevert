@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor {
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     List<Product> findAllByCategorieAndType(Categorie categorie, Type type);
     List<Product> findAllByCategorie(Categorie categorie);
     List<Product> findAllByType(Type type);

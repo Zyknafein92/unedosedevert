@@ -14,6 +14,7 @@ public class VariantOrderMapper {
         Product product = Product.builder()
                 .id(variantDTO.getProductDTO().getId())
                 .title(variantDTO.getProductDTO().getTitle())
+                .urlPicture1(variantDTO.getProductDTO().getUrlPicture1())
                 .build();
 
         return VariantOrder.builder()
@@ -32,6 +33,7 @@ public class VariantOrderMapper {
         ProductDTO product = ProductDTO.builder()
                 .id(variant.getProduct().getId())
                 .title(variant.getProduct().getTitle())
+                .urlPicture1(variant.getProduct().getUrlPicture1())
                 .build();
 
         return  VariantOrderDTO.builder()
@@ -59,6 +61,7 @@ public class VariantOrderMapper {
         ProductDTO product = ProductDTO.builder()
                 .id(variant.getProduct().getId())
                 .title(variant.getProduct().getTitle())
+                .urlPicture1(variant.getProduct().getUrlPicture1())
                 .build();
 
         return VariantOrderDTO.builder()

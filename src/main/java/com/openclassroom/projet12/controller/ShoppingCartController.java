@@ -1,8 +1,10 @@
 package com.openclassroom.projet12.controller;
 
 
+import com.openclassroom.projet12.dto.OrderDTO;
 import com.openclassroom.projet12.dto.ShoppingCartDTO;
 import com.openclassroom.projet12.dto.ShoppingCartLineDTO;
+import com.openclassroom.projet12.model.Order;
 import com.openclassroom.projet12.model.ShoppingCart;
 import com.openclassroom.projet12.model.ShoppingCartLine;
 import com.openclassroom.projet12.service.AuthenticationService;
@@ -26,17 +28,25 @@ public class ShoppingCartController {
     private final AuthenticationService authenticationService;
 
     @GetMapping()
-    public ResponseEntity<ShoppingCartDTO> getPanier() {
+    public ResponseEntity<ShoppingCartDTO> getShoppingCart() {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        return new ResponseEntity<>(shoppingCartService.getPanier(currentUsername), HttpStatus.OK);
+        return new ResponseEntity<>(shoppingCartService.getShoppingCart(currentUsername), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ShoppingCart> addToPanier(@Valid @RequestBody List<ShoppingCartLineDTO> shoppingCartLineDTOList) {
+    public ResponseEntity<ShoppingCart> addToShoppingCart(@Valid @RequestBody List<ShoppingCartLineDTO> shoppingCartLineDTOList) {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        ShoppingCart shoppingCartToCreate = shoppingCartService.addToPanier(shoppingCartLineDTOList, currentUsername);
+        ShoppingCart shoppingCartToCreate = shoppingCartService.addToShoppingCart(shoppingCartLineDTOList, currentUsername);
         return new ResponseEntity<>(shoppingCartToCreate,HttpStatus.CREATED);
     }
+
+    @PostMapping("/renewOrder")
+    public ResponseEntity<ShoppingCart> renewOrder(@Valid @RequestBody OrderDTO orderDTO) {
+        String currentUsername = authenticationService.getCurrentLoggedInUsername();
+        ShoppingCart shoppingCartToRenew = shoppingCartService.renewOrder(orderDTO, currentUsername);
+        return new ResponseEntity<>(shoppingCartToRenew,HttpStatus.CREATED);
+    }
+
 
 
     /*
@@ -45,29 +55,30 @@ public class ShoppingCartController {
      */
 
     @GetMapping("/{idPanier}")
-    public ResponseEntity<ShoppingCartLine> getPanierLigne(@PathVariable("idPanier") Long idPanier) {
-        ShoppingCartLine shoppingCartLine = shoppingCartService.getPanierLigne(idPanier);
+    public ResponseEntity<ShoppingCartLine> getShoppingCartLine(@PathVariable("idPanier") Long idPanier) {
+        ShoppingCartLine shoppingCartLine = shoppingCartService.getShoppingCartLine(idPanier);
         return new ResponseEntity<>(shoppingCartLine, HttpStatus.OK);
     }
 
-    @PostMapping("/panierLigne")
-    public ResponseEntity<ShoppingCartLine> addPanierLigne(@Valid @RequestBody ShoppingCartLineDTO shoppingCartLineDTO) {
+    @PostMapping("/shoppingCartLine")
+    public ResponseEntity<ShoppingCartLine> addShoppingCartLine(@Valid @RequestBody ShoppingCartLineDTO shoppingCartLineDTO) {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        ShoppingCartLine shoppingCartLineToCreate = shoppingCartService.addPanierLigne(shoppingCartLineDTO, currentUsername);
+        ShoppingCartLine shoppingCartLineToCreate = shoppingCartService.addShoppingCartLine(shoppingCartLineDTO, currentUsername);
         return new ResponseEntity<>(shoppingCartLineToCreate,HttpStatus.CREATED);
 
     }
 
-    @PutMapping("/panierLigne")
-    public ResponseEntity<ShoppingCartLine> updatePanierLigne(@Valid @RequestBody ShoppingCartLineDTO shoppingCartLineDTO) {
+    @PutMapping
+    public ResponseEntity<ShoppingCartLine> updateShoppingCartLine(@Valid @RequestBody ShoppingCartLineDTO shoppingCartLineDTO) {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        ShoppingCartLine shoppingCartLine = shoppingCartService.updatePanierLigne(shoppingCartLineDTO, currentUsername);
+        ShoppingCartLine shoppingCartLine = shoppingCartService.updateShoppingCartLine(shoppingCartLineDTO, currentUsername);
         return new ResponseEntity<>(shoppingCartLine, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePanierLigne(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteShoppingCartLine(@PathVariable("id") Long id) {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        return new ResponseEntity (shoppingCartService.deletePanierLigne(currentUsername, id), HttpStatus.OK);
+        return new ResponseEntity (shoppingCartService.deleteShoppingCartLine(currentUsername, id), HttpStatus.OK);
     }
+
 }

@@ -3,6 +3,8 @@ package com.openclassroom.projet12.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+
 import java.util.List;
 
 
