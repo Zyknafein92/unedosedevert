@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/{produitID}/variants")
+@RequestMapping("/api/produits/{produitId}/variants")
 @AllArgsConstructor
 public class VariantController {
 
@@ -30,7 +30,7 @@ public class VariantController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<VariantDTO>> getVariantsByProductId(@PathVariable("produitID") Long id) {
+    public ResponseEntity<List<VariantDTO>> getVariantsByProductId(@PathVariable("produitId") Long id) {
         return new ResponseEntity<>(variantService.getVariantsByProductId(id), HttpStatus.OK);
     }
 
@@ -40,15 +40,15 @@ public class VariantController {
     }
 
     @PostMapping
-    public ResponseEntity<Variant> addVariant(@PathVariable("produitID") Long id, @Valid @RequestBody VariantDTO variantDTO) {
-        Variant variantToCreate = variantService.addVariant(id,variantDTO);
+    public ResponseEntity<VariantDTO> addVariant(@PathVariable("produitId") Long id, @Valid @RequestBody VariantDTO variantDTO) {
+        VariantDTO variantToCreate = variantService.addVariant(id,variantDTO);
         return new ResponseEntity<>(variantToCreate,HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Variant> updateVariant(@Valid @RequestBody VariantDTO variantDTO) {
-        Variant variant = variantService.updateVariant(variantDTO);
-        return new ResponseEntity<>(variant, HttpStatus.OK);
+    public ResponseEntity<VariantDTO> updateVariant(@PathVariable("produitId") Long id, @Valid @RequestBody VariantDTO variantDTO) {
+        VariantDTO variantToSend = variantService.updateVariant(variantDTO);
+        return new ResponseEntity<>(variantToSend, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

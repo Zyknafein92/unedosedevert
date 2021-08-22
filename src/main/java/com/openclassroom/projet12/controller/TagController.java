@@ -30,7 +30,7 @@ public class TagController {
         return new ResponseEntity<>(tags, HttpStatus.OK);
     }
 
-    @GetMapping("/xxx")
+    @GetMapping("/tags")
     public Page<TagDTO> getCategoriePage(Pageable pageable) {
         return tagService.getTagPage(pageable);
     }

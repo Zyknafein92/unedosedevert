@@ -52,7 +52,6 @@ public class ProductDTO {
     @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
     private String composition;
 
-
     @Size(max = 800, message = "Le texte ne peut pas dépasser les 800 charactères..")
     private String whyThisProduct;
 
@@ -70,7 +69,7 @@ public class ProductDTO {
 
     private List<VariantDTO> variants;
 
-    private Reduction reduction;
+    private ReductionDTO reduction;
 
     private String urlPicture1;
 

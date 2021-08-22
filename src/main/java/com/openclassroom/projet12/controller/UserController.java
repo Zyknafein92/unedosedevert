@@ -4,6 +4,7 @@ package com.openclassroom.projet12.controller;
 
 import com.amazonaws.services.xray.model.Http;
 import com.openclassroom.projet12.dto.UserDTO;
+import com.openclassroom.projet12.mapper.UserMapper;
 import com.openclassroom.projet12.model.ShoppingCart;
 import com.openclassroom.projet12.model.User;
 import com.openclassroom.projet12.service.AuthenticationService;
@@ -77,9 +78,9 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<User> updateUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO) {
         User user = userService.updateUser(userDTO);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return ResponseEntity.ok(UserMapper.toUserDTO(user));
     }
 
     @PutMapping("/reset-password/{id}")

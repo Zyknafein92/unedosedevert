@@ -3,6 +3,7 @@ package com.openclassroom.projet12.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,5 +19,5 @@ public class ShoppingCart {
     private Long id;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<ShoppingCartLine> shoppingCartLines;
+    private List<ShoppingCartLine> shoppingCartLines = new ArrayList<>();
 }

@@ -17,16 +17,17 @@ public class UserMapper {
 
     public static User createUser(UserDTO userDTO) {
 
+        List<Adress> adressList = userDTO.getAdresses().stream().map(AdressMapper::toAdresse).collect(Collectors.toList());
+
         return User.builder()
                 .id(userDTO.getId())
-                .adresses(new ArrayList<>())
+                .adresses(adressList)
                 .gender(userDTO.getGender())
                 .lastName(userDTO.getLastName())
                 .firstName(userDTO.getFirstName())
                 .birthday(userDTO.getBirthday())
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
-                .active(userDTO.getActive())
                 .newsletter(false)
                 .shoppingCart(new ShoppingCart())
                 .build();
@@ -34,8 +35,8 @@ public class UserMapper {
 
     public static User toUser(UserDTO userDTO) {
 
-        List<Adress> adressList = userDTO.getAdresses() == null ? new ArrayList<>() : userDTO.getAdresses().stream().map(AdressMapper::toAdresse).collect(Collectors.toList());
-        List<ShoppingCartLine> shoppingCartLineList = userDTO.getShoppingCart().getShoppingCartLines() == null ? new ArrayList<>() : userDTO.getShoppingCart().getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigne).collect(Collectors.toList());
+        List<Adress> adressList = userDTO.getAdresses().stream().map(AdressMapper::toAdresse).collect(Collectors.toList());
+        List<ShoppingCartLine> shoppingCartLineList = userDTO.getShoppingCart().getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigne).collect(Collectors.toList());
 
         ShoppingCart shoppingCart = ShoppingCart.builder()
                 .id(userDTO.getShoppingCart().getId())
@@ -52,7 +53,6 @@ public class UserMapper {
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
                 .shoppingCart(shoppingCart)
-                .active(userDTO.getActive())
                 .forgotPasswordToken(userDTO.getForgotPasswordToken())
                 .forgotPasswordTokenExpiration(userDTO.getForgotPasswordTokenExpiration())
                 .newsletter(userDTO.getNewsletter())
@@ -61,8 +61,8 @@ public class UserMapper {
 
     public static UserDTO toUserDTO(User user) {
         List<AdressDTO> adressDTOList = user.getAdresses().stream().map(AdressMapper::toAdresseDTO).collect(Collectors.toList());
-        List<ShoppingCartLineDTO> panierLigneList = user.getShoppingCart().getShoppingCartLines() == null ? new ArrayList<>() : user.getShoppingCart().getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigneDTO).collect(Collectors.toList());
-
+        List<ShoppingCartLineDTO> panierLigneList = user.getShoppingCart().getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigneDTO).collect(Collectors.toList());
+        List<OrderDTO> orderDTOList = user.getOrders().stream().map(OrderMapper::toOrderDTO).collect(Collectors.toList());
         ShoppingCartDTO shoppingCartDTO = ShoppingCartDTO.builder()
                 .id(user.getShoppingCart().getId())
                 .shoppingCartLines(panierLigneList)
@@ -76,9 +76,9 @@ public class UserMapper {
                 .firstName(user.getFirstName())
                 .birthday(user.getBirthday())
                 .email(user.getEmail())
+                .orders(orderDTOList)
                 .password(user.getPassword())
                 .shoppingCart(shoppingCartDTO)
-                .active(user.getActive())
                 .forgotPasswordToken(user.getForgotPasswordToken())
                 .forgotPasswordTokenExpiration(user.getForgotPasswordTokenExpiration())
                 .newsletter(user.getNewsletter())
@@ -86,9 +86,7 @@ public class UserMapper {
     }
 
     public static UserDTO toUserDTOOrder(User user) {
-
         List<OrderDTO> orderDTOList = user.getOrders().stream().map(OrderMapper::toOrderDTO).collect(Collectors.toList());
-
         return UserDTO.builder()
                 .orders(orderDTOList)
                 .build();
@@ -101,7 +99,6 @@ public class UserMapper {
         entity.setBirthday(dto.getBirthday());
         entity.setEmail(dto.getEmail());
         entity.setPassword(dto.getPassword());
-        entity.setActive(dto.getActive());
         entity.setNewsletter(dto.getNewsletter());
         entity.setForgotPasswordToken(dto.getForgotPasswordToken());
         entity.setForgotPasswordTokenExpiration(dto.getForgotPasswordTokenExpiration());

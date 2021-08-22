@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class ShoppingCartMapper {
 
     public static ShoppingCart toShoppingCart(ShoppingCartDTO shoppingCartDTO) {
-        List<ShoppingCartLine> shoppingCartLineList = shoppingCartDTO.getShoppingCartLines() == null ? new ArrayList<>() : shoppingCartDTO.getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigne).collect(Collectors.toList());
+        List<ShoppingCartLine> shoppingCartLineList = shoppingCartDTO.getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigne).collect(Collectors.toList());
 
         return ShoppingCart.builder()
                 .id(shoppingCartDTO.getId())
@@ -24,7 +24,7 @@ public class ShoppingCartMapper {
 
     public static ShoppingCartDTO toShoppingCartDTO(ShoppingCart shoppingCart) {
 
-        List<ShoppingCartLineDTO> panierLigneList = shoppingCart.getShoppingCartLines() == null ? new ArrayList<>() : shoppingCart.getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigneDTO).collect(Collectors.toList());
+        List<ShoppingCartLineDTO> panierLigneList = shoppingCart.getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigneDTO).collect(Collectors.toList());
 
         return ShoppingCartDTO.builder()
                 .id(shoppingCart.getId())

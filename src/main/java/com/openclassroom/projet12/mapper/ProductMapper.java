@@ -63,10 +63,16 @@ public class ProductMapper {
                 .name(product.getCategorie().getName())
                 .build();
 
-        SubCategorieDTO subCategorieDTO = SubCategorieDTO.builder()
+        SubCategorieDTO subCategorieDTO = product.getSubCategorie() != null ? SubCategorieDTO.builder()
                 .id(product.getSubCategorie().getId())
                 .name(product.getSubCategorie().getName())
-                .build();
+                .build() :
+                null;
+
+        ReductionDTO reductionDTO = product.getReduction() != null ? ReductionDTO.builder()
+                .id(product.getReduction().getId())
+                .build()
+                : null;
 
         List<TagDTO> tagDTOList = product.getTags().stream().map(TagMapper::toDTO).collect(Collectors.toList());
 
@@ -97,6 +103,7 @@ public class ProductMapper {
                 .tags(tagDTOList)
                 .labels(labelDTOList)
                 .variants(variantDTOList)
+                .reduction(reductionDTO)
                 .build();
     }
 

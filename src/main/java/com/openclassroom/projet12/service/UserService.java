@@ -64,7 +64,8 @@ public class UserService {
         User user = getUser(userDTO.getId());
         userDTO.setPassword(encoder.encode(userDTO.getPassword()));
         UserMapper.update(userDTO,user);
-        return userRepository.save(user);
+        userRepository.save(user);
+        return user;
     }
 
     public Long deleteUser(Long id) {

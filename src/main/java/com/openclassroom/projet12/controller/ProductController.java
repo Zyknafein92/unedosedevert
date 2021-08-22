@@ -36,8 +36,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.findProduitsBySpecification(searchCriteria), HttpStatus.OK);
     }
 
-
-    @GetMapping("/xxx")
+    @GetMapping("/products")
     public Page<ProductDTO> getProduitPage(Pageable pageable) {
         return productService.getProduitPage(pageable);
     }
@@ -47,18 +46,16 @@ public class ProductController {
         return new ResponseEntity<>(productService.getProduitDTO(id), HttpStatus.OK);
     }
 
-
     @PostMapping
     public ResponseEntity<Product> addProduit(@Valid @RequestBody ProductDTO productDTO) {
         Product productToCreate = productService.addProduit(productDTO);
         return new ResponseEntity<>(productToCreate,HttpStatus.CREATED);
-
     }
 
     @PutMapping
-    public ResponseEntity<Product> updateProduit(@Valid @RequestBody ProductDTO productDTO) {
-        Product product = productService.updateProduit(productDTO);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+    public ResponseEntity<ProductDTO> updateProduit(@Valid @RequestBody ProductDTO productDTO) {
+        ProductDTO productToPush = productService.updateProduit(productDTO);
+        return new ResponseEntity<>(productToPush, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

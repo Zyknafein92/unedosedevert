@@ -62,9 +62,6 @@ public class  User {
 
     private LocalDateTime forgotPasswordTokenExpiration;
 
-    // pour pouvoir désactiver un compte si besoin
-    private Boolean active;
-
     private Boolean newsletter;
 
 }

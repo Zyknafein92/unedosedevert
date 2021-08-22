@@ -24,7 +24,9 @@ public class TypeService {
     private final CategorieService categorieService;
 
     public List<Type> getTypes() {
-        return typeRepository.findAll().stream().sorted((t1, t2) -> (int) (t1.getId() - t2.getId())).collect(toList());
+        return typeRepository.findAll().stream()
+                .sorted((t1, t2) -> (int) (t1.getId() - t2.getId()))
+                .collect(toList());
     }
 
     public Type getType(Long id) {

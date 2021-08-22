@@ -28,7 +28,7 @@ public class LabelController {
         return new ResponseEntity<>(labelService.getLabels(), HttpStatus.OK);
     }
 
-    @GetMapping("/xxx")
+    @GetMapping("/labels")
     public Page<LabelDTO> getLabelCategoriePage(Pageable pageable) {
         return labelService.getLabelPage(pageable);
     }
@@ -42,7 +42,6 @@ public class LabelController {
     public ResponseEntity<Label> addLabelCategorie(@Valid @RequestBody LabelDTO labelDTO) {
         Label labelToCreate = labelService.addLabel(labelDTO);
         return new ResponseEntity<>(labelToCreate,HttpStatus.CREATED);
-
     }
 
     @PutMapping

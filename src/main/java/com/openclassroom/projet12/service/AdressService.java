@@ -19,7 +19,6 @@ public class AdressService {
     private final AdressRepository adressRepository;
     private final UserService userService;
 
-    //todo: vérification des droits utilisateurs
     public Adress getAdresse(Long id) {
         return adressRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("L'adresse n'existe pas !"));
@@ -31,7 +30,7 @@ public class AdressService {
 
         if (userDTO != null) {
             if (!checkDelivryStatus(userDTO)) adressDTO.setDelivery(true);
-          //  if (!checkBillingStatus(userDTO)) adressDTO.setFacturation(true);
+            if (!checkBillingStatus(userDTO)) adressDTO.setBilling(true);
 
             Adress adress = AdressMapper.toAdresse(adressDTO);
             userDTO.getAdresses().add(adressDTO);
@@ -70,7 +69,7 @@ public class AdressService {
     }
 
     private boolean checkDelivryStatus(UserDTO userDTO) {
-       return userDTO.getAdresses().stream().anyMatch(AdressDTO::getDelivery);
+        return userDTO.getAdresses().stream().anyMatch(AdressDTO::getDelivery);
     }
 
     private boolean checkBillingStatus(UserDTO userDTO) {
@@ -85,15 +84,12 @@ public class AdressService {
             }
         }
 
-//        userDTO.getAdresses().stream()
-//                .filter( adresseDTO -> !adresseDTO.getId().equals(adress.getId()) && adresseDTO.getFacturation())
-//                .forEach(adresseDTO -> { adresseDTO.setFacturation(false); adresseRepository.save(AdresseMapper.toAdresse(adresseDTO));});
     }
 
     private void updateUserAdresseDeliveryStatus(UserDTO userDTO, Adress adress) {
         for (AdressDTO adressDTO : userDTO.getAdresses()) {
             if (!adressDTO.getId().equals(adress.getId()) && adressDTO.getDelivery()) {
-                adressDTO.setBilling(false);
+                adressDTO.setDelivery(false);
                 adressRepository.save(AdressMapper.toAdresse(adressDTO));
             }
         }

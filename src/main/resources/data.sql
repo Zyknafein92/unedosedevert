@@ -1,12 +1,12 @@
 INSERT INTO public.t_roles (name) VALUES ('ROLE_ADMIN');
 INSERT INTO public.t_roles (name) VALUES ('ROLE_USER');
 
-INSERT INTO public.t_shopping_cart (id, total_price) VALUES (1, 0);
-INSERT INTO public.t_shopping_cart (id, total_price) VALUES (2, 0);
+INSERT INTO public.t_shopping_cart (id) VALUES (1);
+INSERT INTO public.t_shopping_cart (id) VALUES (2);
 select setval('t_shopping_cart_id_seq', 2, true);
 
-INSERT INTO public.t_user (id, active, birthday, email, gender, newsletter, first_name, password, last_name, shopping_cart_id) VALUES (1, null, '2022-07-02', 'admin@gmail.com', 'Monsieur', null, 'testN', '$2a$10$3ZgfaLwo0Wl5f74MZ7IGtuzjUV8/v3NgbUDx0VaXZBWPVR9.8ZZ6y', 'testP', 1);
-INSERT INTO public.t_user (id, active, birthday, email, gender, newsletter, first_name, password, last_name, shopping_cart_id) VALUES (2, null, '1988-07-02', 'test@gmail.com', 'Monsieur', false, 'Paul', '$2a$10$9kXDz3wiloAzoxUaylJKXOj0RHFuJGyOTb4UvdCpNxptZcdsogfIi', 'Pierre', 2);
+INSERT INTO public.t_user (id, birthday, email, gender, newsletter, first_name, password, last_name, shopping_cart_id) VALUES (1, '2022-07-02', 'admin@gmail.com', 'Monsieur', null, 'testN', '$2a$10$3ZgfaLwo0Wl5f74MZ7IGtuzjUV8/v3NgbUDx0VaXZBWPVR9.8ZZ6y', 'testP', 1);
+INSERT INTO public.t_user (id, birthday, email, gender, newsletter, first_name, password, last_name, shopping_cart_id) VALUES (2, '1988-07-02', 'test@gmail.com', 'Monsieur', false, 'Paul', '$2a$10$9kXDz3wiloAzoxUaylJKXOj0RHFuJGyOTb4UvdCpNxptZcdsogfIi', 'Pierre', 2);
 SELECT setval('t_user_id_seq', 3, true);
 
 

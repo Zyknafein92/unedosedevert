@@ -26,24 +26,13 @@ public class CategorieController {
     @Autowired
     CategorieService categorieService;
 
-//    @GetMapping
-//    public Page<Categorie> getAll(@RequestParam(defaultValue = "0") Integer size,
-//                                  @RequestParam(defaultValue = "10") Integer page) {
-//        return categorieService.getCategories(size,page);
-//    }
-
-//   @GetMapping
-//   public ResponseEntity<Page<Categorie>> getCategories(Pageable pageable) {
-//        categorieService.getCategories();
-//   }
-
     @GetMapping
     public ResponseEntity<List<CategorieDTO>> getCategories() {
         List<CategorieDTO> categories = categorieService.getCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
-    @GetMapping("/xxx")
+    @GetMapping("/categories")
     public Page<CategorieDTO> getCategoriePage(Pageable pageable) {
         return categorieService.getCategoriePage(pageable);
     }

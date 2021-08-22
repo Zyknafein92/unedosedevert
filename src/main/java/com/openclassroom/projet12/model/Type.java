@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class Type {
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Categorie> categories;
+    private List<Categorie> categories = new ArrayList<>();
 }
 
 

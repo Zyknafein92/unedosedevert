@@ -21,7 +21,7 @@ public class OrderMapper {
                 .id(orderDTO.getUser().getId())
                 .build();
 
-        Adress deliveryAdress = Adress.builder()
+        OrderAdress deliveryAdress = OrderAdress.builder()
                 .id(orderDTO.getDeliveryAdress().getId())
                 .gender(orderDTO.getDeliveryAdress().getGender())
                 .adressName(orderDTO.getDeliveryAdress().getAdressName())
@@ -39,7 +39,7 @@ public class OrderMapper {
                 .city(orderDTO.getDeliveryAdress().getCity())
                 .build();
 
-        Adress billingAdress = Adress.builder()
+        OrderAdress billingAdress = OrderAdress.builder()
                 .id(orderDTO.getBillingAdress().getId())
                 .gender(orderDTO.getBillingAdress().getGender())
                 .adressName(orderDTO.getBillingAdress().getAdressName())

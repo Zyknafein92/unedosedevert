@@ -26,7 +26,9 @@ public class VariantService {
     }
 
     public List<VariantDTO> getVariantsByProductId(Long id) {
-        return variantRepository.findAllByProductId(id).stream().map(VariantMapper::toDTO).collect(toList());
+        return variantRepository.findAllByProductId(id).stream().map(VariantMapper::toDTO)
+                .sorted((v1, v2) -> (int) (v1.getId() - v2.getId()))
+                .collect(toList());
     }
 
     public VariantDTO getVariantDTO(Long id) {
@@ -39,19 +41,20 @@ public class VariantService {
                 .orElseThrow(() -> new NotFoundException("Le variant recherché n'a pas été trouvé"));
     }
 
-    public Variant addVariant(Long produitID, VariantDTO variantDTO) {
+    public VariantDTO addVariant(Long produitID, VariantDTO variantDTO) {
         Product product = this.productService.getProduit(produitID);
         Variant newVariant = VariantMapper.toVariant(variantDTO);
         newVariant.setProduct(product);
         product.getVariants().add(newVariant);
         product = this.productService.saveProduit(product);
-        return product.getVariants().get(product.getVariants().size() - 1);
+        return VariantMapper.toDTO(product.getVariants().get(product.getVariants().size() - 1));
     }
 
-    public Variant updateVariant(VariantDTO variantDTO) {
+    public VariantDTO updateVariant(VariantDTO variantDTO) {
         Variant variant = getVariant(variantDTO.getId());
         VariantMapper.update(variantDTO, variant);
-        return variantRepository.save(variant);
+        variantRepository.save(variant);
+        return VariantMapper.toDTO(variant);
     }
 
     public Long deleteVariant(Long id) {

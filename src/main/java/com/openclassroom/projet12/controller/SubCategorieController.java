@@ -22,36 +22,36 @@ public class SubCategorieController {
     private final SubCategorieService subCategorieService;
 
     @GetMapping
-    public ResponseEntity<List<SubCategorie>> getSousCategories() {
-        List<SubCategorie> subCategories = subCategorieService.getSousCategories();
+    public ResponseEntity<List<SubCategorieDTO>> getSubCategories() {
+        List<SubCategorieDTO> subCategories = subCategorieService.getSubCategories();
         return new ResponseEntity<>(subCategories, HttpStatus.OK);
     }
 
-    @GetMapping("/xxx")
+    @GetMapping("/subCategories")
     public Page<SubCategorieDTO> getSousCategoriePage(Pageable pageable) {
-        return subCategorieService.getSousContegoriePage(pageable);
+        return subCategorieService.getSubCategoriesPage(pageable);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<SubCategorie> getSousCategorie(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(subCategorieService.getSousCategorie(id), HttpStatus.OK);
+        return new ResponseEntity<>(subCategorieService.getSubCategorie(id), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<SubCategorie> addSousCategorie(@Valid @RequestBody SubCategorieDTO subCategorieDTO) {
-        SubCategorie subCategorieToCreate = subCategorieService.addSousCategorie(subCategorieDTO);
+        SubCategorie subCategorieToCreate = subCategorieService.addSubCategorie(subCategorieDTO);
         return new ResponseEntity<>(subCategorieToCreate,HttpStatus.CREATED);
 
     }
 
     @PutMapping
     public ResponseEntity<SubCategorie> updateSousCategorie(@Valid @RequestBody SubCategorieDTO subCategorieDTO) {
-        SubCategorie subCategorie = subCategorieService.updateSousCategorie(subCategorieDTO);
+        SubCategorie subCategorie = subCategorieService.updateSubCategorie(subCategorieDTO);
         return new ResponseEntity<>(subCategorie, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteSousCategorie(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(subCategorieService.deleteSousCategorie(id), HttpStatus.OK);
+        return new ResponseEntity<>(subCategorieService.deleteSubCategorie(id), HttpStatus.OK);
     }
 }

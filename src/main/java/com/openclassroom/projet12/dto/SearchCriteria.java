@@ -1,7 +1,4 @@
 package com.openclassroom.projet12.dto;
-
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +7,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SearchCriteria {
-    String sousCategorie;
-    String tag;
+    String subCategorie;
     String categorie;
+    String tag;
+    String label;
+    boolean reduction;
     String query;
 }

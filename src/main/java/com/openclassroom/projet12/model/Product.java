@@ -39,10 +39,10 @@ public class Product {
     private SubCategorie subCategorie;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Label> labels;
+    private List<Label> labels = new ArrayList<>();
 
     @NotNull(message= "Veuillez renseigner une origine pour le product !")
     private String origin;

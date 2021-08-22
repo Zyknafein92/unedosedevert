@@ -20,6 +20,10 @@ public class OrderSpecifications {
         });
     }
 
+    /*
+    Select * from Order  outer join (left join) user on order.user_id = user.id
+        where (select count(*) from User where user.email = email) > 0
+     */
     public Specification<Order> ordersByUserIdSpecification(String email) {
         return ((root, criteriaQuery, criteriaBuilder) -> {
             Subquery<Order> orderSubquery = criteriaQuery.subquery(Order.class);

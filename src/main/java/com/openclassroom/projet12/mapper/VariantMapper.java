@@ -35,6 +35,7 @@ public class VariantMapper {
     public static VariantDTO toDTO(Variant variant) {
         return VariantDTO.builder()
                 .id(variant.getId())
+                .productId(variant.getProduct().getId())
                 .name(variant.getName())
                 .price(variant.getPrice())
                 .reductionPrice(variant.getReductionPrice())

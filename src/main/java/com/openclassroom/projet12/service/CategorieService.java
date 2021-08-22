@@ -1,7 +1,6 @@
 package com.openclassroom.projet12.service;
 
 import com.openclassroom.projet12.dto.CategorieDTO;
-import com.openclassroom.projet12.dto.SubCategorieDTO;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.CategorieMapper;
 import com.openclassroom.projet12.model.Categorie;
@@ -29,8 +28,10 @@ public class CategorieService {
         return categorieRepository.findAll()
                 .stream()
                 .map(CategorieMapper::toDTO)
+                .sorted((c1, c2) -> (int) (c1.getId() - c2.getId()))
                 .collect(Collectors.toList());
     }
+
 
     public Page<CategorieDTO> getCategoriePage(Pageable pageable) {
         return categorieRepository.findAll(pageable)
@@ -48,7 +49,7 @@ public class CategorieService {
 
     public Categorie updateCategorie(CategorieDTO categorieDTO) {
        Categorie categorie = getCategorie(categorieDTO.getId());
-       List<SubCategorie> subCategories = subCategorieService.getSousCategoriesByIds(categorieDTO.getSousCategories().stream().map(SubCategorieDTO::getId).collect(toList()));
+       List<SubCategorie> subCategories = subCategorieService.getSubCategoriesByIds(categorie.getSubCategories().stream().map(SubCategorie::getId).collect(toList()));
        categorie.setSubCategories(subCategories);
        CategorieMapper.update(categorieDTO,categorie);
        return categorieRepository.save(categorie);

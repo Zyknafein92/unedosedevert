@@ -45,7 +45,5 @@ public class UserDTO {
 
     private LocalDateTime forgotPasswordTokenExpiration;
 
-    private Boolean active;
-
     private Boolean newsletter;
 }

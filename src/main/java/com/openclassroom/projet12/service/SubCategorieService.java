@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -18,35 +19,38 @@ public class SubCategorieService {
 
     private final SubCatagorieRepository subCatagorieRepository;
 
-    public SubCategorie getSousCategorie(Long id) {
+    public SubCategorie getSubCategorie(Long id) {
         return subCatagorieRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("La sous-catégorie du product n'éxiste pas"));
     }
 
-    public List<SubCategorie> getSousCategories() {
-        return subCatagorieRepository.findAll();
+    public List<SubCategorieDTO> getSubCategories() {
+        return subCatagorieRepository.findAll().stream()
+                .map(SubCategorieMapper::toDTO)
+                .sorted((sc1, sc2) -> (int) (sc1.getId() - sc2.getId()))
+                .collect(Collectors.toList());
     }
 
-    public List<SubCategorie> getSousCategoriesByIds(List<Long> ids) {
+    public List<SubCategorie> getSubCategoriesByIds(List<Long> ids) {
         return subCatagorieRepository.findAllById(ids);
     }
 
-    public Page<SubCategorieDTO> getSousContegoriePage(Pageable pageable) {
+    public Page<SubCategorieDTO> getSubCategoriesPage(Pageable pageable) {
         return subCatagorieRepository.findAll(pageable)
                 .map(SubCategorieMapper::toDTO);
     }
 
-    public SubCategorie addSousCategorie(SubCategorieDTO subCategorieDTO) {
+    public SubCategorie addSubCategorie(SubCategorieDTO subCategorieDTO) {
         return subCatagorieRepository.save(SubCategorieMapper.toSousCategorie(subCategorieDTO));
     }
 
-    public SubCategorie updateSousCategorie(SubCategorieDTO subCategorieDTO) {
-        SubCategorie subCategorie = getSousCategorie(subCategorieDTO.getId());
+    public SubCategorie updateSubCategorie(SubCategorieDTO subCategorieDTO) {
+        SubCategorie subCategorie = getSubCategorie(subCategorieDTO.getId());
         SubCategorieMapper.update(subCategorieDTO, subCategorie);
         return subCatagorieRepository.save(subCategorie);
     }
 
-    public Long deleteSousCategorie(Long id) {
+    public Long deleteSubCategorie(Long id) {
         subCatagorieRepository.deleteById(id);
         return id;
     }

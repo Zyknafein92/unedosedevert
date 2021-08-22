@@ -59,21 +59,39 @@ public class OrderController {
     }
 
     @PutMapping("/{order}/success")
-    public ResponseEntity<Order> updateStatusOrderAfterSuccessPayment(@PathVariable("order")String orderNumber) {
-        Order order = orderService.updateStatusOrder(orderNumber,OrderStatus.VALIDE);
-        return new ResponseEntity<>(order,HttpStatus.OK);
+    public ResponseEntity<OrderDTO> updateStatusOrderAfterSuccessPayment(@PathVariable("order")String orderNumber) {
+        OrderDTO orderToSend = orderService.updateStatusOrder(orderNumber,OrderStatus.VALIDE);
+        return new ResponseEntity<>(orderToSend,HttpStatus.OK);
     }
 
     @PutMapping("/{order}/failure")
-    public ResponseEntity<Order> updateStatusOrderAfterFailurePayment(@PathVariable("order")String orderNumber) {
-        Order order = orderService.updateStatusOrder(orderNumber,OrderStatus.INVALIDE);
-        return new ResponseEntity<>(order,HttpStatus.OK);
+    public ResponseEntity<OrderDTO> updateStatusOrderAfterFailurePayment(@PathVariable("order")String orderNumber) {
+        OrderDTO orderToSend = orderService.updateStatusOrder(orderNumber,OrderStatus.INVALIDE);
+        return new ResponseEntity<>(orderToSend,HttpStatus.OK);
+    }
+
+    @PutMapping("/{order}/picking")
+    public ResponseEntity<OrderDTO> updateStatusOrderAfterOrderPicking(@PathVariable("order")String orderNumber) {
+        OrderDTO orderDTO = orderService.updateStatusOrder(orderNumber,OrderStatus.PREPARATION);
+        return new ResponseEntity<>(orderDTO,HttpStatus.OK);
+    }
+
+    @PutMapping("/{order}/delivery")
+    public ResponseEntity<OrderDTO> updateStatusOrderToDelivery(@PathVariable("order")String orderNumber) {
+        OrderDTO orderDTO = orderService.updateStatusOrder(orderNumber,OrderStatus.LIVRAISON);
+        return new ResponseEntity<>(orderDTO,HttpStatus.OK);
+    }
+
+    @PutMapping("/{order}/readyToDelivery")
+    public ResponseEntity<OrderDTO> updateStatusOrderToReadyDelivery(@PathVariable("order")String orderNumber) {
+        OrderDTO orderDTO = orderService.updateStatusOrder(orderNumber,OrderStatus.ATTENTE_LIVRAISON);
+        return new ResponseEntity<>(orderDTO,HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Order> updateOrder(@Valid @RequestBody OrderDTO orderDTO) {
-        Order order = orderService.updateOrder(orderDTO);
-        return new ResponseEntity<>(order, HttpStatus.OK);
+    public ResponseEntity<OrderDTO> updateOrder(@Valid @RequestBody OrderDTO orderDTO) {
+        OrderDTO orderToSend = orderService.updateOrder(orderDTO);
+        return new ResponseEntity<>(orderToSend, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

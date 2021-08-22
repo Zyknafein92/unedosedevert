@@ -24,4 +24,6 @@ public class VariantDTO {
 
     @NotNull(message= "Veuillez renseigner la disponibilitée du variant!")
     private Stock stock;
+
+    private Long productId;
 }

@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/types") //todo: retirer product
+@RequestMapping("/api/produits/type")
 @AllArgsConstructor
 public class TypeController {
 
@@ -24,8 +24,8 @@ public class TypeController {
 
     @GetMapping
     public ResponseEntity<List<Type>> getTypes() {
-        List<Type> type = typeService.getTypes();
-        return new ResponseEntity<>(type, HttpStatus.OK);
+        List<Type> types = typeService.getTypes();
+        return new ResponseEntity<>(types, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -33,7 +33,7 @@ public class TypeController {
         return new ResponseEntity<>(typeService.getType(id), HttpStatus.OK);
     }
 
-    @GetMapping("/xxx")
+    @GetMapping("/types")
     public Page<TypeDTO> getTypePage(Pageable pageable) {
         return typeService.getTypePage(pageable);
     }

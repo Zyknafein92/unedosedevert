@@ -6,6 +6,7 @@ import com.openclassroom.projet12.dto.*;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.*;
 import com.openclassroom.projet12.model.*;
+import com.openclassroom.projet12.respository.OrderAdressRepository;
 import com.openclassroom.projet12.respository.OrderRepository;
 
 import com.openclassroom.projet12.service.specifications.OrderSpecifications;
@@ -30,6 +31,7 @@ public class OrderService {
     private final UserService userService;
     private final VariantMapper variantMapper;
     private final OrderRepository orderRepository;
+    private final OrderAdressRepository orderAdressRepository;
     private final OrderSpecifications orderSpecifications;
 
 
@@ -67,8 +69,11 @@ public class OrderService {
     public Order orderConfirm(OrderDTO orderDTO, String currentname) {
         List<VariantOrderDTO> variantOrderDTOList = new ArrayList<>();
         UserDTO userDTO =  userService.findByEmail(currentname);
-        AdressDTO deliveryAdress = orderDTO.getDeliveryAdress();
-        AdressDTO billingAdress = orderDTO.getBillingAdress();
+        OrderAdress deliveryAdress = OrderAdressMapper.AdressDTOtoOrderAdress(orderDTO.getDeliveryAdress());
+        OrderAdress billingAdress = OrderAdressMapper.AdressDTOtoOrderAdress(orderDTO.getBillingAdress());
+
+        orderAdressRepository.save(deliveryAdress);
+        orderAdressRepository.save(billingAdress);
 
         for (ShoppingCartLineDTO ligne: userDTO.getShoppingCart().getShoppingCartLines()) {
             Variant variant =  variantMapper.getVariant(ligne.getVariant());
@@ -83,8 +88,8 @@ public class OrderService {
                 .id(orderDTO.getId())
                 .orderNumber(generateRandomCommandNumber())
                 .user(UserMapper.toUser(userDTO))
-                .deliveryAdress(AdressMapper.toAdresse(deliveryAdress))
-                .billingAdress(AdressMapper.toAdresse(billingAdress))
+                .deliveryAdress(deliveryAdress)
+                .billingAdress(billingAdress)
                 .variantOrderList(variantOrderList)
                 .deliveryCharges(5d)
                 .total((variantOrderList.stream().map(VariantOrder::calculateTotalPrice).reduce(0d, Double::sum)))
@@ -92,21 +97,22 @@ public class OrderService {
                 .orderStatus(OrderStatus.ATTENTE)
                 .build();
 
-
         order.setTotal(order.getTotal() + order.getDeliveryCharges());
         return orderRepository.save(order);
     }
 
-    public Order updateOrder(OrderDTO orderDTO) {
+    public OrderDTO updateOrder(OrderDTO orderDTO) {
         Order order = getCommande(orderDTO.getId());
         OrderMapper.update(orderDTO, order);
-        return orderRepository.save(order);
+        orderRepository.save(order);
+        return orderDTO;
     }
 
-    public Order updateStatusOrder(String orderNumber, OrderStatus orderStatus) {
+    public OrderDTO updateStatusOrder(String orderNumber, OrderStatus orderStatus) {
         Order order = orderRepository.findByOrderNumber(orderNumber);
         order.setOrderStatus(orderStatus);
-        return orderRepository.save(order);
+        orderRepository.save(order);
+        return OrderMapper.toOrderDTO(order);
     }
 
     public Long deleteCommande(Long id) {

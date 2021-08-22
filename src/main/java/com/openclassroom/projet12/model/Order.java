@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,14 +31,14 @@ public class Order {
     private User user;
 
     @OneToOne
-    private Adress deliveryAdress;
+    private OrderAdress deliveryAdress;
 
     @OneToOne
-    private Adress billingAdress;
+    private OrderAdress billingAdress;
 
     @OneToMany(cascade = CascadeType.ALL)
     @NotNull(message= "La commande doit posséder au moins un product")
-    private List<VariantOrder> variantOrderList;
+    private List<VariantOrder> variantOrderList = new ArrayList<>();
 
     private Double deliveryCharges;
 
@@ -49,4 +50,5 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
 }

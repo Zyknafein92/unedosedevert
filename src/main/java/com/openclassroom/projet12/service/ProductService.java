@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Objects;
+
 
 import static java.util.stream.Collectors.toList;
 
@@ -28,7 +28,7 @@ public class ProductService {
     private final ReductionService reductionService;
     private final TagService tagService;
     private final LabelService labelService;
-    private final ProductSpecifications specification;
+    private final ProductSpecifications productSpecifications;
 
     public List<ProductDTO> getProduits() {
         return productRepository.findAll().stream().map(ProductMapper::toCompleteDTO).collect(toList());
@@ -40,16 +40,37 @@ public class ProductService {
     }
 
     public List<ProductDTO> findProduitsBySpecification(SearchCriteria searchCriteria) {
-        if(searchCriteria == null) {
-            return productRepository.findAll().stream().map(ProductMapper::toCompleteDTO).collect(toList());
+        Specification<Product> specification = Specification.where(null);
+        if(searchCriteria.getCategorie() != null) {
+            Specification<Product> categorieSpecification = productSpecifications.categorieSpecification(searchCriteria.getCategorie());
+            specification = specification.and(categorieSpecification);
         }
-        Specification<Product> categorieSpecification = specification.tagSpecification(searchCriteria.getCategorie());
-        Specification<Product> sousCategorieSpecification = specification.sousCategorieSpecification(searchCriteria.getSousCategorie());
-        Specification<Product> tagSpecification = specification.tagSpecification(searchCriteria.getTag());
-        Specification<Product> querySpecification = specification.querySpecification(searchCriteria.getQuery());
-        Specification<Product> totalSpecification = Objects.requireNonNull(categorieSpecification.and(sousCategorieSpecification)).and(tagSpecification).and(querySpecification);
-        List<Product> productList = productRepository.findAll(totalSpecification);
-        return productList.stream().map(ProductMapper::toCompleteDTO).collect(toList());
+
+        if(searchCriteria.getSubCategorie() != null) {
+            Specification<Product> subCategorieSpecification = productSpecifications.subCategorieSpecification(searchCriteria.getSubCategorie());
+            specification = specification.and(subCategorieSpecification);
+        }
+
+        if(searchCriteria.getTag() != null) {
+            Specification<Product> tagSpecification = productSpecifications.tagSpecification(searchCriteria.getTag());
+            specification = specification.and(tagSpecification);
+        }
+
+        if(searchCriteria.getLabel() != null) {
+            Specification<Product> labelSpecification = productSpecifications.labelSpecification(searchCriteria.getLabel());
+            specification = specification.and(labelSpecification);
+        }
+
+        if(searchCriteria.isReduction()) {
+            Specification<Product> reductionSpecification = productSpecifications.reductionSpecification();
+            specification = specification.and(reductionSpecification);
+        }
+
+        if(searchCriteria.getQuery() != null) {
+            Specification<Product> searchSpecification = productSpecifications.querySpecification(searchCriteria.getQuery());
+           return productRepository.findAll(searchSpecification).stream().map(ProductMapper::toCompleteDTO).collect(toList());
+        }
+        return productRepository.findAll(specification).stream().map(ProductMapper::toCompleteDTO).collect(toList());
     }
 
     public Product getProduit(Long id) {
@@ -65,11 +86,13 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateProduit(ProductDTO productDTO) {
+    public ProductDTO updateProduit(ProductDTO productDTO) {
         Product product = getProduit(productDTO.getId());
         populateProduit(product, productDTO);
         ProductMapper.update(productDTO, product);
-        return productRepository.save(product);
+        productRepository.save(product);
+        ProductDTO productDTOToSend = ProductMapper.toCompleteDTO(product);
+        return productDTOToSend;
     }
 
     private Product populateProduit(Product product, ProductDTO productDTO) {
@@ -82,7 +105,7 @@ public class ProductService {
             product.setCategorie(categorie);
         }
         if( productDTO.getSubCategorie() != null) {
-            SubCategorie subCategorie = this.subCategorieService.getSousCategorie(productDTO.getSubCategorie().getId());
+            SubCategorie subCategorie = this.subCategorieService.getSubCategorie(productDTO.getSubCategorie().getId());
             product.setSubCategorie(subCategorie);
         }
         if( productDTO.getReduction() != null) {

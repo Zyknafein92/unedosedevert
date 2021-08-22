@@ -29,7 +29,7 @@ public class ShoppingCartService {
         UserDTO userDTO = userService.findByEmail(currentUsername);
         if (userDTO != null) {
             List<ShoppingCartLineDTO> shoppingCartLineDTOList = userDTO.getShoppingCart().getShoppingCartLines();
-            userDTO.getShoppingCart().setTotalPrice(shoppingCartLineDTOList.stream().mapToDouble(ShoppingCartLineDTO::getPrice).reduce(Double::sum).getAsDouble());
+            if(userDTO.getShoppingCart().getShoppingCartLines().size() > 0) userDTO.getShoppingCart().setTotalPrice(shoppingCartLineDTOList.stream().mapToDouble(ShoppingCartLineDTO::getPrice).reduce(Double::sum).getAsDouble());
             return userDTO.getShoppingCart();
         } else throw new NotFoundException("Le shoppingCart n'existe pas !");
     }

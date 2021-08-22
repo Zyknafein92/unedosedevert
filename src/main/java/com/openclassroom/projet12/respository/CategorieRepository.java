@@ -1,6 +1,7 @@
 package com.openclassroom.projet12.respository;
 
 import com.openclassroom.projet12.model.Categorie;
+import com.openclassroom.projet12.model.SubCategorie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
