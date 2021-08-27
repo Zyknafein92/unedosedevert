@@ -17,11 +17,9 @@ public class UserMapper {
 
     public static User createUser(UserDTO userDTO) {
 
-        List<Adress> adressList = userDTO.getAdresses().stream().map(AdressMapper::toAdresse).collect(Collectors.toList());
-
         return User.builder()
                 .id(userDTO.getId())
-                .adresses(adressList)
+                .adresses(new ArrayList<>())
                 .gender(userDTO.getGender())
                 .lastName(userDTO.getLastName())
                 .firstName(userDTO.getFirstName())
@@ -36,7 +34,7 @@ public class UserMapper {
     public static User toUser(UserDTO userDTO) {
 
         List<Adress> adressList = userDTO.getAdresses().stream().map(AdressMapper::toAdresse).collect(Collectors.toList());
-        List<ShoppingCartLine> shoppingCartLineList = userDTO.getShoppingCart().getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigne).collect(Collectors.toList());
+        List<ShoppingCartLine> shoppingCartLineList = userDTO.getShoppingCart().getShoppingCartLines().stream().map(ShoppingCartLineMapper::toShoppingCartLine).collect(Collectors.toList());
 
         ShoppingCart shoppingCart = ShoppingCart.builder()
                 .id(userDTO.getShoppingCart().getId())
@@ -61,7 +59,7 @@ public class UserMapper {
 
     public static UserDTO toUserDTO(User user) {
         List<AdressDTO> adressDTOList = user.getAdresses().stream().map(AdressMapper::toAdresseDTO).collect(Collectors.toList());
-        List<ShoppingCartLineDTO> panierLigneList = user.getShoppingCart().getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigneDTO).collect(Collectors.toList());
+        List<ShoppingCartLineDTO> panierLigneList = user.getShoppingCart().getShoppingCartLines().stream().map(ShoppingCartLineMapper::toShoppingCartLineDTO).collect(Collectors.toList());
         List<OrderDTO> orderDTOList = user.getOrders().stream().map(OrderMapper::toOrderDTO).collect(Collectors.toList());
         ShoppingCartDTO shoppingCartDTO = ShoppingCartDTO.builder()
                 .id(user.getShoppingCart().getId())

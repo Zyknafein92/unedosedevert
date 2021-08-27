@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{3:function(n,t,o){o("q4sD"),o("OmL/"),o("pLrP"),n.exports=o("XlvC")},"OmL/":function(n,t,o){},XlvC:function(n,t,o){},pLrP:function(n,t,o){"use strict";o.r(t),t.default=o.p+"WorkSans-VariableFont_wght.7655b042135598d8cc8d.ttf"},q4sD:function(n,t,o){}},[[3,0]]]);

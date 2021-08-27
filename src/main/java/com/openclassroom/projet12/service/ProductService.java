@@ -41,6 +41,7 @@ public class ProductService {
 
     public List<ProductDTO> findProduitsBySpecification(SearchCriteria searchCriteria) {
         Specification<Product> specification = Specification.where(null);
+
         if(searchCriteria.getCategorie() != null) {
             Specification<Product> categorieSpecification = productSpecifications.categorieSpecification(searchCriteria.getCategorie());
             specification = specification.and(categorieSpecification);

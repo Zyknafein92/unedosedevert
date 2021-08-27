@@ -12,7 +12,7 @@ import com.openclassroom.projet12.respository.ShoppingCartRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -29,7 +29,8 @@ public class ShoppingCartService {
         UserDTO userDTO = userService.findByEmail(currentUsername);
         if (userDTO != null) {
             List<ShoppingCartLineDTO> shoppingCartLineDTOList = userDTO.getShoppingCart().getShoppingCartLines();
-            if(userDTO.getShoppingCart().getShoppingCartLines().size() > 0) userDTO.getShoppingCart().setTotalPrice(shoppingCartLineDTOList.stream().mapToDouble(ShoppingCartLineDTO::getPrice).reduce(Double::sum).getAsDouble());
+            if (userDTO.getShoppingCart().getShoppingCartLines().size() > 0)
+                userDTO.getShoppingCart().setTotalPrice(shoppingCartLineDTOList.stream().mapToDouble(ShoppingCartLineDTO::getPrice).reduce(Double::sum).getAsDouble());
             return userDTO.getShoppingCart();
         } else throw new NotFoundException("Le shoppingCart n'existe pas !");
     }
@@ -76,13 +77,31 @@ public class ShoppingCartService {
 
     public ShoppingCartLine addShoppingCartLine(ShoppingCartLineDTO shoppingCartLineDTO, String currentUsername) {
         UserDTO userDTO = userService.findByEmail(currentUsername);
+        ShoppingCartLine entityToReturn = null;
+        ShoppingCartLineDTO existingData = null;
+        boolean existingValue = false;
         if (userDTO != null) {
-            ShoppingCartLine shoppingCartLine = ShoppingCartLineMapper.toPanierLigne(shoppingCartLineDTO);
-            userDTO.getShoppingCart().getShoppingCartLines().add(shoppingCartLineDTO);
-            User entityToSave = UserMapper.toUser(userDTO);
-            userService.save(entityToSave);
-            return shoppingCartLine;
-        } else throw new RuntimeException("Une erreure s'est produite lors de la création de la ligne du shoppingCart");
+            for (ShoppingCartLineDTO s : userDTO.getShoppingCart().getShoppingCartLines()) {
+                if (isContainInShoppingCart(s.getVariant().getId(), shoppingCartLineDTO.getVariant().getId())) {
+                    existingValue = true;
+                    existingData = s;
+                    break;
+                }
+            }
+            if (existingValue) {
+                existingData.setQuantity(existingData.getQuantity() + shoppingCartLineDTO.getQuantity());
+                existingData.setPrice(existingData.getVariant().getPrice() * existingData.getQuantity());
+                entityToReturn = ShoppingCartLineMapper.toShoppingCartLine(existingData);
+                shoppingCartLineRepository.save(entityToReturn);
+            } else {
+                entityToReturn = ShoppingCartLineMapper.toShoppingCartLine(shoppingCartLineDTO);
+                userDTO.getShoppingCart().getShoppingCartLines().add(shoppingCartLineDTO);
+                User entityToSave = UserMapper.toUser(userDTO);
+                userService.save(entityToSave);
+
+            }
+            return entityToReturn;
+        } else throw new NotFoundException("Une erreure s'est produite");
     }
 
     public ShoppingCartLine updateShoppingCartLine(ShoppingCartLineDTO shoppingCartLineDTO, String currentUsername) {
@@ -104,9 +123,13 @@ public class ShoppingCartService {
         UserDTO userDTO = userService.findByEmail(currentUsername);
         ShoppingCartLine shoppingCartLine = getShoppingCartLine(id);
         if (userDTO != null && shoppingCartLine != null) {
-            userDTO.getShoppingCart().getShoppingCartLines().remove(ShoppingCartLineMapper.toPanierLigneDTO(shoppingCartLine));
+            userDTO.getShoppingCart().getShoppingCartLines().remove(ShoppingCartLineMapper.toShoppingCartLineDTO(shoppingCartLine));
             userService.save(UserMapper.toUser(userDTO));
             return id;
         } else throw new NotFoundException("La ligne n'existe pas");
+    }
+
+    public boolean isContainInShoppingCart(Long a, Long b) {
+        return a.longValue() == b.longValue();
     }
 }

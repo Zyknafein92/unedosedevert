@@ -6,7 +6,6 @@ import com.openclassroom.projet12.model.ShoppingCart;
 import com.openclassroom.projet12.model.ShoppingCartLine;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 public class ShoppingCartMapper {
 
     public static ShoppingCart toShoppingCart(ShoppingCartDTO shoppingCartDTO) {
-        List<ShoppingCartLine> shoppingCartLineList = shoppingCartDTO.getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigne).collect(Collectors.toList());
+        List<ShoppingCartLine> shoppingCartLineList = shoppingCartDTO.getShoppingCartLines().stream().map(ShoppingCartLineMapper::toShoppingCartLine).collect(Collectors.toList());
 
         return ShoppingCart.builder()
                 .id(shoppingCartDTO.getId())
@@ -24,7 +23,7 @@ public class ShoppingCartMapper {
 
     public static ShoppingCartDTO toShoppingCartDTO(ShoppingCart shoppingCart) {
 
-        List<ShoppingCartLineDTO> panierLigneList = shoppingCart.getShoppingCartLines().stream().map(ShoppingCartLineMapper::toPanierLigneDTO).collect(Collectors.toList());
+        List<ShoppingCartLineDTO> panierLigneList = shoppingCart.getShoppingCartLines().stream().map(ShoppingCartLineMapper::toShoppingCartLineDTO).collect(Collectors.toList());
 
         return ShoppingCartDTO.builder()
                 .id(shoppingCart.getId())

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ShoppingCartLineMapper {
 
-    public static ShoppingCartLine toPanierLigne(ShoppingCartLineDTO shoppingCartLineDTO) {
+    public static ShoppingCartLine toShoppingCartLine(ShoppingCartLineDTO shoppingCartLineDTO) {
         Variant variant = VariantMapper.toVariant(shoppingCartLineDTO.getVariant());
         Product product = ProductMapper.toProduit(shoppingCartLineDTO.getProduct());
 
@@ -24,7 +24,7 @@ public class ShoppingCartLineMapper {
                 .build();
     }
 
-    public static ShoppingCartLineDTO toPanierLigneDTO(ShoppingCartLine shoppingCartLine) {
+    public static ShoppingCartLineDTO toShoppingCartLineDTO(ShoppingCartLine shoppingCartLine) {
         VariantDTO variant = VariantMapper.toDTO(shoppingCartLine.getVariant());
         ProductDTO produit = ProductMapper.toCompleteDTO(shoppingCartLine.getProduct());
 

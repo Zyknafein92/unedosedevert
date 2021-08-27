@@ -15,9 +15,8 @@ public class ProductSpecifications {
     //categorie
     public Specification<Product> categorieSpecification(String categorieName) {
         return ((root, criteriaQuery, criteriaBuilder) -> {
-            Path<Categorie> category = root.get("categorie");
-            Predicate containsName = criteriaBuilder.like(criteriaBuilder.upper(category.get("name")), "%" + categorieName + "%");
-            return containsName;
+            Path<Categorie> categoryPath = root.get("categorie");
+            return criteriaBuilder.like(criteriaBuilder.upper(categoryPath.get("name")), "%" + categorieName.toUpperCase() + "%");
         });
     }
 
@@ -25,8 +24,7 @@ public class ProductSpecifications {
     public Specification<Product> subCategorieSpecification(String subCategorieName) {
         return ((root, criteriaQuery, criteriaBuilder) -> {
           Path<SubCategorie> subCategoriePath = root.get("subCategorie");
-          Predicate containsName = criteriaBuilder.like(criteriaBuilder.upper(subCategoriePath.get("name")), "%" + subCategorieName.toUpperCase() + "%");
-            return containsName;
+            return criteriaBuilder.like(criteriaBuilder.upper(subCategoriePath.get("name")), "%" + subCategorieName.toUpperCase() + "%");
         });
     }
 

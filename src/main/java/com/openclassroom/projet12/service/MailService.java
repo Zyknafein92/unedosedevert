@@ -29,7 +29,7 @@ public class MailService {
        ArrayList<SendSmtpEmailTo>recipients = new ArrayList<>();
        SendSmtpEmailTo recipient = new SendSmtpEmailTo();
        recipient.setEmail(email); // replace this with the recipient's email address
-       recipient.setName("Jerome"); // replace this with the recipient's full name
+       recipient.setName("Cher Client"); // replace this with the recipient's full name
        recipients.add(recipient);
 
 
