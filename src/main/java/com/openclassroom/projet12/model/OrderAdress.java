@@ -40,7 +40,6 @@ public class OrderAdress {
 
     private String interphone;
 
-    @NotNull(message= "Veuillez renseigner votre étage !")
     private Integer floor;
 
     private String building;

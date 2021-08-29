@@ -44,6 +44,6 @@ public class ReductionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReduction(@PathVariable("id") Long id) {
         reductionService.deleteReduction(id);
-        return new ResponseEntity<Void> (HttpStatus.OK);
+        return new ResponseEntity<> (HttpStatus.OK);
     }
 }

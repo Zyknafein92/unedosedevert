@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,10 +15,10 @@ public interface ReductionRepository extends JpaRepository<Reduction,Long> {
     Reduction findReductionsByProductId(Long productId);
 
 
-    @Query("select r from Reduction r where r.reductionStart >= :date")
-    List<Reduction> findReductionByDate(LocalDate date);
+    @Query(value = "select r from Reduction r where current_date = :date")
+    List<Reduction> findReductionByDate(Date date);
 
-    @Query("select r from Reduction r where :date > r.reductionEnd")
+    @Query(value = "select r from Reduction r where :date > r.reductionEnd")
     List<Reduction> findOutDatedReductionByDate(LocalDate date);
 
 }

@@ -67,8 +67,14 @@ public class OrderService {
     }
 
     public Order orderConfirm(OrderDTO orderDTO, String currentname) {
+
         List<VariantOrderDTO> variantOrderDTOList = new ArrayList<>();
         UserDTO userDTO =  userService.findByEmail(currentname);
+
+        if (userDTO.getShoppingCart().getShoppingCartLines().isEmpty()) {
+            throw new NotFoundException("Le panier est vide");
+        }
+
         OrderAdress deliveryAdress = OrderAdressMapper.AdressDTOtoOrderAdress(orderDTO.getDeliveryAdress());
         OrderAdress billingAdress = OrderAdressMapper.AdressDTOtoOrderAdress(orderDTO.getBillingAdress());
 

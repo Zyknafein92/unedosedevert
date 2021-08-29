@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,20 +38,23 @@ public class ReductionService {
     }
 
     public ReductionDTO findReductionByProductId(Long id) {
-        return ReductionMapper.toReductionDTO(reductionRepository.findReductionsByProductId(id));
+        Reduction reduction = reductionRepository.findReductionsByProductId(id);
+        if (reduction != null) {
+            return ReductionMapper.toReductionDTO(reduction);
+        } else {
+            throw new NotFoundException("Aucune réduction pour ce produit");
+        }
     }
 
     public Reduction addReduction(ReductionDTO reductionDTO) {
         Product product = this.produitService.findById(reductionDTO.getProduitID())
                 .orElseThrow(() -> new NotFoundException("Le product n'existe pas !"));
-
         Reduction reduction = ReductionMapper.toReduction(reductionDTO);
         reduction.setProduct(product);
         this.reductionRepository.save(reduction);
         product.setReduction(reduction);
         this.produitService.save(product);
        return reduction;
-
     }
 
     public Reduction updateReduction(ReductionDTO reductionDTO) {
@@ -65,7 +69,7 @@ public class ReductionService {
         product.setReduction(null);
         product.getVariants().forEach(v -> v.setReductionPrice(null));
         this.produitService.save(product);
-        reductionRepository.deleteById(id);
+       // reductionRepository.deleteById(id);
     }
 
     /**
@@ -91,10 +95,11 @@ public class ReductionService {
      */
 
     //@Scheduled(cron= "0 0 0 * * *") //tous les jours à minuit.
-    @Scheduled(fixedDelay = 120000) // toutes les 2 minutes pour démo.
+    @Scheduled(fixedDelay = 60000) // toutes les 2 minutes pour démo.
     @Transactional
     public void checkReduction() {
-        LocalDate date = LocalDate.now();
+        LocalDate localDate = LocalDate.now();
+        Date date = Date.valueOf(localDate);
         List<Reduction> reductionList = reductionRepository.findReductionByDate(date);
 
         for (Reduction r : reductionList) {
@@ -103,8 +108,9 @@ public class ReductionService {
             applyReduction(product);
         }
     }
+
     //@Scheduled(cron= "0 0 0 * * *") //tous les jours à minuit.
-    @Scheduled(fixedDelay = 120000) // toutes les 2 minutes pour démo.
+    @Scheduled(fixedDelay = 60000) // toutes les 2 minutes pour démo.
     @Transactional
     public void checkReservationOutDated() {
         LocalDate date = LocalDate.now();

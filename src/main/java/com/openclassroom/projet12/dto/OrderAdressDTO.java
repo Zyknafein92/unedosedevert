@@ -32,7 +32,6 @@ public class OrderAdressDTO {
 
     private String appartNumber;
 
-    @NotNull(message= "Veuillez renseigner votre étage !")
     private Integer floor;
 
     private String building;

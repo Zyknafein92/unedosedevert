@@ -55,7 +55,7 @@ public class ShoppingCartService {
             ShoppingCartLineDTO shoppingCartLineDTO = ShoppingCartLineDTO.builder()
                     .variant(variantDTO)
                     .product(vod.getProductDTO())
-                    .price(variantDTO.getPrice())
+                    .price(variantDTO.getPrice() * vod.getQuantity())
                     .quantity(vod.getQuantity())
                     .build();
 
