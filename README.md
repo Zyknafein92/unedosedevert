@@ -48,6 +48,7 @@ Serveur d'application :
 
 Restaurer la base de données
 ----------------------------
+Ouvrez pgAdmin, et ajoutez une base de donnée nommée epicerie.
 Au lancement de l'application, le fichier data.sql présent dans /ressources va automatiquement initier la base de données.
 /!\ Vérifiez que le fichier présent dans src/main/ressources/application-dev-properties possède à la ligne spring.jpa.hibernate.ddl-auto la valeur create-drop.
 
