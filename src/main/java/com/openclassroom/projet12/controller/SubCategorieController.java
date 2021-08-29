@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/produits/sousCategorie") // todo: /api/categorie/{categorieID}/subCategorie
+@RequestMapping("/api/produits/sousCategorie")
 @AllArgsConstructor
 public class SubCategorieController {
 
