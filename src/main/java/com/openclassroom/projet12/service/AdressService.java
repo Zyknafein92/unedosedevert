@@ -19,19 +19,16 @@ public class AdressService {
     private final AdressRepository adressRepository;
     private final UserService userService;
 
-    public Adress getAdresse(Long id) {
+    public Adress getAddress(Long id) {
         return adressRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("L'adresse n'existe pas !"));
     }
 
-    public Adress addAdresse(AdressDTO adressDTO, String username) {
+    public Adress addAddress(AdressDTO adressDTO, String username) {
 
         UserDTO userDTO = userService.findByEmail(username);
 
         if (userDTO != null) {
-            if (!checkDelivryStatus(userDTO)) adressDTO.setDelivery(true);
-            if (!checkBillingStatus(userDTO)) adressDTO.setBilling(true);
-
             Adress adress = AdressMapper.toAdresse(adressDTO);
             userDTO.getAdresses().add(adressDTO);
             User userEntity = UserMapper.toUser(userDTO);
@@ -41,25 +38,32 @@ public class AdressService {
         } else throw new RuntimeException("Une erreure s'est produite lors de la création de l'adresse");
     }
 
-    public Adress updateAdresse(AdressDTO adressDTO, String username) {
+    public Adress updateAddress(AdressDTO adressDTO, String username) {
         UserDTO userDTO = userService.findByEmail(username);
-        Adress adress = getAdresse(adressDTO.getId());
+        Adress adress = getAddress(adressDTO.getId());
         if(userDTO != null && adress != null) {
-            if (adress.getDelivery() && checkDelivryStatus(userDTO)) {
-                updateUserAdresseDeliveryStatus(userDTO, adress);
+            if (adressDTO.getDelivery() != null) {
+                adress.setDelivery(adressDTO.getDelivery());
             }
-            if(adress.getBilling() && checkBillingStatus(userDTO)) {
-                updateUserAdresseBillingStatus(userDTO, adress);
+            if (adressDTO.getBilling() != null) {
+                adress.setBilling(adressDTO.getBilling());
             }
+            if (adress.getDelivery() || adress.getDelivery() != null && checkDelivryStatus(userDTO)) {
+                updateUserAddressDeliveryStatus(userDTO, adress);
+            }
+            if(adress.getBilling() || adress.getBilling() != null && checkBillingStatus(userDTO)) {
+                updateUserAddressBillingStatus(userDTO, adress);
+            }
+
             AdressMapper.update(adressDTO, adress);
             return adressRepository.save(adress);
         }
         else throw new RuntimeException("Une erreure s'est produite lors de la modification de l'adress");
     }
 
-    public Long deleteAdresse(Long id, String username) {
+    public Long deleteAddress(Long id, String username) {
         UserDTO user = userService.findByEmail(username);
-        Adress adress = getAdresse(id);
+        Adress adress = getAddress(id);
         if (adress != null) {
             user.getAdresses().remove(AdressMapper.toAdresseDTO(adress));
             User userEntity = UserMapper.toUser(user);
@@ -76,7 +80,7 @@ public class AdressService {
         return userDTO.getAdresses().stream().anyMatch(AdressDTO::getDelivery);
     }
 
-    private void updateUserAdresseBillingStatus(UserDTO userDTO, Adress adress) {
+    private void updateUserAddressBillingStatus(UserDTO userDTO, Adress adress) {
         for (AdressDTO adressDTO : userDTO.getAdresses()) {
             if (!adressDTO.getId().equals(adress.getId()) && adressDTO.getBilling()) {
                 adressDTO.setBilling(false);
@@ -86,7 +90,7 @@ public class AdressService {
 
     }
 
-    private void updateUserAdresseDeliveryStatus(UserDTO userDTO, Adress adress) {
+    private void updateUserAddressDeliveryStatus(UserDTO userDTO, Adress adress) {
         for (AdressDTO adressDTO : userDTO.getAdresses()) {
             if (!adressDTO.getId().equals(adress.getId()) && adressDTO.getDelivery()) {
                 adressDTO.setDelivery(false);

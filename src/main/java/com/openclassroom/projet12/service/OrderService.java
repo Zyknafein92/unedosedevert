@@ -61,7 +61,7 @@ public class OrderService {
         return orderRepository.findAllByUserId(userDTO.getId(), pageable).map(OrderMapper::toOrderDTO);
     }
 
-    public Order getCommande(Long id) {
+    public Order getOrder(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("La commande n'existe pas !"));
     }
@@ -102,7 +102,7 @@ public class OrderService {
     }
 
     public OrderDTO updateOrder(OrderDTO orderDTO) {
-        Order order = getCommande(orderDTO.getId());
+        Order order = getOrder(orderDTO.getId());
         OrderMapper.update(orderDTO, order);
         orderRepository.save(order);
         return orderDTO;
@@ -115,7 +115,7 @@ public class OrderService {
         return OrderMapper.toOrderDTO(order);
     }
 
-    public Long deleteCommande(Long id) {
+    public Long deleteOrder(Long id) {
         orderRepository.deleteById(id);
         return id;
     }

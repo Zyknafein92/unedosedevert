@@ -28,17 +28,17 @@ public class SubCategorieController {
     }
 
     @GetMapping("/subCategories")
-    public Page<SubCategorieDTO> getSousCategoriePage(Pageable pageable) {
+    public Page<SubCategorieDTO> getSubCategoriesPage(Pageable pageable) {
         return subCategorieService.getSubCategoriesPage(pageable);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubCategorie> getSousCategorie(@PathVariable("id") Long id) {
+    public ResponseEntity<SubCategorie> getSubCategorie(@PathVariable("id") Long id) {
         return new ResponseEntity<>(subCategorieService.getSubCategorie(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<SubCategorie> addSousCategorie(@Valid @RequestBody SubCategorieDTO subCategorieDTO) {
+    public ResponseEntity<SubCategorie> addSubCategorie(@Valid @RequestBody SubCategorieDTO subCategorieDTO) {
         SubCategorie subCategorieToCreate = subCategorieService.addSubCategorie(subCategorieDTO);
         return new ResponseEntity<>(subCategorieToCreate,HttpStatus.CREATED);
 

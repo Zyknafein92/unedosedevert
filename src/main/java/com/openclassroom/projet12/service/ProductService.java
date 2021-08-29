@@ -30,16 +30,16 @@ public class ProductService {
     private final LabelService labelService;
     private final ProductSpecifications productSpecifications;
 
-    public List<ProductDTO> getProduits() {
+    public List<ProductDTO> getProducts() {
         return productRepository.findAll().stream().map(ProductMapper::toCompleteDTO).collect(toList());
     }
 
-    public Page<ProductDTO> getProduitPage(Pageable pageable) {
+    public Page<ProductDTO> getProductPage(Pageable pageable) {
         return productRepository.findAll(pageable)
                 .map(ProductMapper::toCompleteDTO);
     }
 
-    public List<ProductDTO> findProduitsBySpecification(SearchCriteria searchCriteria) {
+    public List<ProductDTO> findProductsBySpecification(SearchCriteria searchCriteria) {
         Specification<Product> specification = Specification.where(null);
 
         if(searchCriteria.getCategorie() != null) {
@@ -74,29 +74,29 @@ public class ProductService {
         return productRepository.findAll(specification).stream().map(ProductMapper::toCompleteDTO).collect(toList());
     }
 
-    public Product getProduit(Long id) {
+    public Product getProduct(Long id) {
         return productRepository.findById(id).orElseThrow(() -> new NotFoundException("Le product n'existe pas"));
     }
-    public ProductDTO getProduitDTO(Long id) {
+    public ProductDTO getProductDTO(Long id) {
         return ProductMapper.toCompleteDTO(productRepository.findById(id).orElseThrow(() -> new NotFoundException("Le product n'existe pas")));
     }
 
-    public Product addProduit(ProductDTO productDTO) {
+    public Product addProduct(ProductDTO productDTO) {
         Product product = ProductMapper.toProduit(productDTO);
-        populateProduit(product, productDTO);
+        populateProduct(product, productDTO);
         return productRepository.save(product);
     }
 
-    public ProductDTO updateProduit(ProductDTO productDTO) {
-        Product product = getProduit(productDTO.getId());
-        populateProduit(product, productDTO);
+    public ProductDTO updateProduct(ProductDTO productDTO) {
+        Product product = getProduct(productDTO.getId());
+        populateProduct(product, productDTO);
         ProductMapper.update(productDTO, product);
         productRepository.save(product);
         ProductDTO productDTOToSend = ProductMapper.toCompleteDTO(product);
         return productDTOToSend;
     }
 
-    private Product populateProduit(Product product, ProductDTO productDTO) {
+    private Product populateProduct(Product product, ProductDTO productDTO) {
         if( productDTO.getType() != null) {
             Type type = this.typeService.getType(productDTO.getType().getId());
             product.setType(type);
@@ -124,12 +124,12 @@ public class ProductService {
         return product;
     }
 
-    public Long deleteProduit(Long id) {
+    public Long deleteProduct(Long id) {
         productRepository.deleteById(id);
         return id;
     }
 
-    public Product saveProduit(Product product) {
+    public Product saveProduct(Product product) {
         return this.productRepository.save(product);
     }
 }

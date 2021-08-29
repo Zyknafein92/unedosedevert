@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -27,14 +26,14 @@ public class OrderController {
     private final AuthenticationService authenticationService;
 
     @GetMapping
-    public ResponseEntity<List<Order>> getCommandes() {
+    public ResponseEntity<List<Order>> getOrders() {
         List<Order> orders = orderService.getOrders();
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrder(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(orderService.getCommande(id), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getOrder(id), HttpStatus.OK);
     }
 
     @GetMapping("/user")
@@ -96,6 +95,6 @@ public class OrderController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteCommande(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(orderService.deleteCommande(id), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.deleteOrder(id), HttpStatus.OK);
     }
 }

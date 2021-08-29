@@ -36,7 +36,7 @@ public class ReductionService {
                 .orElseThrow(() -> new NotFoundException("Le reduction recherché n'a pas été trouvé"));
     }
 
-    public ReductionDTO findReductionByProduitId(Long id) {
+    public ReductionDTO findReductionByProductId(Long id) {
         return ReductionMapper.toReductionDTO(reductionRepository.findReductionsByProductId(id));
     }
 

@@ -31,7 +31,7 @@ public class TagController {
     }
 
     @GetMapping("/tags")
-    public Page<TagDTO> getCategoriePage(Pageable pageable) {
+    public Page<TagDTO> getTagsPage(Pageable pageable) {
         return tagService.getTagPage(pageable);
     }
 

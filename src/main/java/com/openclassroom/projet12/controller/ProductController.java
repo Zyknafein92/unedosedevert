@@ -26,40 +26,40 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getProduits() {
-        List<ProductDTO> produits = productService.getProduits();
+    public ResponseEntity<List<ProductDTO>> getProducts() {
+        List<ProductDTO> produits = productService.getProducts();
         return new ResponseEntity<>(produits, HttpStatus.OK);
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<ProductDTO>> findProduitsByCriteria(@RequestBody(required = false) SearchCriteria searchCriteria) {
-        return new ResponseEntity<>(productService.findProduitsBySpecification(searchCriteria), HttpStatus.OK);
+    public ResponseEntity<List<ProductDTO>> findProductsByCriteria(@RequestBody(required = false) SearchCriteria searchCriteria) {
+        return new ResponseEntity<>(productService.findProductsBySpecification(searchCriteria), HttpStatus.OK);
     }
 
     @GetMapping("/products")
-    public Page<ProductDTO> getProduitPage(Pageable pageable) {
-        return productService.getProduitPage(pageable);
+    public Page<ProductDTO> getProductPage(Pageable pageable) {
+        return productService.getProductPage(pageable);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getProduit(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(productService.getProduitDTO(id), HttpStatus.OK);
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(productService.getProductDTO(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduit(@Valid @RequestBody ProductDTO productDTO) {
-        Product productToCreate = productService.addProduit(productDTO);
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductDTO productDTO) {
+        Product productToCreate = productService.addProduct(productDTO);
         return new ResponseEntity<>(productToCreate,HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<ProductDTO> updateProduit(@Valid @RequestBody ProductDTO productDTO) {
-        ProductDTO productToPush = productService.updateProduit(productDTO);
+    public ResponseEntity<ProductDTO> updateProduct(@Valid @RequestBody ProductDTO productDTO) {
+        ProductDTO productToPush = productService.updateProduct(productDTO);
         return new ResponseEntity<>(productToPush, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> deleteProduit(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(productService.deleteProduit(id), HttpStatus.OK);
+    public ResponseEntity<Long> deleteProduct(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(productService.deleteProduct(id), HttpStatus.OK);
     }
 }

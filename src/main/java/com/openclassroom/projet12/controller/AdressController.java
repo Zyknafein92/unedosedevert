@@ -23,26 +23,26 @@ public class AdressController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Adress> getAdresse(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(adressService.getAdresse(id), HttpStatus.OK);
+        return new ResponseEntity<>(adressService.getAddress(id), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Adress> addAdresse(@Valid @RequestBody AdressDTO adressDTO) {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        Adress adressToCreate = adressService.addAdresse(adressDTO, currentUsername);
+        Adress adressToCreate = adressService.addAddress(adressDTO, currentUsername);
         return new ResponseEntity<>(adressToCreate,HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<Adress> updateAdresse(@Valid @RequestBody AdressDTO adressDTO) {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        Adress adress = adressService.updateAdresse(adressDTO,currentUsername);
+        Adress adress = adressService.updateAddress(adressDTO,currentUsername);
         return new ResponseEntity<>(adress, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteAdresse(@PathVariable("id") Long id) {
         String currentUsername = authenticationService.getCurrentLoggedInUsername();
-        return new ResponseEntity<>(adressService.deleteAdresse(id, currentUsername), HttpStatus.OK);
+        return new ResponseEntity<>(adressService.deleteAddress(id, currentUsername), HttpStatus.OK);
     }
 }

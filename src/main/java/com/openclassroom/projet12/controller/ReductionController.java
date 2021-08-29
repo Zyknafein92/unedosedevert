@@ -1,20 +1,14 @@
 package com.openclassroom.projet12.controller;
 
 import com.openclassroom.projet12.dto.ReductionDTO;
-import com.openclassroom.projet12.dto.VariantDTO;
 import com.openclassroom.projet12.model.Reduction;
-import com.openclassroom.projet12.model.Variant;
 import com.openclassroom.projet12.service.ReductionService;
-import com.openclassroom.projet12.service.VariantService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -26,7 +20,7 @@ public class ReductionController {
 
     @GetMapping()
     public ResponseEntity<ReductionDTO> getReductionByProductId(@PathVariable("produitID") Long id) {
-        return new ResponseEntity<>(reductionService.findReductionByProduitId(id), HttpStatus.OK);
+        return new ResponseEntity<>(reductionService.findReductionByProductId(id), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

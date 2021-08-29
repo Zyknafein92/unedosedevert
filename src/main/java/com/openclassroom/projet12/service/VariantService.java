@@ -42,11 +42,11 @@ public class VariantService {
     }
 
     public VariantDTO addVariant(Long produitID, VariantDTO variantDTO) {
-        Product product = this.productService.getProduit(produitID);
+        Product product = this.productService.getProduct(produitID);
         Variant newVariant = VariantMapper.toVariant(variantDTO);
         newVariant.setProduct(product);
         product.getVariants().add(newVariant);
-        product = this.productService.saveProduit(product);
+        product = this.productService.saveProduct(product);
         return VariantMapper.toDTO(product.getVariants().get(product.getVariants().size() - 1));
     }
 

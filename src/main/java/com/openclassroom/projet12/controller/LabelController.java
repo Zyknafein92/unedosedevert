@@ -38,20 +38,21 @@ public class LabelController {
         return new ResponseEntity<>(labelService.getLabel(id), HttpStatus.OK);
     }
 
+
     @PostMapping
-    public ResponseEntity<Label> addLabelCategorie(@Valid @RequestBody LabelDTO labelDTO) {
+    public ResponseEntity<Label> addLabel(@Valid @RequestBody LabelDTO labelDTO) {
         Label labelToCreate = labelService.addLabel(labelDTO);
         return new ResponseEntity<>(labelToCreate,HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Label> updateLabelCategorie(@Valid @RequestBody LabelDTO labelDTO) {
+    public ResponseEntity<Label> updateLabel(@Valid @RequestBody LabelDTO labelDTO) {
         Label label = labelService.updateLabel(labelDTO);
         return new ResponseEntity<>(label, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> deleteLabelCategorie(@PathVariable("id") Long id) {
+    public ResponseEntity<Long> deleteLabel(@PathVariable("id") Long id) {
         return new ResponseEntity<>(labelService.deleteLabel(id), HttpStatus.OK);
     }
 }
