@@ -123,15 +123,6 @@ INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) 
 INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (11, 17);
 INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (11, 18);
 
-INSERT INTO public.t_product (id, additional_information, allergen, brand, composition, nutritional_information, origin, producer, producer_comment, product_description, title, url_picture1, url_picture2, url_picture3, utilisation_advice, why_this_product, categorie_id, reduction_id, sub_categorie_id, type_id) VALUES (1, '', 'soja, huile essentielle
-', 'La route des comptoirs', 'Thé vert de Chine*, menthe*, écorces de citron*, zestes de grenade*, huile essentielle de citron*, arôme naturel mangue
-(soja) - *: Ingrédients issus de l''agriculture biologique
-', 'Le thé vert contient de puissants antioxydants.', 'Chine (matière 1ère principale), France (transformation et assemblage)', '', '', 'La fraîcheur du thé vert au doux parfum de mangue, ravivée par une touche acidulée de citron et soulignée par une
-pointe de menthe, digestive et rafraîchissante. Niveau de Théine : peu élevé', 'Thé vert - Tropical', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1629384416546thé_vert_-Tropiques_300x300.jpg', '', '', 'A déguster aussi bien chaud que glacé, selon la saison.
-Dosage : 3 cuillères/ L,
-Temps d’infusion : 4-5 mn
-Température de l’eau : 80°C', 'Nous avons choisi ce thé vert pour sa douceur et sa polyvalence (excellent en thé chaud et glacé). Le thé vert est un thé
-peu transformé (juste séché, d''où sa couleur verte), qui possède un goût subtil aux notes d''herbe tondues.', 1, null, 1, 1);
 INSERT INTO public.t_product (id, additional_information, allergen, brand, composition, nutritional_information, origin, producer, producer_comment, product_description, title, url_picture1, url_picture2, url_picture3, utilisation_advice, why_this_product, categorie_id, reduction_id, sub_categorie_id, type_id) VALUES (2, '', 'huile essentielle', 'La route des comptoirs', 'Rooibos d’Afrique du Sud* , gingembre*, huile essentielle d‘orange*, arôme naturel abricot*
  *Ingrédients issus de l''agriculture biologique.
 Ingrédients issus du commerce équitable certifiés Fairtrade / Max Havelaar : Rooibos, gingembre (96,5% du poids total).', 'N/C', 'Afrique du Sud (matière 1ère principale), France (assemblage et transformation)', '', '', 'Laissez votre esprit voyager, avec ce mélange fruité et épicé, au doux parfum de fruits du verger associé au puissant
@@ -189,6 +180,15 @@ Piment ñora (plus proche du poivron par sa saveur douce & fruité), ail et cibo
 Ce produit permet de baisser les quantités de sel dans vos plats.
 ', 'Gomasio', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1629387017335gomasio.jpg', '', '', 'A saupoudrer sur les salades, pâtes, riz etc.', 'Notre gomasio est assemblé par nos soins en en île de france, à partir d’ingrédients bio uniquement. Etant une petite entreprise, qui privilégie la qualité aux labels et certifications officielles, nous avons fait le choix de ne pas faire certifier ce produit. Nous utilisons de la fleur de sel de Guérande en direct producteur et des épices cultivées et récoltées de façon traditionnelle.
 ', 2, null, 5, 1);
+INSERT INTO public.t_product (id, additional_information, allergen, brand, composition, nutritional_information, origin, producer, producer_comment, product_description, title, url_picture1, url_picture2, url_picture3, utilisation_advice, why_this_product, categorie_id, reduction_id, sub_categorie_id, type_id) VALUES (1, '', 'soja, huile essentielle
+', 'La route des comptoirs', 'Thé vert de Chine*, menthe*, écorces de citron*, zestes de grenade*, huile essentielle de citron*, arôme naturel mangue
+(soja) - *: Ingrédients issus de l''agriculture biologique
+', 'Le thé vert contient de puissants antioxydants.', 'Chine (matière 1ère principale), France (transformation et assemblage)', '', '', 'La fraîcheur du thé vert au doux parfum de mangue, ravivée par une touche acidulée de citron et soulignée par une
+pointe de menthe, digestive et rafraîchissante. Niveau de Théine : peu élevé', 'Thé vert - Tropical', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1629384416546thé_vert_-Tropiques_300x300.jpg', '', '', 'A déguster aussi bien chaud que glacé, selon la saison.
+Dosage : 3 cuillères/ L,
+Temps d’infusion : 4-5 mn
+Température de l’eau : 80°C', 'Nous avons choisi ce thé vert pour sa douceur et sa polyvalence (excellent en thé chaud et glacé). Le thé vert est un thé
+peu transformé (juste séché, d''où sa couleur verte), qui possède un goût subtil aux notes d''herbe tondues.', 1, null, 1, 1);
 SELECT setval('t_product_id_seq', 8, true);
 
 INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (5, '50g ', 3.7, 74, null, 'DISPONIBLE', 2);
@@ -221,7 +221,26 @@ INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (5, 2);
 INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (1, 1);
 
 INSERT INTO public.t_tag (id, description, name) VALUES (1, 'Produit réalisé par nos soins !', 'Une dose de vert');
-SELECT setval('t_tag_id_seq', 2, true);
+INSERT INTO public.t_tag (id, description, name) VALUES (5, 'Moins de 50 km', 'Produits locaux');
+INSERT INTO public.t_tag (id, description, name) VALUES (9, 'Nos nouveaux produits', 'Nouveauté');
+INSERT INTO public.t_tag (id, description, name) VALUES (7, 'Produit au brésil', 'Made in Brésil');
+INSERT INTO public.t_tag (id, description, name) VALUES (8, 'Produit certifiés issus du commerce équitable.', 'Ethique');
+INSERT INTO public.t_tag (id, description, name) VALUES (4, 'Produits certifié de l''agriculture biologique', 'Bio');
+INSERT INTO public.t_tag (id, description, name) VALUES (3, 'Produits certifié vegan', 'Vegan');
+INSERT INTO public.t_tag (id, description, name) VALUES (10, 'Vos produits préférés', 'Meilleures ventes');
+INSERT INTO public.t_tag (id, description, name) VALUES (6, 'Tous les produits certifiés francais', 'Made in France');
+SELECT setval('t_tag_id_seq', 9, true);
 
 INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (5, 1);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 1);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 3);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 4);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 5);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 6);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 7);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 8);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 9);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (3, 9);
 INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (1, 1);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (1, 10);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (7, 10);

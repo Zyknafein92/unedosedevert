@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -40,18 +41,21 @@ public class LabelController {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Label> addLabel(@Valid @RequestBody LabelDTO labelDTO) {
         Label labelToCreate = labelService.addLabel(labelDTO);
         return new ResponseEntity<>(labelToCreate,HttpStatus.CREATED);
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Label> updateLabel(@Valid @RequestBody LabelDTO labelDTO) {
         Label label = labelService.updateLabel(labelDTO);
         return new ResponseEntity<>(label, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Long> deleteLabel(@PathVariable("id") Long id) {
         return new ResponseEntity<>(labelService.deleteLabel(id), HttpStatus.OK);
     }

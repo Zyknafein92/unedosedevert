@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -47,18 +48,21 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductDTO productDTO) {
         Product productToCreate = productService.addProduct(productDTO);
         return new ResponseEntity<>(productToCreate,HttpStatus.CREATED);
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDTO> updateProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductDTO productToPush = productService.updateProduct(productDTO);
         return new ResponseEntity<>(productToPush, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Long> deleteProduct(@PathVariable("id") Long id) {
         return new ResponseEntity<>(productService.deleteProduct(id), HttpStatus.OK);
     }

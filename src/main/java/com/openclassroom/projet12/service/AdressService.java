@@ -35,20 +35,22 @@ public class AdressService {
             userService.save(userEntity);
             return adress;
 
-        } else throw new RuntimeException("Une erreure s'est produite lors de la création de l'adresse");
+        } else throw new RuntimeException("Une erreure s'est produite lors de la création de l'adresse"); //todo : custom exception
     }
 
     public Adress updateAddress(AdressDTO adressDTO, String username) {
         UserDTO userDTO = userService.findByEmail(username);
         Adress adress = getAddress(adressDTO.getId());
-        if(userDTO != null && adress != null) {
+
+        if (userDTO != null && adress != null) {
+
             if (adressDTO.getDelivery() != null) {
                 adress.setDelivery(adressDTO.getDelivery());
             }
             if (adressDTO.getBilling() != null) {
                 adress.setBilling(adressDTO.getBilling());
             }
-            if (adress.getDelivery() || adress.getDelivery() != null && checkDelivryStatus(userDTO)) {
+            if (adress.getDelivery() || adress.getDelivery() != null && checkDeliveryStatus(userDTO)) {
                 updateUserAddressDeliveryStatus(userDTO, adress);
             }
             if(adress.getBilling() || adress.getBilling() != null && checkBillingStatus(userDTO)) {
@@ -72,7 +74,7 @@ public class AdressService {
         return id;
     }
 
-    private boolean checkDelivryStatus(UserDTO userDTO) {
+    private boolean checkDeliveryStatus(UserDTO userDTO) {
         return userDTO.getAdresses().stream().anyMatch(AdressDTO::getDelivery);
     }
 

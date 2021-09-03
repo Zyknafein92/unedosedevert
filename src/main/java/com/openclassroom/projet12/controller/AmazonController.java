@@ -3,6 +3,7 @@ package com.openclassroom.projet12.controller;
 import com.openclassroom.projet12.dto.PictureDTO;
 import com.openclassroom.projet12.service.PictureService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ public class AmazonController {
     private final PictureService photoService;
 
     @PostMapping("/upload")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public PictureDTO upload(@RequestPart(value = "file") MultipartFile file) throws IllegalAccessException {
         return PictureDTO.builder().urlPicture(photoService.uploadPhoto(file)).build();
     }

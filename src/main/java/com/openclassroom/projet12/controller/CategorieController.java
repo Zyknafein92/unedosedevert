@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -43,18 +44,21 @@ public class CategorieController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Categorie> addCategorie(@Valid @RequestBody CategorieDTO categorieDTO) {
         Categorie categorieToCreate = categorieService.addCategorie(categorieDTO);
         return new ResponseEntity<>(categorieToCreate, HttpStatus.CREATED);
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Categorie> updateCategorie(@Valid @RequestBody CategorieDTO categorieDTO) {
         Categorie categorie = categorieService.updateCategorie(categorieDTO);
         return new ResponseEntity<>(categorie, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Long> deleteCategorie(@PathVariable("id") Long id) {
         return new ResponseEntity<>(categorieService.deleteCategorie(id), HttpStatus.OK);
     }

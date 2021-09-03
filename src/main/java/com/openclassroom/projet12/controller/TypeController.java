@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -39,18 +40,21 @@ public class TypeController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Type> addType(@Valid @RequestBody TypeDTO typeDTO) {
         Type typeToCreate = typeService.addType(typeDTO);
         return new ResponseEntity<>(typeToCreate, HttpStatus.CREATED);
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Type> updateType(@Valid @RequestBody TypeDTO typeDTO) {
         Type type = typeService.updateType(typeDTO);
         return new ResponseEntity<>(type, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Long> deleteType(@PathVariable("id") Long id) {
         return new ResponseEntity<>(typeService.deleteType(id), HttpStatus.OK);
     }

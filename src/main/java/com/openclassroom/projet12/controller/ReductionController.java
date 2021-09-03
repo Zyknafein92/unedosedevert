@@ -6,6 +6,7 @@ import com.openclassroom.projet12.service.ReductionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,6 +30,7 @@ public class ReductionController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Reduction> addReduction(@Valid @RequestBody ReductionDTO reductionDTO) {
         Reduction reductionToCreate = reductionService.addReduction(reductionDTO);
         return new ResponseEntity<>(reductionToCreate,HttpStatus.CREATED);
@@ -36,12 +38,14 @@ public class ReductionController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Reduction> updateReduction(@Valid @RequestBody ReductionDTO reductionDTO) {
         Reduction reduction = reductionService.updateReduction(reductionDTO);
         return new ResponseEntity<>(reduction, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteReduction(@PathVariable("id") Long id) {
         reductionService.deleteReduction(id);
         return new ResponseEntity<> (HttpStatus.OK);

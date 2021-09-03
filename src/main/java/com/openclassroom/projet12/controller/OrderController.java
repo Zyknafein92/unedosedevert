@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -42,8 +43,9 @@ public class OrderController {
         return orderService.getOrdersForCurrentUser(currentUsername,pageable);
     }
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @PostMapping("/admin")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Page<OrderDTO> getOrdersForAdminBySpecification(Pageable pageable, @RequestBody(required = false) OrderSpecification orderSpecification) {
         return orderService.getOrdersForAdminBySpecification(pageable, orderSpecification);
     }
@@ -94,6 +96,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Long> deleteCommande(@PathVariable("id") Long id) {
         return new ResponseEntity<>(orderService.deleteOrder(id), HttpStatus.OK);
     }

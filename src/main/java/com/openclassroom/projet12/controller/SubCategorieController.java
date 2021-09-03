@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,6 +39,7 @@ public class SubCategorieController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<SubCategorie> addSubCategorie(@Valid @RequestBody SubCategorieDTO subCategorieDTO) {
         SubCategorie subCategorieToCreate = subCategorieService.addSubCategorie(subCategorieDTO);
         return new ResponseEntity<>(subCategorieToCreate,HttpStatus.CREATED);
@@ -45,12 +47,14 @@ public class SubCategorieController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<SubCategorie> updateSousCategorie(@Valid @RequestBody SubCategorieDTO subCategorieDTO) {
         SubCategorie subCategorie = subCategorieService.updateSubCategorie(subCategorieDTO);
         return new ResponseEntity<>(subCategorie, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Long> deleteSousCategorie(@PathVariable("id") Long id) {
         return new ResponseEntity<>(subCategorieService.deleteSubCategorie(id), HttpStatus.OK);
     }

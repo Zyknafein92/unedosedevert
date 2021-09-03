@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -40,18 +41,21 @@ public class VariantController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<VariantDTO> addVariant(@PathVariable("produitId") Long id, @Valid @RequestBody VariantDTO variantDTO) {
         VariantDTO variantToCreate = variantService.addVariant(id,variantDTO);
         return new ResponseEntity<>(variantToCreate,HttpStatus.CREATED);
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<VariantDTO> updateVariant(@PathVariable("produitId") Long id, @Valid @RequestBody VariantDTO variantDTO) {
         VariantDTO variantToSend = variantService.updateVariant(variantDTO);
         return new ResponseEntity<>(variantToSend, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Long> deleteVariant(@PathVariable("id") Long id) {
         return new ResponseEntity<>(variantService.deleteVariant(id), HttpStatus.OK);
     }
