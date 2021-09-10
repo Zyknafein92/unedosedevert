@@ -2,10 +2,14 @@ package com.openclassroom.projet12.service;
 
 import com.openclassroom.projet12.dto.CategorieDTO;
 import com.openclassroom.projet12.dto.TypeDTO;
+import com.openclassroom.projet12.exceptions.ErrorCode;
+import com.openclassroom.projet12.exceptions.NotEmptyException;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.TypeMapper;
 import com.openclassroom.projet12.model.Categorie;
+import com.openclassroom.projet12.model.Product;
 import com.openclassroom.projet12.model.Type;
+import com.openclassroom.projet12.respository.ProductRepository;
 import com.openclassroom.projet12.respository.TypeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +26,7 @@ public class TypeService {
 
     private final TypeRepository typeRepository;
     private final CategorieService categorieService;
+    private final ProductRepository productRepository;
 
     public List<Type> getTypes() {
         return typeRepository.findAll().stream()
@@ -31,7 +36,7 @@ public class TypeService {
 
     public Type getType(Long id) {
         return typeRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Le type n'existe pas"));
+                .orElseThrow(() -> new NotFoundException(("Le type n'existe pas"), ErrorCode.TYPE_NOT_FOUND_ERROR));
     }
 
     public Page<TypeDTO> getTypePage(Pageable pageable) {
@@ -55,6 +60,11 @@ public class TypeService {
     }
 
     public Long deleteType(Long id) {
+        Type type = getType(id);
+        List<Product> list = productRepository.findAllByType(type);
+        if(!list.isEmpty()) {
+            throw new NotEmptyException("Le type est toujours lié à un produit", ErrorCode.PRODUCT_LINKED_ERROR);
+        }
         typeRepository.deleteById(id);
         return id;
     }

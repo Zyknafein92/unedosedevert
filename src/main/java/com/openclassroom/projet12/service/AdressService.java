@@ -3,6 +3,8 @@ package com.openclassroom.projet12.service;
 
 import com.openclassroom.projet12.dto.AdressDTO;
 import com.openclassroom.projet12.dto.UserDTO;
+import com.openclassroom.projet12.exceptions.CreationError;
+import com.openclassroom.projet12.exceptions.ErrorCode;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.AdressMapper;
 import com.openclassroom.projet12.mapper.UserMapper;
@@ -21,7 +23,7 @@ public class AdressService {
 
     public Adress getAddress(Long id) {
         return adressRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("L'adresse n'existe pas !"));
+                .orElseThrow(() -> new NotFoundException("L'adresse n'existe pas !", ErrorCode.ADDRESS_NOT_FOUND));
     }
 
     public Adress addAddress(AdressDTO adressDTO, String username) {
@@ -35,7 +37,7 @@ public class AdressService {
             userService.save(userEntity);
             return adress;
 
-        } else throw new RuntimeException("Une erreure s'est produite lors de la création de l'adresse"); //todo : custom exception
+        } else throw new CreationError("Une erreure s'est produite lors de la création de l'adresse", ErrorCode.ADDRESS_CREATION_ERROR);
     }
 
     public Adress updateAddress(AdressDTO adressDTO, String username) {
@@ -60,7 +62,7 @@ public class AdressService {
             AdressMapper.update(adressDTO, adress);
             return adressRepository.save(adress);
         }
-        else throw new RuntimeException("Une erreure s'est produite lors de la modification de l'adress");
+        else throw new CreationError("Une erreure s'est produite lors de la modification de l'adresse", ErrorCode.ADDRESS_UPDATE_ERROR);
     }
 
     public Long deleteAddress(Long id, String username) {
@@ -70,7 +72,7 @@ public class AdressService {
             user.getAdresses().remove(AdressMapper.toAdresseDTO(adress));
             User userEntity = UserMapper.toUser(user);
             userService.save(userEntity);
-        } else throw new NotFoundException("L'adress n'existe pas");
+        } else throw new NotFoundException("L'adresse n'existe pas !", ErrorCode.ADDRESS_NOT_FOUND);
         return id;
     }
 

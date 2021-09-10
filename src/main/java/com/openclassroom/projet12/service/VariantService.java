@@ -1,6 +1,7 @@
 package com.openclassroom.projet12.service;
 
 import com.openclassroom.projet12.dto.VariantDTO;
+import com.openclassroom.projet12.exceptions.ErrorCode;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.VariantMapper;
 import com.openclassroom.projet12.model.Product;
@@ -33,12 +34,12 @@ public class VariantService {
 
     public VariantDTO getVariantDTO(Long id) {
         return VariantMapper.toDTO(variantRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Le variant recherché n'a pas été trouvé")));
+                .orElseThrow(() -> new NotFoundException(("Le variant recherché n'a pas été trouvé"), ErrorCode.VARIANT_NOT_FOUND_ERROR)));
     }
 
     public Variant getVariant(Long id) {
         return variantRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Le variant recherché n'a pas été trouvé"));
+                .orElseThrow(() -> new NotFoundException(("Le variant recherché n'a pas été trouvé"), ErrorCode.VARIANT_NOT_FOUND_ERROR));
     }
 
     public VariantDTO addVariant(Long produitID, VariantDTO variantDTO) {

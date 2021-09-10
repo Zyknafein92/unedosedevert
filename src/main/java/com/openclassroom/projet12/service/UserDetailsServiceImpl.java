@@ -1,6 +1,8 @@
 package com.openclassroom.projet12.service;
 
 
+import com.openclassroom.projet12.exceptions.ErrorCode;
+import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.model.User;
 import com.openclassroom.projet12.model.UserPrinciple;
 import com.openclassroom.projet12.respository.UserRepository;
@@ -25,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException("wrong username or password");
+            throw new NotFoundException("L'email est introuvable ou le mot de passe est incorrect", ErrorCode.USER_NOT_FOUND_ERROR);
         }
 
         return UserPrinciple.build(user);

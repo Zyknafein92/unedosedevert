@@ -2,6 +2,7 @@ package com.openclassroom.projet12.service;
 
 
 import com.openclassroom.projet12.dto.*;
+import com.openclassroom.projet12.exceptions.ErrorCode;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.ProductMapper;
 import com.openclassroom.projet12.model.*;
@@ -75,10 +76,10 @@ public class ProductService {
     }
 
     public Product getProduct(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new NotFoundException("Le product n'existe pas"));
+        return productRepository.findById(id).orElseThrow(() -> new NotFoundException(("Le produit n'existe pas"), ErrorCode.PRODUCT_NOT_FOUND_ERROR));
     }
     public ProductDTO getProductDTO(Long id) {
-        return ProductMapper.toCompleteDTO(productRepository.findById(id).orElseThrow(() -> new NotFoundException("Le product n'existe pas")));
+        return ProductMapper.toCompleteDTO(productRepository.findById(id).orElseThrow(() -> new NotFoundException(("Le produit n'existe pas"), ErrorCode.PRODUCT_NOT_FOUND_ERROR)));
     }
 
     public Product addProduct(ProductDTO productDTO) {

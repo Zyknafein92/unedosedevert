@@ -2,6 +2,8 @@ package com.openclassroom.projet12.service;
 
 
 import com.openclassroom.projet12.dto.*;
+import com.openclassroom.projet12.exceptions.CreationError;
+import com.openclassroom.projet12.exceptions.ErrorCode;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.*;
 import com.openclassroom.projet12.model.ShoppingCart;
@@ -32,7 +34,7 @@ public class ShoppingCartService {
             if (userDTO.getShoppingCart().getShoppingCartLines().size() > 0)
                 userDTO.getShoppingCart().setTotalPrice(shoppingCartLineDTOList.stream().mapToDouble(ShoppingCartLineDTO::getPrice).reduce(Double::sum).getAsDouble());
             return userDTO.getShoppingCart();
-        } else throw new NotFoundException("Le shoppingCart n'existe pas !");
+        } else throw new NotFoundException(("Le panier n'existe pas !"), ErrorCode.SHOPPING_CART_NOT_FOUND_ERROR);
     }
 
     public ShoppingCart addToShoppingCart(List<ShoppingCartLineDTO> shoppingCartLineDTOList, String currentUsername) {
@@ -43,7 +45,7 @@ public class ShoppingCartService {
             }
             ShoppingCart shoppingCart = ShoppingCartMapper.toShoppingCart(userDTO.getShoppingCart());
             return shoppingCartRepository.save(shoppingCart);
-        } else throw new RuntimeException("Une erreur s'est produite");
+        } else throw new CreationError(("Une erreur s'est produite"),ErrorCode.SHOPPING_CART_CREATION_ERROR);
     }
 
     public ShoppingCart renewOrder(OrderDTO orderDTO, String currentUsername) {
@@ -72,7 +74,7 @@ public class ShoppingCartService {
 
     public ShoppingCartLine getShoppingCartLine(Long id) {
         return shoppingCartLineRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("La ligne du shoppingCart n'existe pas !"));
+                .orElseThrow(() -> new NotFoundException(("La ligne du panier n'existe pas !"), ErrorCode.SHOPPING_CART_LINE_NOT_FOUND_ERROR));
     }
 
     public ShoppingCartLine addShoppingCartLine(ShoppingCartLineDTO shoppingCartLineDTO, String currentUsername) {
@@ -101,7 +103,7 @@ public class ShoppingCartService {
 
             }
             return entityToReturn;
-        } else throw new NotFoundException("Une erreure s'est produite");
+        } else throw new CreationError(("Une erreure s'est produite"), ErrorCode.SHOPPING_CART_LINE_CREATION_ERROR);
     }
 
     public ShoppingCartLine updateShoppingCartLine(ShoppingCartLineDTO shoppingCartLineDTO, String currentUsername) {
@@ -116,7 +118,7 @@ public class ShoppingCartService {
             this.shoppingCartLineRepository.save(shoppingCartLine);
             return shoppingCartLine;
         } else
-            throw new RuntimeException("Une erreure s'est produite lors de la modification de la ligne du shoppingCart");
+            throw new CreationError("Une erreure s'est produite lors de la modification de la ligne du shoppingCart", ErrorCode.SHOPPING_CART_LINE_UPDATE_ERROR);
     }
 
     public Long deleteShoppingCartLine(String currentUsername, Long id) {
@@ -126,7 +128,7 @@ public class ShoppingCartService {
             userDTO.getShoppingCart().getShoppingCartLines().remove(ShoppingCartLineMapper.toShoppingCartLineDTO(shoppingCartLine));
             userService.save(UserMapper.toUser(userDTO));
             return id;
-        } else throw new NotFoundException("La ligne n'existe pas");
+        } else throw new NotFoundException(("La ligne n'existe pas"), ErrorCode.SHOPPING_CART_LINE_NOT_FOUND_ERROR);
     }
 
     public boolean isContainInShoppingCart(Long a, Long b) {

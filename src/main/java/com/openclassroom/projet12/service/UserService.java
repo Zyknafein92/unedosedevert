@@ -2,7 +2,9 @@ package com.openclassroom.projet12.service;
 
 
 import com.openclassroom.projet12.dto.UserDTO;
+import com.openclassroom.projet12.exceptions.ErrorCode;
 import com.openclassroom.projet12.exceptions.NotFoundException;
+import com.openclassroom.projet12.exceptions.TokenException;
 import com.openclassroom.projet12.mapper.UserMapper;
 import com.openclassroom.projet12.model.*;
 import com.openclassroom.projet12.respository.RoleRepository;
@@ -30,14 +32,14 @@ public class UserService {
 
     public User getUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("L'utilisateur recherché n'a pas été trouvé"));
+                .orElseThrow(() -> new NotFoundException(("L'utilisateur recherché n'a pas été trouvé"), ErrorCode.USER_NOT_FOUND_ERROR));
     }
 
     public UserDTO findUserByToken(String token) throws Exception {
         User user = userRepository.findByForgotPasswordToken(token);
         if (user.getForgotPasswordTokenExpiration().isAfter(LocalDateTime.now())) {
             return UserMapper.toUserDTO(user);
-        } else throw new Exception("La validité du token a expiré");
+        } else throw new TokenException(("La validité du token a expiré"), ErrorCode.TOKEN_HAS_EXPIRED_ERROR);
     }
 
     public UserDTO findByEmail(String email) {
@@ -79,7 +81,7 @@ public class UserService {
 
     public String forgotPassword(String email) {
         User user = userRepository.findByEmail(email);
-        if (user == null) throw new NotFoundException("L'utilisateur n'a pas été trouvé");
+        if (user == null) throw new NotFoundException(("L'utilisateur n'a pas été trouvé"), ErrorCode.USER_NOT_FOUND_ERROR);
         user.setForgotPasswordToken(UUID.randomUUID().toString());
         user.setForgotPasswordTokenExpiration(LocalDateTime.now().plusDays(1));
         userRepository.save(user);
@@ -87,7 +89,7 @@ public class UserService {
     }
 
     public void updatePassword(Long id, String password) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("L'utilisateur n'existe pas"));
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(("L'utilisateur n'existe pas"), ErrorCode.USER_NOT_FOUND_ERROR));
         user.setPassword(encoder.encode(password));
         userRepository.save(user);
     }

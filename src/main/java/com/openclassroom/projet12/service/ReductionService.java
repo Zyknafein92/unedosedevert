@@ -1,12 +1,15 @@
 package com.openclassroom.projet12.service;
 
 import com.openclassroom.projet12.dto.ReductionDTO;
+import com.openclassroom.projet12.exceptions.ErrorCode;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.ReductionMapper;
 import com.openclassroom.projet12.model.Product;
 import com.openclassroom.projet12.model.Reduction;
+import com.openclassroom.projet12.model.Tag;
 import com.openclassroom.projet12.respository.ProductRepository;
 import com.openclassroom.projet12.respository.ReductionRepository;
+import com.openclassroom.projet12.respository.TagRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,8 +24,11 @@ import java.util.List;
 @AllArgsConstructor
 public class ReductionService {
 
+    private static final String PROMO_TAG_NAME = "En promo !";
+
     private final ReductionRepository reductionRepository;
     private final ProductRepository produitService;
+    private final TagService tagService;
 
     /**
      * CRUD
@@ -34,21 +40,20 @@ public class ReductionService {
 
     public Reduction getReduction(Long id) {
         return reductionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Le reduction recherché n'a pas été trouvé"));
+                .orElseThrow(() -> new NotFoundException(("Le reduction recherché n'a pas été trouvé"), ErrorCode.REDUCTION_NOT_FOUND_ERROR));
     }
 
     public ReductionDTO findReductionByProductId(Long id) {
         Reduction reduction = reductionRepository.findReductionsByProductId(id);
         if (reduction != null) {
             return ReductionMapper.toReductionDTO(reduction);
-        } else {
-            throw new NotFoundException("Aucune réduction pour ce produit");
         }
+        return null;
     }
 
     public Reduction addReduction(ReductionDTO reductionDTO) {
         Product product = this.produitService.findById(reductionDTO.getProduitID())
-                .orElseThrow(() -> new NotFoundException("Le product n'existe pas !"));
+                .orElseThrow(() -> new NotFoundException(("Le product n'existe pas !"), ErrorCode.PRODUCT_NOT_FOUND_ERROR));
         Reduction reduction = ReductionMapper.toReduction(reductionDTO);
         reduction.setProduct(product);
         this.reductionRepository.save(reduction);
@@ -68,8 +73,9 @@ public class ReductionService {
         Product product = produitService.getOne(reduction.getProduct().getId());
         product.setReduction(null);
         product.getVariants().forEach(v -> v.setReductionPrice(null));
+        Tag tag = this.tagService.findByName(PROMO_TAG_NAME);
+        product.getTags().remove(tag);
         this.produitService.save(product);
-       // reductionRepository.deleteById(id);
     }
 
     /**
@@ -77,6 +83,8 @@ public class ReductionService {
      */
 
     private void applyReduction(Product product) {
+        Tag tag = this.tagService.findByName(PROMO_TAG_NAME);
+        product.getTags().add(tag);
         product.getVariants().forEach(v -> v.setReductionPrice(calculateReduction(v.getPrice(), product.getReduction().getPercentageReduction())));
         produitService.save(product);
     }
@@ -95,7 +103,7 @@ public class ReductionService {
      */
 
     //@Scheduled(cron= "0 0 0 * * *") //tous les jours à minuit.
-    @Scheduled(fixedDelay = 60000) // toutes les 2 minutes pour démo.
+    @Scheduled(fixedDelay = 60000) // toutes les minutes pour démo.
     @Transactional
     public void checkReduction() {
         LocalDate localDate = LocalDate.now();
@@ -104,13 +112,13 @@ public class ReductionService {
 
         for (Reduction r : reductionList) {
             Product product = produitService.findById(r.getProduct().getId())
-                    .orElseThrow(() -> new NotFoundException("Le product n'a pas été trouvé"));
+                    .orElseThrow(() -> new NotFoundException(("Le produit n'a pas été trouvé"), ErrorCode.PRODUCT_NOT_FOUND_ERROR));
             applyReduction(product);
         }
     }
 
     //@Scheduled(cron= "0 0 0 * * *") //tous les jours à minuit.
-    @Scheduled(fixedDelay = 60000) // toutes les 2 minutes pour démo.
+    @Scheduled(fixedDelay = 60000) // toutes les minutes pour démo.
     @Transactional
     public void checkReservationOutDated() {
         LocalDate date = LocalDate.now();
@@ -118,7 +126,7 @@ public class ReductionService {
 
         for(Reduction reduction : reductionList) {
             Product product = produitService.findById(reduction.getProduct().getId())
-                    .orElseThrow(() -> new NotFoundException("Le product n'a pas été trouvé"));
+                    .orElseThrow(() -> new NotFoundException(("Le produit n'a pas été trouvé"), ErrorCode.PRODUCT_NOT_FOUND_ERROR));
             removeReduction(product);
         }
     }

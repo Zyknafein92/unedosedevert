@@ -8,14 +8,11 @@ Description du projet
 ---------------------
 
 Application web pour une site d'épicerie fine en ligne avec paiement via Stripe.
-Le site est actuellement hébergé sur AWS a l'adresse suivante :
-http://unedosedevert-env.eba-v9ftefiz.eu-west-3.elasticbeanstalk.com/accueil
 
 
 Pré-requis
 ----------
 Vous devez posséder Java JRE version 8 ou supérieur sur votre machine pour pouvoir correctement utiliser l'application.
-
 
 Technologies employées
 ----------------------
@@ -32,8 +29,9 @@ Front :
 Back :
 - Spring Data
 - Spring Web
-- Spring Mail // Send in blue
 - Spring Security
+- JWT Token
+- Send in blue
 - Lombok
 - Stripe
 

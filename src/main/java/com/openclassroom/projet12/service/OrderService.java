@@ -3,6 +3,7 @@ package com.openclassroom.projet12.service;
 
 
 import com.openclassroom.projet12.dto.*;
+import com.openclassroom.projet12.exceptions.ErrorCode;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 import com.openclassroom.projet12.mapper.*;
 import com.openclassroom.projet12.model.*;
@@ -63,7 +64,7 @@ public class OrderService {
 
     public Order getOrder(Long id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("La commande n'existe pas !"));
+                .orElseThrow(() -> new NotFoundException("La commande n'existe pas !", ErrorCode.ORDER_NOT_FOUND_ERROR));
     }
 
     public Order orderConfirm(OrderDTO orderDTO, String currentname) {
@@ -72,7 +73,7 @@ public class OrderService {
         UserDTO userDTO =  userService.findByEmail(currentname);
 
         if (userDTO.getShoppingCart().getShoppingCartLines().isEmpty()) {
-            throw new NotFoundException("Le panier est vide");
+            throw new NotFoundException("Le panier est vide", ErrorCode.SHOPPING_CART_IS_EMPTY_ERROR);
         }
 
         OrderAdress deliveryAdress = OrderAdressMapper.AdressDTOtoOrderAdress(orderDTO.getDeliveryAdress());

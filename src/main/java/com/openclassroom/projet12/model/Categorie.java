@@ -25,7 +25,7 @@ public class Categorie {
     @NotNull(message= "Veuillez définir un nom ! (ex: Riz, Légumineuse...)")
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<SubCategorie> subCategories;
 }
 

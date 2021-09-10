@@ -1,11 +1,15 @@
 package com.openclassroom.projet12.service;
 
 import com.openclassroom.projet12.dto.LabelDTO;
+import com.openclassroom.projet12.exceptions.ErrorCode;
+import com.openclassroom.projet12.exceptions.NotEmptyException;
 import com.openclassroom.projet12.exceptions.NotFoundException;
 
 import com.openclassroom.projet12.mapper.LabelMapper;
 import com.openclassroom.projet12.model.Label;
+import com.openclassroom.projet12.model.Product;
 import com.openclassroom.projet12.respository.LabelRepository;
+import com.openclassroom.projet12.respository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +24,7 @@ import java.util.Optional;
 public class LabelService {
 
     private final LabelRepository labelRepository;
+    private final ProductRepository productRepository;
 
     public List<Label> getLabels() {
         return labelRepository.findAll();
@@ -32,7 +37,7 @@ public class LabelService {
 
     public Label getLabel(Long id) {
         return labelRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Le label n'existe pas"));
+                .orElseThrow(() -> new NotFoundException("Le label n'existe pas", ErrorCode.LABEL_NOT_FOUND_ERROR));
     }
 
     public Label addLabel(LabelDTO labelDTO) {
@@ -46,6 +51,10 @@ public class LabelService {
     }
 
     public Long deleteLabel(Long id) {
+        List<Product> list = productRepository.getProductByLabelId(id);
+        if(!list.isEmpty()) {
+            throw new NotEmptyException("Le label est toujours lié à un produit", ErrorCode.PRODUCT_LINKED_ERROR);
+        }
         labelRepository.deleteById(id);
         return id;
     }

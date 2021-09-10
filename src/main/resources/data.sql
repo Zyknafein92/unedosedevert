@@ -9,15 +9,18 @@ INSERT INTO public.t_user (id, birthday, email, gender, newsletter, first_name, 
 INSERT INTO public.t_user (id, birthday, email, gender, newsletter, first_name, password, last_name, shopping_cart_id) VALUES (2, '1988-07-02', 'test@gmail.com', 'Monsieur', false, 'Paul', '$2a$10$9kXDz3wiloAzoxUaylJKXOj0RHFuJGyOTb4UvdCpNxptZcdsogfIi', 'Pierre', 2);
 SELECT setval('t_user_id_seq', 3, true);
 
+INSERT INTO public.t_adress (id, adress_name, appart_number, billing, building, city, delivery, digicode, first_name, floor, gender, information, interphone, last_name, number, phone, postal_code, street) VALUES (1, 'Maison', '', true, 'A', 'Levallois-Perret', true, '3752', 'Jérôme', 2, 'Monsieur', '', 'Deneux', 'Deneux', 92, '0625092170', '92300', 'rue du Paradis');
+
+INSERT INTO public.t_user_adresses (user_id, adresses_id) VALUES (2, 1);
+
 
 INSERT INTO public.user_roles (user_id, role_id) VALUES (1, 1);
+INSERT INTO public.user_roles (user_id, role_id) VALUES (2, 2);
 
--- INSERT INTO public.t_type (id, name) VALUES (t_type_id_seq.nextval(), 'Epicerie fine');
+
 INSERT INTO public.t_type (id, name) VALUES (1, 'Epicerie fine');
-INSERT INTO public.t_type (id, name) VALUES (2, 'Prêt à cuisiner');
 INSERT INTO public.t_type (id, name) VALUES (3, 'vrac alimentaire');
 INSERT INTO public.t_type (id, name) VALUES (5, 'salle de bain');
-INSERT INTO public.t_type (id, name) VALUES (6, 'maison');
 SELECT setval('t_type_id_seq', 6, true);
 
 INSERT INTO public.t_categorie (id, name) VALUES (1, 'Thés,cafés,infusions');
@@ -25,28 +28,16 @@ INSERT INTO public.t_categorie (id, name) VALUES (2, 'Epices');
 INSERT INTO public.t_categorie (id, name) VALUES (3, 'Gourmandises');
 INSERT INTO public.t_categorie (id, name) VALUES (4, 'Apéritifs');
 INSERT INTO public.t_categorie (id, name) VALUES (5, 'Huiles et vinaigres');
-INSERT INTO public.t_categorie (id, name) VALUES (6, 'Spécialités étrangères');
-INSERT INTO public.t_categorie (id, name) VALUES (7, 'Tous les produits');
-INSERT INTO public.t_categorie (id, name) VALUES (8, 'Cuisine d''Asie');
-INSERT INTO public.t_categorie (id, name) VALUES (9, 'Voyage en Méditerranée ');
-INSERT INTO public.t_categorie (id, name) VALUES (10, 'Repas de sportif');
-INSERT INTO public.t_categorie (id, name) VALUES (11, 'Prêt a boire');
-INSERT INTO public.t_categorie (id, name) VALUES (12, 'Tous nos produits');
 INSERT INTO public.t_categorie (id, name) VALUES (13, 'Pâtes, riz, céréales');
 INSERT INTO public.t_categorie (id, name) VALUES (14, 'Oléagineux et graines');
 INSERT INTO public.t_categorie (id, name) VALUES (15, 'Fruits séchés');
 INSERT INTO public.t_categorie (id, name) VALUES (16, 'Biscuits sucrés et salés');
 INSERT INTO public.t_categorie (id, name) VALUES (17, 'Aide culinaire');
 INSERT INTO public.t_categorie (id, name) VALUES (18, 'Farines');
-INSERT INTO public.t_categorie (id, name) VALUES (19, 'Tous les produits');
 INSERT INTO public.t_categorie (id, name) VALUES (20, 'Corps');
 INSERT INTO public.t_categorie (id, name) VALUES (21, 'Visage');
 INSERT INTO public.t_categorie (id, name) VALUES (22, 'Cheveux');
-INSERT INTO public.t_categorie (id, name) VALUES (23, 'Tous les produits');
-INSERT INTO public.t_categorie (id, name) VALUES (24, 'Entretien');
-INSERT INTO public.t_categorie (id, name) VALUES (25, 'Accessoires');
-INSERT INTO public.t_categorie (id, name) VALUES (26, 'Tous les produits pour la maison');
-SELECT setval('t_categorie_id_seq', 27, true);
+SELECT setval('t_categorie_id_seq', 23, true);
 
 INSERT INTO public.t_sub_categorie (id, name) VALUES (1, 'Thés verts');
 INSERT INTO public.t_sub_categorie (id, name) VALUES (2, 'Thés noirs');
@@ -59,51 +50,23 @@ INSERT INTO public.t_sub_categorie (id, name) VALUES (8, 'Confiseries');
 INSERT INTO public.t_sub_categorie (id, name) VALUES (9, 'Biscuits sucrés');
 INSERT INTO public.t_sub_categorie (id, name) VALUES (10, 'Biscuits salés');
 INSERT INTO public.t_sub_categorie (id, name) VALUES (11, 'Oléagineux');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (12, 'Tour d''Egypte');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (13, 'Saveur du Maroc');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (14, 'Objectif prise de masse');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (15, 'Objectif poids plume');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (16, 'Nos eaux aromatisées');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (17, 'Nos rhums arrangés');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (18, 'Boissons médiévales');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (19, 'Nos box sushi-makis');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (20, 'Nos box de nouilles');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (21, 'Nos box gateaux d''Asie');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (22, 'Pour les textiles');
-INSERT INTO public.t_sub_categorie (id, name) VALUES (23, 'Pour les surfaces');
-SELECT setval('t_sub_categorie_id_seq', 24, true);
+SELECT setval('t_sub_categorie_id_seq', 12, true);
 
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (5, 20);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (5, 21);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (5, 22);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (5, 23);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (6, 24);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (6, 25);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (6, 26);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (1, 1);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (1, 2);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (1, 3);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (1, 4);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (1, 5);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (1, 6);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (2, 8);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (2, 9);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (2, 10);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (2, 11);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (2, 12);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (3, 13);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (3, 14);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (3, 15);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (3, 16);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (3, 17);
 INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (3, 18);
-INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (3, 19);
+INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (5, 20);
+INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (5, 21);
+INSERT INTO public.t_type_categories (type_id, categories_id) VALUES (5, 22);
 
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (8, 19);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (8, 20);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (8, 21);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (24, 22);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (24, 23);
 INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (1, 1);
 INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (1, 2);
 INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (1, 3);
@@ -115,13 +78,6 @@ INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) 
 INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (3, 9);
 INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (4, 10);
 INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (4, 11);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (9, 12);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (9, 13);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (10, 14);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (10, 15);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (11, 16);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (11, 17);
-INSERT INTO public.t_categorie_sub_categories (categorie_id, sub_categories_id) VALUES (11, 18);
 
 INSERT INTO public.t_product (id, additional_information, allergen, brand, composition, nutritional_information, origin, producer, producer_comment, product_description, title, url_picture1, url_picture2, url_picture3, utilisation_advice, why_this_product, categorie_id, reduction_id, sub_categorie_id, type_id) VALUES (2, '', 'huile essentielle', 'La route des comptoirs', 'Rooibos d’Afrique du Sud* , gingembre*, huile essentielle d‘orange*, arôme naturel abricot*
  *Ingrédients issus de l''agriculture biologique.
@@ -180,6 +136,8 @@ Piment ñora (plus proche du poivron par sa saveur douce & fruité), ail et cibo
 Ce produit permet de baisser les quantités de sel dans vos plats.
 ', 'Gomasio', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1629387017335gomasio.jpg', '', '', 'A saupoudrer sur les salades, pâtes, riz etc.', 'Notre gomasio est assemblé par nos soins en en île de france, à partir d’ingrédients bio uniquement. Etant une petite entreprise, qui privilégie la qualité aux labels et certifications officielles, nous avons fait le choix de ne pas faire certifier ce produit. Nous utilisons de la fleur de sel de Guérande en direct producteur et des épices cultivées et récoltées de façon traditionnelle.
 ', 2, null, 5, 1);
+INSERT INTO public.t_product (id, additional_information, allergen, brand, composition, nutritional_information, origin, producer, producer_comment, product_description, title, url_picture1, url_picture2, url_picture3, utilisation_advice, why_this_product, categorie_id, reduction_id, sub_categorie_id, type_id) VALUES (9, '', 'Blé', 'ValFleuri', 'Ingrédients : Semoule de blé dur de qualité supérieure, œufs frais de poules élevées en Plein Air (30%), soit 320g par kilo de semoule. Ingrédients issus du terroir français. A conserver à l''abri de l''humidité et de la lumière.', '', 'France - Alsace', 'ValFleuri', '', 'Traditionnellement servies avec un coq au Riesling les Nüdle d’Alsace 5mm accompagnent très bien une poularde aux morilles, à la crème et au Gewurztraminer. C’est l’accompagnement parfait pour tous les plats à base de saumon, de volaille, d’agneau ou de bœuf grillés ou rôtis. Bonnes natures avec une noix de beurre ou arrosées d’un filet d’huile d’olive et parsemées de quelques herbes fraiches, les Nüdle d’Alsace 5mm sont aussi très appréciées en plat unique, nappées d’une sauce safranée aux moules ou d’une sauce aux champignons, à la crème et au vin blanc.', 'Pâtes d''Alsace', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1631301251317pates-nueddle-5-7-oeufs-plein-air-400-g-.jpg', '', '', 'Cuisson : 9 minutes', '', 13, null, null, 3);
+INSERT INTO public.t_product (id, additional_information, allergen, brand, composition, nutritional_information, origin, producer, producer_comment, product_description, title, url_picture1, url_picture2, url_picture3, utilisation_advice, why_this_product, categorie_id, reduction_id, sub_categorie_id, type_id) VALUES (10, '', 'Aucun', 'Calcina Belvedere', 'Riz carnaroli 92%, bouillon végétal, curry 2%', '', 'Italie', '', '', 'Risotto tout prêt déshydraté à base de curry en sachet de 250g.', 'RISOTTO AL CURRY', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1631301588218risotto-al-curry-risotto-au-curry-250-g.jpg', '', '', 'Faire rissoler le contenu du sachet dans une poêle avec une cuillère d''huile d''olive, mouiller avec un verre de vin blanc. Ajouter 650/750 ml d''eau. Mélanger et laisser cuire 15/17 minutes. En fin de cuisson, ajouter du beurre, du parmesan râpé et du sel.', '', 13, null, null, 3);
 INSERT INTO public.t_product (id, additional_information, allergen, brand, composition, nutritional_information, origin, producer, producer_comment, product_description, title, url_picture1, url_picture2, url_picture3, utilisation_advice, why_this_product, categorie_id, reduction_id, sub_categorie_id, type_id) VALUES (1, '', 'soja, huile essentielle
 ', 'La route des comptoirs', 'Thé vert de Chine*, menthe*, écorces de citron*, zestes de grenade*, huile essentielle de citron*, arôme naturel mangue
 (soja) - *: Ingrédients issus de l''agriculture biologique
@@ -189,8 +147,22 @@ Dosage : 3 cuillères/ L,
 Temps d’infusion : 4-5 mn
 Température de l’eau : 80°C', 'Nous avons choisi ce thé vert pour sa douceur et sa polyvalence (excellent en thé chaud et glacé). Le thé vert est un thé
 peu transformé (juste séché, d''où sa couleur verte), qui possède un goût subtil aux notes d''herbe tondues.', 1, null, 1, 1);
-SELECT setval('t_product_id_seq', 8, true);
+INSERT INTO public.t_product (id, additional_information, allergen, brand, composition, nutritional_information, origin, producer, producer_comment, product_description, title, url_picture1, url_picture2, url_picture3, utilisation_advice, why_this_product, categorie_id, reduction_id, sub_categorie_id, type_id) VALUES (11, '', 'N/C', 'Graines de Sens', 'Lentille verte 100%', 'Légumineuse riche en protéines', 'France', '', '', 'La lentille verte se cuisine en accompagnement, en salade, en velouté ou en purée.
 
+Elle se marie bien avec les saveurs fumées mais se prépare aussi à la Réunionnaise avec des tomates et des épices.', 'Lentille verte du berry', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1631302374213lentille-verte-du-berry-bio-500g.jpg', '', '', 'Cuisson 25mn.
+
+En Cuisine: Comptez 60g par personne. Plongez les graines dans 3 fois leur volumes d''eau bouillante non salée, ramenez à feu moyen et patientez 25mn. Egouttez, assaisonnez, c''est prêt !', '', 14, null, null, 3);
+INSERT INTO public.t_product (id, additional_information, allergen, brand, composition, nutritional_information, origin, producer, producer_comment, product_description, title, url_picture1, url_picture2, url_picture3, utilisation_advice, why_this_product, categorie_id, reduction_id, sub_categorie_id, type_id) VALUES (12, '', 'Sans gluten', 'Artisans du Monde', 'Trio de Quinoa', '', 'Bolivie', '', '', 'Découvrez notre trio de quinoa real équitable.', 'Trio Quinoa Réal Bio', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1631302587697trio-quinoa-real-bio-500g.jpg', '', '', '', '', 14, null, null, 3);
+INSERT INTO public.t_product (id, additional_information, allergen, brand, composition, nutritional_information, origin, producer, producer_comment, product_description, title, url_picture1, url_picture2, url_picture3, utilisation_advice, why_this_product, categorie_id, reduction_id, sub_categorie_id, type_id) VALUES (13, '', 'Allergènes naturellement présent dans les huiles essentielles : Cinnamal, eugenol, geraniol, limonene, linalool.', 'Clean Hugs', 'Huiles essentielles : Palmarosa, cannelle feuilles, cannelle écorce, Petitgrain bigaradier.
+Huiles végétales : Olive, noix de coco, son de riz, ricin.', '', 'France', '', '', 'Huiles essentielles de palmarosa, de petit grain bigarade et de cannelle. Un assemblage intense aux vertus antifongiques, cicatrisantes et tonifiantes.
+
+Plus besoin de choisir entre vie d''athlète et vie nocturne. Savon naturellement chic et épicé, le Mauvais Garçon vous assure la bonne attitude.
+
+Aucun contenant plastique / étiquettes biodégradables / carton d’emballage teintés à l’encre bio et biodégradable.', 'Savon à la Cannelle & Girofle Bio Mauvais Garçon', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1631302887626savon-cannelle-girofle-bio-mauvais-garcon-sportifs-homme-clean-hugs.jpg', '', '', 'Faire mousser le savon dans la paume de la main et appliquer sur le visage et le corps en évitant le contour des yeux et les muqueuses.', '', 20, null, null, 5);
+SELECT setval('t_product_id_seq', 13, true);
+
+INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (1, '50g', 3.8, 76, 3.04, 'DISPONIBLE', 1);
+INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (23, '500g', 25, 75, 20, 'DISPONIBLE', 1);
 INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (5, '50g ', 3.7, 74, null, 'DISPONIBLE', 2);
 INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (6, '250g', 15.2, 61.2, null, 'DISPONIBLE', 2);
 INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (7, '500g', 29.2, 58.4, null, 'DISPONIBLE', 2);
@@ -207,18 +179,40 @@ INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock,
 INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (18, '150g', 4, 26.67, null, 'DISPONIBLE', 7);
 INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (19, '300g', 7.3, 24.33, null, 'DISPONIBLE', 7);
 INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (20, '500g', 11, 22, null, 'STOCK_FAIBLE', 7);
-INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (3, '100g', 6.8, 68, null, 'DISPONIBLE', 1);
-INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (1, '50g', 3.8, 76, null, 'DISPONIBLE', 1);
-INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (23, '500g', 25, 75, null, 'DISPONIBLE', 1);
-SELECT setval('t_variant_id_seq', 19, true);
+INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (21, '500g', 3.06, 7, null, 'DISPONIBLE', 9);
+INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (22, '1000g', 6, 6, null, 'DISPONIBLE', 9);
+INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (24, '250g', 3.66, 11.75, null, 'DISPONIBLE', 10);
+INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (3, '100g', 6.8, 68, 5.4399999999999995, 'DISPONIBLE', 1);
+INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (25, '500g', 4.26, 8.52, null, 'DISPONIBLE', 11);
+INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (26, '500', 7.9, 15.8, null, 'DISPONIBLE', 12);
+INSERT INTO public.t_variant (id, name, price, price_kg, reduction_price, stock, product_id) VALUES (27, '100g', 8, 80, null, 'DISPONIBLE', 13);
+SELECT setval('t_variant_id_seq', 26, true);
 
-INSERT INTO public.t_label (id, name, url_picture) VALUES (1, 'Bio(EU)', '');
-INSERT INTO public.t_label (id, name, url_picture) VALUES (2, 'Made in France', '');
-SELECT setval('t_label_id_seq', 3, true);
+INSERT INTO public.t_label (id, name, url_picture) VALUES (1, 'Bio(EU)', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1631303373215label_bioUE.png');
+INSERT INTO public.t_label (id, name, url_picture) VALUES (2, 'Made in France', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1631303384317label_madeinfrance.png');
+INSERT INTO public.t_label (id, name, url_picture) VALUES (4, 'Bio(AB)', 'https://unedosedevertdev.s3.eu-west-3.amazonaws.com/1631303412085label_bioAB.png');
+SELECT setval('t_label_id_seq', 4, true);
 
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (10, 1);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (2, 4);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (3, 1);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (3, 2);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (3, 4);
 INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (5, 1);
 INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (5, 2);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (5, 4);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (7, 4);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (6, 4);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (4, 4);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (9, 1);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (9, 2);
 INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (1, 1);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (13, 1);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (13, 2);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (13, 4);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (12, 4);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (11, 1);
+INSERT INTO public.t_product_labels (product_id, labels_id) VALUES (11, 2);
 
 INSERT INTO public.t_tag (id, description, name) VALUES (1, 'Produit réalisé par nos soins !', 'Une dose de vert');
 INSERT INTO public.t_tag (id, description, name) VALUES (5, 'Moins de 50 km', 'Produits locaux');
@@ -229,18 +223,42 @@ INSERT INTO public.t_tag (id, description, name) VALUES (4, 'Produits certifié 
 INSERT INTO public.t_tag (id, description, name) VALUES (3, 'Produits certifié vegan', 'Vegan');
 INSERT INTO public.t_tag (id, description, name) VALUES (10, 'Vos produits préférés', 'Meilleures ventes');
 INSERT INTO public.t_tag (id, description, name) VALUES (6, 'Tous les produits certifiés francais', 'Made in France');
-SELECT setval('t_tag_id_seq', 9, true);
+INSERT INTO public.t_tag (id, description, name) VALUES (11, 'Tous nos produits en promotion', 'En promo !');
+SELECT setval('t_tag_id_seq', 12, true);
 
-INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (5, 1);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (7, 10);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (6, 4);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (4, 1);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (4, 4);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (13, 4);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (13, 6);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (12, 9);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (12, 4);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (12, 10);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (11, 5);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (11, 4);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (11, 6);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (1, 1);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (10, 9);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (10, 4);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (10, 10);
 INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 1);
-INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 3);
-INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 4);
 INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 5);
-INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 6);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 9);
 INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 7);
 INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 8);
-INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 9);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 4);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 3);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (2, 6);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (3, 5);
 INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (3, 9);
-INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (1, 1);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (3, 6);
 INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (1, 10);
-INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (7, 10);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (1, 11);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (1, 11);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (1, 11);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (5, 1);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (5, 6);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (9, 5);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (9, 4);
+INSERT INTO public.t_product_tags (product_id, tags_id) VALUES (9, 6);
